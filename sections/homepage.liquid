@@ -871,7 +871,7 @@
     font-family: var(--tg-serif);
     font-size: 44px;
     font-weight: 400;
-    color: var(--tg-accent);
+    color: #ffffff;
     margin: 0 0 14px;
     letter-spacing: 0.02em;
   }
@@ -879,7 +879,7 @@
   .tg-instagram__subtext {
     font-family: var(--tg-sans);
     font-size: 15px;
-    color: var(--tg-text);
+    color: rgba(255, 255, 255, 0.85);
     margin: 0 0 36px;
   }
 
@@ -901,15 +901,16 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #ffffff;
-    background: var(--tg-accent);
-    padding: 15px 32px;
+    background: transparent;
+    border-bottom: 1px solid #ffffff;
+    padding: 4px 0;
     text-decoration: none;
-    transition: background 0.35s ease, transform 0.35s ease;
+    transition: color 0.35s ease, border-color 0.35s ease;
   }
 
   .tg-instagram__follow:hover {
-    background: var(--tg-primary);
-    transform: translateY(-1px);
+    color: var(--tg-primary);
+    border-color: var(--tg-primary);
   }
 
   .tg-instagram__follow svg {
