@@ -46,30 +46,34 @@
         overflow: hidden !important;
       }
 
-      /* TatianaGlen: Nav styling — bold, spaced, full width */
-      .header-menu,
+      /* ============================================================
+         TatianaGlen: Global nav — bold, spaced, uppercase
+         ============================================================ */
       .menu-list__list {
-        width: 100% !important;
-        justify-content: space-between !important;
         display: flex !important;
       }
       .menu-list__item a,
       .header-menu a,
-      header-menu a {
+      header-menu a,
+      [class*="menu-list"] a {
+        font-family: 'Open Sans', Arial, sans-serif !important;
         font-weight: 700 !important;
-        letter-spacing: 0.08em !important;
-        font-size: 0.95rem !important;
+        letter-spacing: 0.1em !important;
+        font-size: 0.82rem !important;
         text-transform: uppercase !important;
+        text-decoration: none !important;
+        transition: color 0.2s ease, border-color 0.2s ease !important;
       }
 
-      /* TatianaGlen: Transparent header overlay on homepage.
-         Horizon theme JS positions header-component absolutely when transparent;
-         we ensure #header-group collapses so the hero fills from the very top. */
+      /* ============================================================
+         TatianaGlen: Homepage — transparent header overlay
+         Force header-component to sit above the hero banner
+         ============================================================ */
       body.template-index #header-group {
-        height: 0;
-        overflow: visible;
         position: relative;
-        z-index: 100;
+        height: 0 !important;
+        overflow: visible;
+        z-index: 200;
       }
 
       body.template-index #MainContent {
@@ -77,7 +81,62 @@
         padding-top: 0 !important;
       }
 
-      /* TatianaGlen footer styles are owned by sections/tg-footer.liquid */
+      /* Force the header element absolutely positioned over the hero */
+      body.template-index header-component,
+      body.template-index #header-component {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 200 !important;
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+
+      /* Wipe any scheme background classes on the header wrapper on index */
+      body.template-index header-component .header,
+      body.template-index header-component [class*="color-"] {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+
+      /* Nav link color: white on the transparent homepage header */
+      body.template-index header-component .menu-list__item a,
+      body.template-index header-component a[class*="menu"],
+      body.template-index header-component nav a,
+      body.template-index header-component .header__menu a {
+        color: #ffffff !important;
+      }
+
+      /* Active / current page nav link: white + bottom underline */
+      body.template-index header-component .menu-list__item--active > a,
+      body.template-index header-component .menu-list__item[aria-current] > a,
+      body.template-index header-component [aria-current="page"] {
+        color: #ffffff !important;
+        border-bottom: 2px solid #ffffff !important;
+        padding-bottom: 2px !important;
+      }
+
+      /* Hover: TG amber */
+      body.template-index header-component .menu-list__item a:hover,
+      body.template-index header-component nav a:hover {
+        color: #CD8F5C !important;
+      }
+
+      /* Header icons (account, search, cart) — white on transparent bg */
+      body.template-index header-component .header__icon,
+      body.template-index header-component .header-actions a,
+      body.template-index header-component [class*="header-actions"] svg,
+      body.template-index header-component button svg,
+      body.template-index header-component a svg {
+        color: #ffffff !important;
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+      }
+
+      /* ============================================================
+         TatianaGlen footer styles are owned by sections/tg-footer.liquid
+         ============================================================ */
     </style>
   </head>
 
