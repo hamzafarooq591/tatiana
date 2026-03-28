@@ -228,10 +228,15 @@
   /* ============================================================
      2. CATEGORY BLOCKS
      ============================================================ */
+  .tg-categories-wrapper {
+    background: #ffffff;
+    padding: 28px 36px;
+  }
+
   .tg-categories {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4px;
+    gap: 6px;
   }
 
   .tg-category {
@@ -881,7 +886,8 @@
     .tg-hero__content   { padding: 0 40px; max-width: 560px; }
     .tg-hero__heading   { font-size: 52px; }
 
-    .tg-categories      { grid-template-columns: 1fr; gap: 4px; }
+    .tg-categories-wrapper { padding: 20px 24px; }
+    .tg-categories      { grid-template-columns: 1fr; gap: 6px; }
     .tg-category        { height: 360px; }
 
     .tg-collection      { padding: 70px 40px; }
@@ -993,6 +999,7 @@
   <!-- ============================================================
        2. CATEGORY BLOCKS
        ============================================================ -->
+  <div class="tg-categories-wrapper">
   <section class="tg-categories" aria-label="Product categories">
 
     <a href="/collections/mirrors" class="tg-category">
@@ -1024,6 +1031,7 @@
     </a>
 
   </section>
+  </div>
 
   <!-- ============================================================
        3. THE COLLECTION
