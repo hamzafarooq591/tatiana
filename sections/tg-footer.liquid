@@ -1,0 +1,302 @@
+{% comment %} TatianaGlen Custom Footer — pixel-matched to tatianaglen.com {% endcomment %}
+
+<style>
+  /* Load fonts if not already loaded */
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Open+Sans:wght@300;400;600&display=swap');
+
+  .tg-footer {
+    background: #121212;
+    color: #ffffff;
+    font-family: 'Open Sans', Arial, sans-serif;
+  }
+
+  .tg-footer__main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 80px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 72px 80px 64px;
+  }
+
+  .tg-footer__left {
+    flex: 1;
+  }
+
+  .tg-footer__heading {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 18px;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+  }
+
+  .tg-footer__subtitle {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.75;
+    margin: 0;
+    font-weight: 400;
+    max-width: 400px;
+  }
+
+  .tg-footer__right {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 28px;
+    min-width: 480px;
+  }
+
+  .tg-footer__email-form {
+    display: flex;
+    width: 100%;
+  }
+
+  .tg-footer__email-input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: transparent;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-family: 'Open Sans', Arial, sans-serif;
+    outline: none;
+    min-width: 0;
+  }
+
+  .tg-footer__email-input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .tg-footer__email-input:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .tg-footer__email-btn {
+    padding: 14px 32px;
+    background: #CD8F5C;
+    color: #ffffff;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'Open Sans', Arial, sans-serif;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tg-footer__email-btn:hover {
+    background: #bc753a;
+  }
+
+  .tg-footer__socials {
+    display: flex;
+    gap: 22px;
+    align-items: center;
+  }
+
+  .tg-footer__social-link {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+
+  .tg-footer__social-link:hover {
+    color: #CD8F5C;
+  }
+
+  .tg-footer__social-link svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .tg-footer__bottom-wrap {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .tg-footer__bottom {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 22px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .tg-footer__copyright {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+  }
+
+  .tg-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+  }
+
+  .tg-footer__nav li + li::before {
+    content: '|';
+    color: rgba(255, 255, 255, 0.25);
+    padding: 0 10px;
+    font-size: 0.7rem;
+  }
+
+  .tg-footer__nav a {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .tg-footer__nav a:hover {
+    color: #ffffff;
+  }
+
+  @media screen and (max-width: 989px) {
+    .tg-footer__main {
+      flex-direction: column;
+      gap: 48px;
+      padding: 56px 40px 48px;
+    }
+
+    .tg-footer__right {
+      align-items: flex-start;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .tg-footer__bottom {
+      padding: 20px 40px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .tg-footer__main {
+      padding: 48px 24px 40px;
+    }
+
+    .tg-footer__heading {
+      font-size: 2.25rem;
+    }
+
+    .tg-footer__email-form {
+      flex-direction: column;
+    }
+
+    .tg-footer__email-btn {
+      padding: 14px 24px;
+    }
+
+    .tg-footer__bottom {
+      padding: 18px 24px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .tg-footer__nav {
+      gap: 4px 0;
+    }
+  }
+</style>
+
+<div class="tg-footer">
+  <div class="tg-footer__main">
+
+    <div class="tg-footer__left">
+      <h2 class="tg-footer__heading">Stay Connected</h2>
+      <p class="tg-footer__subtitle">Occasional updates from the studio &mdash; new pieces, process, and releases.</p>
+    </div>
+
+    <div class="tg-footer__right">
+      {%- form 'customer', id: 'tg-footer-email-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="tg-footer__email-form">
+          <input
+            type="email"
+            name="contact[email]"
+            class="tg-footer__email-input"
+            placeholder="Email address"
+            required
+            autocomplete="email"
+            aria-label="Email address"
+          >
+          <button type="submit" class="tg-footer__email-btn">Sign up</button>
+        </div>
+      {%- endform -%}
+
+      <div class="tg-footer__socials">
+        {%- comment -%} Instagram {%- endcomment -%}
+        <a href="https://www.instagram.com/TatianaGlenDecor" class="tg-footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </a>
+        {%- comment -%} Facebook {%- endcomment -%}
+        <a href="https://www.facebook.com/TatianaGlenDecor" class="tg-footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </a>
+        {%- comment -%} Pinterest {%- endcomment -%}
+        <a href="https://www.pinterest.com/TatianaGlenDecor" class="tg-footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tg-footer__bottom-wrap">
+    <div class="tg-footer__bottom">
+      <p class="tg-footer__copyright">&copy; {{ 'now' | date: '%Y' }} Tatiana &amp; Glen</p>
+      <ul class="tg-footer__nav">
+        <li><a href="{{ routes.collections_url }}/all">The Collection</a></li>
+        <li><a href="/pages/about">About</a></li>
+        <li><a href="/pages/our-process">Process</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+        <li><a href="{{ shop.url }}/policies/shipping-policy">Shipping &amp; Returns</a></li>
+        <li><a href="/pages/faq">FAQ</a></li>
+        <li><a href="{{ shop.url }}/policies/privacy-policy">Privacy Policy</a></li>
+        <li><a href="{{ shop.url }}/policies/terms-of-service">Terms of Service</a></li>
+        <li><a href="{{ shop.url }}/policies/refund-policy">Refund Policy</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "TG Footer",
+  "settings": [],
+  "presets": [
+    {
+      "name": "TG Footer"
+    }
+  ]
+}
+{% endschema %}
