@@ -38,6 +38,25 @@
     font-family: var(--tg-sans);
   }
 
+  /* Override theme-global uppercase on all homepage headings */
+  .tg-homepage h1,
+  .tg-homepage h2,
+  .tg-homepage h3,
+  .tg-homepage h4,
+  .tg-homepage h5,
+  .tg-homepage h6,
+  .tg-hero__heading,
+  .tg-section-header__title,
+  .tg-process__cta-heading,
+  .tg-artist__heading,
+  .tg-trust__heading,
+  .tg-trust__item-title,
+  .tg-instagram__heading,
+  .tg-product-card__title,
+  .tg-artist__label {
+    text-transform: capitalize !important;
+  }
+
   /* ============================================================
      1. HERO SLIDER
      ============================================================ */
@@ -212,6 +231,7 @@
   .tg-categories {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 4px;
   }
 
   .tg-category {
@@ -219,8 +239,8 @@
     height: 500px;
     overflow: hidden;
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
   }
 
@@ -229,28 +249,35 @@
     inset: 0;
     background-size: cover;
     background-position: center;
-    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                filter 0.6s ease;
+    filter: blur(0px);
   }
 
   .tg-category:hover .tg-category__bg {
     transform: scale(1.05);
+    filter: blur(3px);
   }
 
   .tg-category__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.60) 0%,
-      rgba(0, 0, 0, 0.12) 55%,
-      transparent 100%
-    );
+    background: rgba(0, 0, 0, 0.25);
+    transition: background 0.4s ease;
+  }
+
+  .tg-category:hover .tg-category__overlay {
+    background: rgba(0, 0, 0, 0.38);
   }
 
   .tg-category__content {
     position: relative;
     z-index: 2;
-    padding: 44px 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 32px 40px;
   }
 
   .tg-category__title {
@@ -258,8 +285,9 @@
     font-size: 38px;
     font-weight: 400;
     color: #ffffff;
-    margin: 0 0 18px;
+    margin: 0 0 22px;
     letter-spacing: 0.04em;
+    text-transform: capitalize !important;
   }
 
   .tg-category__link {
@@ -269,13 +297,15 @@
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.85);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    padding-bottom: 4px;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    color: #111111;
+    background: #ffffff;
+    border: 1px solid #ffffff;
+    padding: 12px 32px;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
 
   .tg-category:hover .tg-category__link {
+    background: transparent;
     color: #ffffff;
     border-color: #ffffff;
   }
@@ -851,7 +881,7 @@
     .tg-hero__content   { padding: 0 40px; max-width: 560px; }
     .tg-hero__heading   { font-size: 52px; }
 
-    .tg-categories      { grid-template-columns: 1fr; }
+    .tg-categories      { grid-template-columns: 1fr; gap: 4px; }
     .tg-category        { height: 360px; }
 
     .tg-collection      { padding: 70px 40px; }
