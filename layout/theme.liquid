@@ -61,10 +61,53 @@
         font-size: 0.95rem !important;
         text-transform: uppercase !important;
       }
+
+      /* TatianaGlen: Transparent header overlay on homepage.
+         Horizon theme JS positions header-component absolutely when transparent;
+         we ensure #header-group collapses so the hero fills from the very top. */
+      body.template-index #header-group {
+        height: 0;
+        overflow: visible;
+        position: relative;
+        z-index: 100;
+      }
+
+      body.template-index #MainContent {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+      }
+
+      /* TatianaGlen: Footer — dark background, serif heading
+         (footer sections use .color-scheme-2 = #121212 bg, white text) */
+      .color-scheme-2 .footer-content {
+        font-family: 'Open Sans', Arial, sans-serif;
+      }
+
+      .color-scheme-2 .footer-content h2,
+      .color-scheme-2 .footer-content h3,
+      .color-scheme-2 .footer-content [class*="h3"],
+      .color-scheme-2 .footer-content [data-type-preset="h3"] {
+        font-family: 'Cormorant Garamond', Georgia, serif !important;
+        font-size: 2rem !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.02em !important;
+        text-transform: none !important;
+      }
+
+      .color-scheme-2 .footer-content p {
+        font-size: 0.9rem !important;
+        line-height: 1.7 !important;
+        opacity: 0.8;
+      }
+
+      /* Footer utilities bottom bar */
+      .color-scheme-2 .utilities {
+        font-size: 0.75rem !important;
+      }
     </style>
   </head>
 
-  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ template.name }}" data-template="{{ template.name }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">
       {% sections 'header-group' %}
