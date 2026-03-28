@@ -269,7 +269,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 32px 40px;
+    padding: 32px 10px;
     top: 30%;
   }
 
@@ -498,6 +498,79 @@
   .tg-link-underline:hover {
     color: var(--tg-primary);
     border-color: var(--tg-primary);
+  }
+
+  /* ============================================================
+     3b. QUOTE BANNER + SAGE BAND
+     ============================================================ */
+  .tg-quote-banner {
+    position: relative;
+    width: 100%;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-image: url('https://tatianaglen.com/wp-content/uploads/2026/03/Resina-home-scaled.png');
+    background-size: cover;
+    background-position: center;
+    padding: 70px 80px;
+    text-align: center;
+  }
+
+  .tg-quote-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 14, 8, 0.38);
+  }
+
+  .tg-quote-banner__text {
+    position: relative;
+    z-index: 2;
+    max-width: 860px;
+    font-family: var(--tg-serif);
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.25;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  .tg-quote-banner__text em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .tg-sage-band {
+    background: #b8c4af;
+    padding: 48px 80px;
+    text-align: center;
+  }
+
+  .tg-sage-band__text {
+    font-family: var(--tg-serif);
+    font-size: 22px;
+    font-weight: 400;
+    font-style: italic;
+    color: #2a2a2a;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  @media (max-width: 989px) {
+    .tg-quote-banner       { padding: 60px 40px; }
+    .tg-quote-banner__text { font-size: 32px; }
+    .tg-sage-band          { padding: 40px 40px; }
+    .tg-sage-band__text    { font-size: 19px; }
+  }
+
+  @media (max-width: 749px) {
+    .tg-quote-banner       { padding: 50px 24px; }
+    .tg-quote-banner__text { font-size: 24px; letter-spacing: 0.04em; }
+    .tg-sage-band          { padding: 36px 24px; }
+    .tg-sage-band__text    { font-size: 17px; }
   }
 
   /* ============================================================
@@ -1182,6 +1255,26 @@
     </div>
 
   </section>
+
+  <!-- ============================================================
+       3b. QUOTE BANNER
+       ============================================================ -->
+  <div class="tg-quote-banner">
+    <div class="tg-quote-banner__overlay"></div>
+    <p class="tg-quote-banner__text tg-animate">
+      Every piece that bears our name carries a shared history and philosophy.
+      Shaped by <em>our hands, our home, and our hearts.</em>
+    </p>
+  </div>
+
+  <!-- ============================================================
+       3c. SAGE BAND
+       ============================================================ -->
+  <div class="tg-sage-band">
+    <p class="tg-sage-band__text tg-animate">
+      Every piece begins with a story of material, movement, and time.
+    </p>
+  </div>
 
   <!-- ============================================================
        4. PROCESS SECTION
