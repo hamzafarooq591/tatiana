@@ -1,0 +1,1463 @@
+{% comment %}
+  TatianaGlen Homepage — Static Clone
+  Source: https://tatianaglen.com/
+  Sections (top→bottom, header & footer excluded):
+    1. Hero Slider
+    2. Category Blocks
+    3. The Collection (Product Grid)
+    4. Process Section
+    5. Meet The Artist
+    6. Craft & Commitment (Trust Badges)
+    7. Instagram / Social
+{% endcomment %}
+
+{% comment %} Inject Google Fonts into <head> via Shopify's content_for_header hook {% endcomment %}
+{%- capture tg_font_links -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+{%- endcapture -%}
+{{ tg_font_links }}
+
+<style>
+  /* ============================================================
+     HOMEPAGE CSS VARIABLES
+     ============================================================ */
+  .tg-homepage {
+    --tg-primary:       #CD8F5C;
+    --tg-primary-hover: #bc753a;
+    --tg-secondary:     #EAF1F5;
+    --tg-text:          #666666;
+    --tg-accent:        #111111;
+    --tg-border:        #EEEEEE;
+    --tg-light:         #767676;
+    --tg-cream:         #f7f1ed;
+    --tg-dark-brown:    #5d2b09;
+    --tg-serif:         'Cormorant Garamond', Georgia, serif;
+    --tg-sans:          'Open Sans', Arial, sans-serif;
+    font-family: var(--tg-sans);
+  }
+
+  /* ============================================================
+     1. HERO SLIDER
+     ============================================================ */
+  .tg-hero {
+    position: relative;
+    width: 100%;
+    height: 700px;
+    overflow: hidden;
+    background: #111;
+  }
+
+  .tg-hero__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .tg-hero__slide.is-active {
+    opacity: 1;
+  }
+
+  .tg-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.42);
+  }
+
+  .tg-hero__content {
+    position: relative;
+    z-index: 2;
+    padding: 0 80px;
+    max-width: 740px;
+  }
+
+  .tg-hero__heading {
+    font-family: var(--tg-serif);
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 1.08;
+    color: #ffffff;
+    margin: 0 0 22px;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
+  }
+
+  .tg-hero__slide.is-active .tg-hero__heading {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tg-hero__subheading {
+    font-family: var(--tg-sans);
+    font-size: 17px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.88);
+    margin: 0 0 44px;
+    line-height: 1.7;
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.9s ease 0.52s, transform 0.9s ease 0.52s;
+  }
+
+  .tg-hero__slide.is-active .tg-hero__subheading {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tg-hero__cta {
+    display: inline-block;
+    font-family: var(--tg-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #111111;
+    background: #ffffff;
+    padding: 16px 38px;
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.9s ease 0.72s,
+      transform 0.9s ease 0.72s,
+      background 0.35s ease,
+      color 0.35s ease;
+  }
+
+  .tg-hero__slide.is-active .tg-hero__cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tg-hero__cta:hover {
+    background: var(--tg-primary);
+    color: #ffffff;
+  }
+
+  /* Slide dots */
+  .tg-hero__dots {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+  }
+
+  .tg-hero__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .tg-hero__dot.is-active {
+    background: #ffffff;
+    transform: scale(1.35);
+  }
+
+  /* Hero arrow nav */
+  .tg-hero__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    backdrop-filter: blur(4px);
+  }
+
+  .tg-hero__arrow:hover {
+    background: rgba(255,255,255,0.25);
+  }
+
+  .tg-hero__arrow--prev { left: 24px; }
+  .tg-hero__arrow--next { right: 24px; }
+
+  .tg-hero__arrow svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ============================================================
+     2. CATEGORY BLOCKS
+     ============================================================ */
+  .tg-categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tg-category {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    text-decoration: none;
+  }
+
+  .tg-category__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .tg-category:hover .tg-category__bg {
+    transform: scale(1.05);
+  }
+
+  .tg-category__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.60) 0%,
+      rgba(0, 0, 0, 0.12) 55%,
+      transparent 100%
+    );
+  }
+
+  .tg-category__content {
+    position: relative;
+    z-index: 2;
+    padding: 44px 44px;
+  }
+
+  .tg-category__title {
+    font-family: var(--tg-serif);
+    font-size: 38px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 18px;
+    letter-spacing: 0.04em;
+  }
+
+  .tg-category__link {
+    display: inline-block;
+    font-family: var(--tg-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    padding-bottom: 4px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tg-category:hover .tg-category__link {
+    color: #ffffff;
+    border-color: #ffffff;
+  }
+
+  /* ============================================================
+     3. THE COLLECTION
+     ============================================================ */
+  .tg-collection {
+    padding: 90px 80px;
+    background: #ffffff;
+  }
+
+  .tg-section-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .tg-section-header__title {
+    font-family: var(--tg-serif);
+    font-size: 48px;
+    font-weight: 400;
+    color: var(--tg-accent);
+    margin: 0 0 22px;
+    letter-spacing: 0.04em;
+  }
+
+  .tg-section-header__desc {
+    font-family: var(--tg-sans);
+    font-size: 15px;
+    color: var(--tg-text);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.85;
+  }
+
+  .tg-product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-bottom: 56px;
+  }
+
+  .tg-product-card {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .tg-product-card__img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 450 / 532;
+    background: #f4ede6;
+    margin-bottom: 18px;
+  }
+
+  .tg-product-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .tg-product-card:hover .tg-product-card__img {
+    transform: scale(1.04);
+  }
+
+  .tg-product-card__actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 16px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .tg-product-card:hover .tg-product-card__actions {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tg-product-card__btn {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background: #ffffff;
+    color: #111111;
+    font-family: var(--tg-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .tg-product-card__btn:hover {
+    background: var(--tg-primary);
+    color: #ffffff;
+  }
+
+  .tg-product-card__secondary-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .tg-product-card__icon-btn {
+    flex: 1;
+    padding: 9px 6px;
+    background: rgba(255, 255, 255, 0.85);
+    color: #111111;
+    font-family: var(--tg-sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background 0.25s ease;
+  }
+
+  .tg-product-card__icon-btn:hover {
+    background: #ffffff;
+  }
+
+  .tg-product-card__info {
+    padding: 0 2px;
+  }
+
+  .tg-product-card__title {
+    font-family: var(--tg-serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--tg-accent);
+    margin: 0 0 8px;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+  }
+
+  .tg-product-card__price {
+    font-family: var(--tg-sans);
+    font-size: 14px;
+    color: var(--tg-text);
+    margin: 0;
+  }
+
+  .tg-collection-footer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  /* ============================================================
+     SHARED BUTTON STYLES
+     ============================================================ */
+  .tg-btn-primary {
+    display: inline-block;
+    font-family: var(--tg-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--tg-accent);
+    padding: 17px 44px;
+    text-decoration: none;
+    transition: background 0.4s ease, transform 0.4s ease;
+  }
+
+  .tg-btn-primary:hover {
+    background: var(--tg-primary);
+    transform: translateY(-1px);
+  }
+
+  .tg-link-underline {
+    font-family: var(--tg-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tg-text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--tg-border);
+    padding-bottom: 4px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tg-link-underline:hover {
+    color: var(--tg-primary);
+    border-color: var(--tg-primary);
+  }
+
+  /* ============================================================
+     4. PROCESS SECTION
+     ============================================================ */
+  .tg-process {
+    position: relative;
+    min-height: 620px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 110px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .tg-process__bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://tatianaglen.com/wp-content/uploads/2026/03/Resina-home-scaled.png');
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+  }
+
+  .tg-process__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 8, 3, 0.58);
+  }
+
+  .tg-process__content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+
+  .tg-process__quote {
+    font-family: var(--tg-serif);
+    font-size: 34px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.55;
+    margin: 0 0 44px;
+    letter-spacing: 0.01em;
+  }
+
+  .tg-process__divider {
+    width: 56px;
+    height: 1px;
+    background: rgba(205, 143, 92, 0.7);
+    margin: 0 auto 44px;
+  }
+
+  .tg-process__subheading {
+    font-family: var(--tg-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--tg-primary);
+    margin: 0 0 28px;
+  }
+
+  .tg-process__cta-heading {
+    font-family: var(--tg-serif);
+    font-size: 52px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 30px;
+    line-height: 1.18;
+    letter-spacing: 0.02em;
+  }
+
+  .tg-process__desc {
+    font-family: var(--tg-sans);
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.9;
+    margin: 0 0 44px;
+  }
+
+  .tg-btn-outline {
+    display: inline-block;
+    font-family: var(--tg-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    padding: 16px 38px;
+    text-decoration: none;
+    transition: background 0.35s ease, border-color 0.35s ease;
+  }
+
+  .tg-btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+  }
+
+  /* ============================================================
+     5. MEET THE ARTIST
+     ============================================================ */
+  .tg-artist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 580px;
+  }
+
+  .tg-artist__img-side {
+    position: relative;
+    overflow: hidden;
+    min-height: 460px;
+  }
+
+  .tg-artist__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .tg-artist__img-side:hover .tg-artist__img {
+    transform: scale(1.04);
+  }
+
+  .tg-artist__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 80px;
+    background: var(--tg-cream);
+  }
+
+  .tg-artist__label {
+    font-family: var(--tg-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--tg-primary);
+    margin-bottom: 22px;
+    display: block;
+  }
+
+  .tg-artist__heading {
+    font-family: var(--tg-serif);
+    font-size: 40px;
+    font-weight: 400;
+    color: var(--tg-accent);
+    margin: 0 0 28px;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+
+  .tg-artist__bio {
+    font-family: var(--tg-sans);
+    font-size: 14px;
+    color: var(--tg-text);
+    line-height: 1.95;
+    margin: 0 0 18px;
+  }
+
+  .tg-artist__bio:last-of-type {
+    margin-bottom: 36px;
+  }
+
+  .tg-artist__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--tg-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--tg-accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--tg-accent);
+    padding-bottom: 5px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    width: fit-content;
+  }
+
+  .tg-artist__link:hover {
+    color: var(--tg-primary);
+    border-color: var(--tg-primary);
+  }
+
+  /* ============================================================
+     6. CRAFT & COMMITMENT
+     ============================================================ */
+  .tg-trust {
+    padding: 90px 80px;
+    background: #ffffff;
+    text-align: center;
+  }
+
+  .tg-trust__heading {
+    font-family: var(--tg-serif);
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--tg-accent);
+    margin: 0 0 64px;
+    letter-spacing: 0.04em;
+  }
+
+  .tg-trust__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .tg-trust__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .tg-trust__icon {
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tg-trust__icon svg {
+    width: 52px;
+    height: 52px;
+    stroke: var(--tg-dark-brown);
+    fill: none;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tg-trust__item-title {
+    font-family: var(--tg-serif);
+    font-size: 21px;
+    font-weight: 400;
+    color: var(--tg-accent);
+    margin: 0 0 10px;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+
+  .tg-trust__item-desc {
+    font-family: var(--tg-sans);
+    font-size: 14px;
+    color: var(--tg-text);
+    line-height: 1.75;
+    margin: 0;
+    max-width: 260px;
+  }
+
+  /* ============================================================
+     7. INSTAGRAM / SOCIAL
+     ============================================================ */
+  .tg-instagram {
+    padding: 90px 80px;
+    background: var(--tg-cream);
+    text-align: center;
+  }
+
+  .tg-instagram__heading {
+    font-family: var(--tg-serif);
+    font-size: 44px;
+    font-weight: 400;
+    color: var(--tg-accent);
+    margin: 0 0 14px;
+    letter-spacing: 0.02em;
+  }
+
+  .tg-instagram__subtext {
+    font-family: var(--tg-sans);
+    font-size: 15px;
+    color: var(--tg-text);
+    margin: 0 0 36px;
+  }
+
+  .tg-instagram__social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .tg-instagram__follow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--tg-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--tg-accent);
+    padding: 15px 32px;
+    text-decoration: none;
+    transition: background 0.35s ease, transform 0.35s ease;
+  }
+
+  .tg-instagram__follow:hover {
+    background: var(--tg-primary);
+    transform: translateY(-1px);
+  }
+
+  .tg-instagram__follow svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  .tg-instagram__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--tg-border);
+    color: var(--tg-text);
+    text-decoration: none;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .tg-instagram__social-link:hover {
+    border-color: var(--tg-primary);
+    color: var(--tg-primary);
+  }
+
+  .tg-instagram__social-link svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  /* ============================================================
+     SCROLL-IN ANIMATIONS
+     ============================================================ */
+  .tg-animate {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.85s ease, transform 0.85s ease;
+  }
+
+  .tg-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tg-animate--delay-1 { transition-delay: 0.10s; }
+  .tg-animate--delay-2 { transition-delay: 0.20s; }
+  .tg-animate--delay-3 { transition-delay: 0.32s; }
+  .tg-animate--delay-4 { transition-delay: 0.44s; }
+
+  /* ============================================================
+     RESPONSIVE — TABLET (≤ 989px)
+     ============================================================ */
+  @media (max-width: 989px) {
+    .tg-hero            { height: 560px; }
+    .tg-hero__content   { padding: 0 40px; max-width: 560px; }
+    .tg-hero__heading   { font-size: 52px; }
+
+    .tg-categories      { grid-template-columns: 1fr; }
+    .tg-category        { height: 360px; }
+
+    .tg-collection      { padding: 70px 40px; }
+    .tg-product-grid    { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+    .tg-process         { padding: 90px 50px; }
+    .tg-process__cta-heading { font-size: 40px; }
+    .tg-process__quote  { font-size: 26px; }
+
+    .tg-artist          { grid-template-columns: 1fr; }
+    .tg-artist__img-side{ height: 400px; }
+    .tg-artist__content { padding: 60px 50px; }
+
+    .tg-trust           { padding: 70px 40px; }
+    .tg-trust__grid     { grid-template-columns: 1fr; gap: 48px; }
+
+    .tg-instagram       { padding: 70px 40px; }
+  }
+
+  /* ============================================================
+     RESPONSIVE — MOBILE (≤ 749px)
+     ============================================================ */
+  @media (max-width: 749px) {
+    .tg-hero            { height: 720px; }
+    .tg-hero__content   { padding: 0 24px; }
+    .tg-hero__heading   { font-size: 40px; }
+    .tg-hero__subheading{ font-size: 15px; margin-bottom: 32px; }
+    .tg-hero__arrow     { display: none; }
+
+    .tg-category        { height: 300px; }
+    .tg-category__title { font-size: 28px; }
+
+    .tg-collection      { padding: 56px 20px; }
+    .tg-section-header__title { font-size: 36px; }
+    .tg-product-grid    { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .tg-product-card__title { font-size: 16px; }
+
+    .tg-process         { padding: 80px 28px; }
+    .tg-process__cta-heading { font-size: 30px; }
+    .tg-process__quote  { font-size: 22px; }
+
+    .tg-artist__content { padding: 48px 28px; }
+    .tg-artist__heading { font-size: 32px; }
+
+    .tg-trust           { padding: 56px 24px; }
+    .tg-trust__heading  { font-size: 30px; margin-bottom: 44px; }
+    .tg-trust__item-title { font-size: 18px; }
+
+    .tg-instagram       { padding: 56px 24px; }
+    .tg-instagram__heading { font-size: 34px; }
+  }
+</style>
+
+<div class="tg-homepage">
+
+  <!-- ============================================================
+       1. HERO SLIDER
+       ============================================================ -->
+  <section class="tg-hero" id="tg-hero" aria-label="Featured hero">
+
+    <!-- Slide 1 -->
+    <div
+      class="tg-hero__slide is-active"
+      style="background-image: url('https://tatianaglen.com/wp-content/uploads/2026/03/Placement-Variety-Living-Area--scaled.jpg');"
+      role="group"
+      aria-label="Slide 1 of 2"
+    >
+      <div class="tg-hero__overlay"></div>
+      <div class="tg-hero__content">
+        <h1 class="tg-hero__heading">Where Art Takes Form</h1>
+        <p class="tg-hero__subheading">Handcrafted resin mirrors — sculptural statement pieces for modern interiors.</p>
+        <a href="/collections/all" class="tg-hero__cta">View The Collection</a>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div
+      class="tg-hero__slide"
+      style="background-image: url('https://tatianaglen.com/wp-content/uploads/2026/02/Image-4-scaled.jpg');"
+      role="group"
+      aria-label="Slide 2 of 2"
+    >
+      <div class="tg-hero__overlay"></div>
+      <div class="tg-hero__content">
+        <h2 class="tg-hero__heading">Every Piece Is Unique</h2>
+        <p class="tg-hero__subheading">No two pieces resolve in the same way. This is how our work comes to life.</p>
+        <a href="/collections/all" class="tg-hero__cta">Explore The Studio</a>
+      </div>
+    </div>
+
+    <!-- Arrow: Previous -->
+    <button class="tg-hero__arrow tg-hero__arrow--prev" id="tg-hero-prev" aria-label="Previous slide">
+      <svg viewBox="0 0 18 18"><polyline points="11 4 6 9 11 14"/></svg>
+    </button>
+
+    <!-- Arrow: Next -->
+    <button class="tg-hero__arrow tg-hero__arrow--next" id="tg-hero-next" aria-label="Next slide">
+      <svg viewBox="0 0 18 18"><polyline points="7 4 12 9 7 14"/></svg>
+    </button>
+
+    <!-- Dots -->
+    <div class="tg-hero__dots" role="tablist" aria-label="Slide navigation">
+      <button class="tg-hero__dot is-active" data-dot="0" role="tab" aria-selected="true"  aria-label="Go to slide 1"></button>
+      <button class="tg-hero__dot"           data-dot="1" role="tab" aria-selected="false" aria-label="Go to slide 2"></button>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       2. CATEGORY BLOCKS
+       ============================================================ -->
+  <section class="tg-categories" aria-label="Product categories">
+
+    <a href="/collections/mirrors" class="tg-category">
+      <div
+        class="tg-category__bg"
+        style="background-image: url('https://tatianaglen.com/wp-content/uploads/2026/02/2-6-450x532.jpg');"
+        role="img"
+        aria-label="Mirrors collection"
+      ></div>
+      <div class="tg-category__overlay"></div>
+      <div class="tg-category__content">
+        <h2 class="tg-category__title">Mirrors</h2>
+        <span class="tg-category__link">View More</span>
+      </div>
+    </a>
+
+    <a href="/collections/sculptures-statues" class="tg-category">
+      <div
+        class="tg-category__bg"
+        style="background-image: url('https://tatianaglen.com/wp-content/uploads/2026/02/2-2-450x532.jpg');"
+        role="img"
+        aria-label="Sculptures and Statues collection"
+      ></div>
+      <div class="tg-category__overlay"></div>
+      <div class="tg-category__content">
+        <h2 class="tg-category__title">Sculptures & Statues</h2>
+        <span class="tg-category__link">View More</span>
+      </div>
+    </a>
+
+  </section>
+
+  <!-- ============================================================
+       3. THE COLLECTION
+       ============================================================ -->
+  <section class="tg-collection">
+
+    <div class="tg-section-header tg-animate">
+      <h2 class="tg-section-header__title">The Collection</h2>
+      <p class="tg-section-header__desc">Handcrafted resin mirrors and sculptural décor objects, designed and made by hand in our Miami & NY studio. Each piece is created using layered resin techniques, resulting in natural variation in depth, color, and form.</p>
+    </div>
+
+    <div class="tg-product-grid">
+
+      <!-- Product 1 — Veins of the Sea -->
+      <article class="tg-product-card tg-animate tg-animate--delay-1">
+        <div class="tg-product-card__img-wrap">
+          <img
+            src="https://tatianaglen.com/wp-content/uploads/2026/02/2-6-450x532.jpg"
+            alt="Veins of the Sea"
+            class="tg-product-card__img"
+            loading="lazy"
+            width="450" height="532"
+          >
+          <div class="tg-product-card__actions">
+            <a href="/collections/all" class="tg-product-card__btn">Select Options</a>
+            <div class="tg-product-card__secondary-actions">
+              <button class="tg-product-card__icon-btn" type="button">&#9825; Wishlist</button>
+              <button class="tg-product-card__icon-btn" type="button">&#8853; Quick View</button>
+            </div>
+          </div>
+        </div>
+        <div class="tg-product-card__info">
+          <h3 class="tg-product-card__title">Veins of the Sea</h3>
+          <p class="tg-product-card__price">$949.00</p>
+        </div>
+      </article>
+
+      <!-- Product 2 — New Moon -->
+      <article class="tg-product-card tg-animate tg-animate--delay-2">
+        <div class="tg-product-card__img-wrap">
+          <img
+            src="https://tatianaglen.com/wp-content/uploads/2026/02/bg-2-gold-450x532.jpg"
+            alt="New Moon"
+            class="tg-product-card__img"
+            loading="lazy"
+            width="450" height="532"
+          >
+          <div class="tg-product-card__actions">
+            <a href="/collections/all" class="tg-product-card__btn">Select Options</a>
+            <div class="tg-product-card__secondary-actions">
+              <button class="tg-product-card__icon-btn" type="button">&#9825; Wishlist</button>
+              <button class="tg-product-card__icon-btn" type="button">&#8853; Quick View</button>
+            </div>
+          </div>
+        </div>
+        <div class="tg-product-card__info">
+          <h3 class="tg-product-card__title">New Moon</h3>
+          <p class="tg-product-card__price">$349.00</p>
+        </div>
+      </article>
+
+      <!-- Product 3 — Obsidian Horizon -->
+      <article class="tg-product-card tg-animate tg-animate--delay-3">
+        <div class="tg-product-card__img-wrap">
+          <img
+            src="https://tatianaglen.com/wp-content/uploads/2026/02/1-2-450x532.jpg"
+            alt="Obsidian Horizon"
+            class="tg-product-card__img"
+            loading="lazy"
+            width="450" height="532"
+          >
+          <div class="tg-product-card__actions">
+            <a href="/collections/all" class="tg-product-card__btn">Add to Cart</a>
+            <div class="tg-product-card__secondary-actions">
+              <button class="tg-product-card__icon-btn" type="button">&#9825; Wishlist</button>
+              <button class="tg-product-card__icon-btn" type="button">&#8853; Quick View</button>
+            </div>
+          </div>
+        </div>
+        <div class="tg-product-card__info">
+          <h3 class="tg-product-card__title">Obsidian Horizon</h3>
+          <p class="tg-product-card__price">$649.00</p>
+        </div>
+      </article>
+
+      <!-- Product 4 — Deepwater Passage -->
+      <article class="tg-product-card tg-animate tg-animate--delay-1">
+        <div class="tg-product-card__img-wrap">
+          <img
+            src="https://tatianaglen.com/wp-content/uploads/2026/02/2-2-450x532.jpg"
+            alt="Deepwater Passage"
+            class="tg-product-card__img"
+            loading="lazy"
+            width="450" height="532"
+          >
+          <div class="tg-product-card__actions">
+            <a href="/collections/all" class="tg-product-card__btn">Add to Cart</a>
+            <div class="tg-product-card__secondary-actions">
+              <button class="tg-product-card__icon-btn" type="button">&#9825; Wishlist</button>
+              <button class="tg-product-card__icon-btn" type="button">&#8853; Quick View</button>
+            </div>
+          </div>
+        </div>
+        <div class="tg-product-card__info">
+          <h3 class="tg-product-card__title">Deepwater Passage</h3>
+          <p class="tg-product-card__price">$1,149.00</p>
+        </div>
+      </article>
+
+      <!-- Product 5 — Half Moon -->
+      <article class="tg-product-card tg-animate tg-animate--delay-2">
+        <div class="tg-product-card__img-wrap">
+          <img
+            src="https://tatianaglen.com/wp-content/uploads/2026/02/70_-2-scaled-e1772412426365-450x532.jpg"
+            alt="Half Moon – Ocean Tide Wall Décor Mirror"
+            class="tg-product-card__img"
+            loading="lazy"
+            width="450" height="532"
+          >
+          <div class="tg-product-card__actions">
+            <a href="/collections/all" class="tg-product-card__btn">Select Options</a>
+            <div class="tg-product-card__secondary-actions">
+              <button class="tg-product-card__icon-btn" type="button">&#9825; Wishlist</button>
+              <button class="tg-product-card__icon-btn" type="button">&#8853; Quick View</button>
+            </div>
+          </div>
+        </div>
+        <div class="tg-product-card__info">
+          <h3 class="tg-product-card__title">Half Moon – Ocean Tide Wall Décor Mirror</h3>
+          <p class="tg-product-card__price">$149.00 – $699.00</p>
+        </div>
+      </article>
+
+      <!-- Product 6 — Silent Archway -->
+      <article class="tg-product-card tg-animate tg-animate--delay-3">
+        <div class="tg-product-card__img-wrap">
+          <img
+            src="https://tatianaglen.com/wp-content/uploads/2026/02/2-4-450x532.jpg"
+            alt="Silent Archway – Marble Inspired Full-Length Wall Décor Mirror"
+            class="tg-product-card__img"
+            loading="lazy"
+            width="450" height="532"
+          >
+          <div class="tg-product-card__actions">
+            <a href="/collections/all" class="tg-product-card__btn">Add to Cart</a>
+            <div class="tg-product-card__secondary-actions">
+              <button class="tg-product-card__icon-btn" type="button">&#9825; Wishlist</button>
+              <button class="tg-product-card__icon-btn" type="button">&#8853; Quick View</button>
+            </div>
+          </div>
+        </div>
+        <div class="tg-product-card__info">
+          <h3 class="tg-product-card__title">Silent Archway – Marble Inspired Full-Length Wall Décor Mirror</h3>
+          <p class="tg-product-card__price">$649.99</p>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="tg-collection-footer tg-animate">
+      <a href="/collections/all" class="tg-btn-primary">Explore The Collection</a>
+      <a href="/collections/all" class="tg-link-underline">VIEW MORE</a>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       4. PROCESS SECTION
+       ============================================================ -->
+  <section class="tg-process" aria-label="Our process">
+    <div class="tg-process__bg"></div>
+    <div class="tg-process__overlay"></div>
+    <div class="tg-process__content">
+      <p class="tg-process__quote tg-animate">
+        "Every piece that bears our name carries a shared history and philosophy.
+        Shaped by our hands, our home, and our hearts."
+      </p>
+      <div class="tg-process__divider"></div>
+      <p class="tg-process__subheading tg-animate tg-animate--delay-1">
+        Every piece begins with a story of material, movement, and time.
+      </p>
+      <h2 class="tg-process__cta-heading tg-animate tg-animate--delay-2">
+        What Begins as Liquid Slowly Takes Form.
+      </h2>
+      <p class="tg-process__desc tg-animate tg-animate--delay-3">
+        Guided by material, movement, and time, each piece is shaped by hand and finished with intention.
+        Resin is poured in layers, allowed to move, settle, and respond to its environment.
+        Subtle variations remain — not as imperfections, but as records of the moments and conditions
+        that shape the work. No two pieces resolve in the same way. This is how our work comes to life.
+      </p>
+      <a href="/pages/our-process" class="tg-btn-outline tg-animate tg-animate--delay-4">
+        Learn More About the Process
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       5. MEET THE ARTIST
+       ============================================================ -->
+  <section class="tg-artist" aria-label="Meet the artist">
+
+    <div class="tg-artist__img-side">
+      <img
+        src="https://tatianaglen.com/wp-content/uploads/2026/02/WhatsApp-Image-2026-02-10-at-11.31.12-1024x581.jpeg"
+        alt="Tatiana and Glen in their Miami studio"
+        class="tg-artist__img"
+        loading="lazy"
+        width="1024" height="581"
+      >
+    </div>
+
+    <div class="tg-artist__content">
+      <span class="tg-artist__label tg-animate">Meet The Artist</span>
+      <h2 class="tg-artist__heading tg-animate tg-animate--delay-1">A Family Studio Rooted in Craft.</h2>
+      <p class="tg-artist__bio tg-animate tg-animate--delay-2">
+        Tatiana & Glen is a family-led studio founded by partners Tatiana and Glen. Each mirror is made by
+        Tatiana's hands — informed by more than a decade of experience shaping high-end residences across
+        the Americas and Europe, and grounded in a deep understanding of how space, light, and form
+        influence the way we live.
+      </p>
+      <p class="tg-artist__bio tg-animate tg-animate--delay-3">
+        Glen's perspective, shaped at the intersection of the mystical and the practical, informs the
+        philosophy that surrounds the work. From their home and studio in Miami, the practice creates
+        sculptural mirrors rooted in intention, time, and human connection.
+      </p>
+      <a href="/pages/about" class="tg-artist__link tg-animate tg-animate--delay-4">OUR STORY →</a>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       6. CRAFT & COMMITMENT
+       ============================================================ -->
+  <section class="tg-trust" aria-label="Our commitments">
+
+    <h2 class="tg-trust__heading tg-animate">Craft & Commitment</h2>
+
+    <div class="tg-trust__grid">
+
+      <!-- Badge 1 — Authenticity -->
+      <div class="tg-trust__item tg-animate tg-animate--delay-1">
+        <div class="tg-trust__icon" aria-hidden="true">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <path d="M26 4L31 16L44 18L35 27L37.5 40L26 33.5L14.5 40L17 27L8 18L21 16L26 4Z"/>
+            <line x1="18" y1="46" x2="34" y2="46"/>
+            <line x1="26" y1="40" x2="26" y2="46"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="tg-trust__item-title">Signed & Sealed Authenticity</h3>
+          <p class="tg-trust__item-desc">Each piece is accompanied by a certificate of authenticity.</p>
+        </div>
+      </div>
+
+      <!-- Badge 2 — Warranty -->
+      <div class="tg-trust__item tg-animate tg-animate--delay-2">
+        <div class="tg-trust__icon" aria-hidden="true">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <path d="M26 6C26 6 10 13 10 26C10 37 17 44 26 48C35 44 42 37 42 26C42 13 26 6 26 6Z"/>
+            <polyline points="18 26 23 31 34 20"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="tg-trust__item-title">Two-Year Finish Commitment</h3>
+          <p class="tg-trust__item-desc">We stand behind the finish and clarity of every mirror for two years. Should natural wear occur, we offer complimentary refinishing or replacement.</p>
+        </div>
+      </div>
+
+      <!-- Badge 3 — Delivery -->
+      <div class="tg-trust__item tg-animate tg-animate--delay-3">
+        <div class="tg-trust__icon" aria-hidden="true">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="20" width="40" height="28" rx="2"/>
+            <path d="M17 20V15C17 10 20.5 7 26 7C31.5 7 35 10 35 15V20"/>
+            <circle cx="26" cy="33" r="3.5" fill="currentColor" stroke="none"/>
+            <line x1="26" y1="36.5" x2="26" y2="42"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="tg-trust__item-title">Handled & Insured Delivery</h3>
+          <p class="tg-trust__item-desc">Each piece is carefully handled and fully insured from our studio to your door.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       7. INSTAGRAM / SOCIAL
+       ============================================================ -->
+  <section class="tg-instagram" aria-label="Follow us on Instagram">
+
+    <h2 class="tg-instagram__heading tg-animate">Our Instagram</h2>
+    <p class="tg-instagram__subtext tg-animate tg-animate--delay-1">Follow our store on Instagram</p>
+
+    <div class="tg-instagram__social tg-animate tg-animate--delay-2">
+
+      <!-- Instagram follow button -->
+      <a
+        href="https://www.instagram.com/tatianaglencollections"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="tg-instagram__follow"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+        FOLLOW US
+      </a>
+
+      <!-- Facebook -->
+      <a
+        href="http://www.facebook.com/people/Tatiana-Glen/61585294559081/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="tg-instagram__social-link"
+        aria-label="Facebook"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+
+      <!-- Pinterest -->
+      <a
+        href="http://www.pinterest.com/TatianaGlenCollections"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="tg-instagram__social-link"
+        aria-label="Pinterest"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+        </svg>
+      </a>
+
+    </div>
+  </section>
+
+</div><!-- /.tg-homepage -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     HERO SLIDER
+     ============================================================ */
+  var hero   = document.getElementById('tg-hero');
+  if (!hero) return;
+
+  var slides  = hero.querySelectorAll('.tg-hero__slide');
+  var dots    = hero.querySelectorAll('.tg-hero__dot');
+  var btnPrev = document.getElementById('tg-hero-prev');
+  var btnNext = document.getElementById('tg-hero-next');
+  var current = 0;
+  var total   = slides.length;
+  var timer;
+
+  function activate(index) {
+    slides[current].classList.remove('is-active');
+    dots[current].classList.remove('is-active');
+    dots[current].setAttribute('aria-selected', 'false');
+
+    current = (index + total) % total;
+
+    slides[current].classList.add('is-active');
+    dots[current].classList.add('is-active');
+    dots[current].setAttribute('aria-selected', 'true');
+  }
+
+  function startTimer() {
+    timer = setInterval(function () { activate(current + 1); }, 5000);
+  }
+
+  function stopTimer() { clearInterval(timer); }
+
+  dots.forEach(function (dot, i) {
+    dot.addEventListener('click', function () {
+      stopTimer(); activate(i); startTimer();
+    });
+  });
+
+  if (btnPrev) btnPrev.addEventListener('click', function () {
+    stopTimer(); activate(current - 1); startTimer();
+  });
+
+  if (btnNext) btnNext.addEventListener('click', function () {
+    stopTimer(); activate(current + 1); startTimer();
+  });
+
+  /* Pause on hover */
+  hero.addEventListener('mouseenter', stopTimer);
+  hero.addEventListener('mouseleave', startTimer);
+
+  /* Swipe support */
+  var touchStartX = 0;
+  hero.addEventListener('touchstart', function (e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  hero.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) {
+      stopTimer();
+      activate(dx < 0 ? current + 1 : current - 1);
+      startTimer();
+    }
+  }, { passive: true });
+
+  startTimer();
+
+  /* ============================================================
+     SCROLL-IN ANIMATIONS (IntersectionObserver)
+     ============================================================ */
+  var animateEls = document.querySelectorAll('.tg-animate');
+  if (!animateEls.length) return;
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+
+    animateEls.forEach(function (el) { observer.observe(el); });
+  } else {
+    /* Fallback: show all immediately */
+    animateEls.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  /* ============================================================
+     PARALLAX — Process section background
+     ============================================================ */
+  var processBg = document.querySelector('.tg-process__bg');
+  if (processBg && window.matchMedia('(min-width: 990px)').matches) {
+    window.addEventListener('scroll', function () {
+      var section = processBg.parentElement;
+      var rect    = section.getBoundingClientRect();
+      var visible = rect.top < window.innerHeight && rect.bottom > 0;
+      if (visible) {
+        var ratio  = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+        var offset = Math.round((ratio - 0.5) * 80);
+        processBg.style.transform = 'translateY(' + offset + 'px)';
+      }
+    }, { passive: true });
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Homepage",
+  "tag": "div",
+  "class": "homepage-section",
+  "settings": [],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Homepage"
+    }
+  ]
+}
+{% endschema %}
