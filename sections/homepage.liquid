@@ -431,6 +431,20 @@
     transform: scale(1.1);
   }
 
+  .tg-product-card__icon-btn--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .tg-product-card__sold-out {
+    color: var(--tg-light);
+    font-size: 12px;
+  }
+
+  .tg-placeholder {
+    background: #f4ede6;
+  }
+
   .tg-product-card__icon-btn svg {
     width: 18px;
     height: 18px;
@@ -1134,175 +1148,118 @@
   <!-- ============================================================
        3. THE COLLECTION
        ============================================================ -->
+  {%- liquid
+    assign collection = collections[section.settings.collection]
+    if collection == blank
+      assign collection = collections.all
+    endif
+    assign product_limit = section.settings.product_limit | default: 9
+    assign collection_url = collection.url | default: '/collections/all'
+  -%}
+
   <section class="tg-collection">
 
     <div class="tg-section-header tg-animate">
-      <h2 class="tg-section-header__title">The Collection</h2>
-      <p class="tg-section-header__desc">Handcrafted resin mirrors and sculptural décor objects, designed and made by hand in our Miami & NY studio. Each piece is created using layered resin techniques, resulting in natural variation in depth, color, and form.</p>
+      <h2 class="tg-section-header__title">{{ section.settings.heading | default: 'The Collection' }}</h2>
+      <p class="tg-section-header__desc">{{ section.settings.description | default: 'Handcrafted resin mirrors and sculptural décor objects, designed and made by hand in our Miami & NY studio.' }}</p>
     </div>
 
-    <div class="tg-product-slider-wrap">
-      <div class="tg-product-grid" id="tg-product-slider">
+    {%- if collection.products_count > 0 -%}
+      <div class="tg-product-slider-wrap">
+        <div class="tg-product-grid" id="tg-product-slider" data-per-page="3">
 
-        <!-- Product 1 — Veins of the Sea -->
-        <article class="tg-product-card">
-          <div class="tg-product-card__img-wrap">
-            <img src="https://tatianaglen.com/wp-content/uploads/2026/02/2-6-450x532.jpg" alt="Veins of the Sea" class="tg-product-card__img" loading="lazy" width="450" height="532">
-            <div class="tg-product-card__actions">
-              <a href="/collections/all" class="tg-product-card__icon-btn" aria-label="Add to cart">
-                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              </a>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Wishlist">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Quick view">
-                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Compare">
-                <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="tg-product-card__info">
-            <h3 class="tg-product-card__title">Veins of the Sea</h3>
-            <p class="tg-product-card__price">$949.00</p>
-          </div>
-        </article>
+          {%- for product in collection.products limit: product_limit -%}
+            {%- liquid
+              assign featured_image = product.featured_image
+              assign product_url    = product.url
+              assign product_title  = product.title
+              assign first_variant  = product.selected_or_first_available_variant
+            -%}
 
-        <!-- Product 2 — New Moon -->
-        <article class="tg-product-card">
-          <div class="tg-product-card__img-wrap">
-            <img src="https://tatianaglen.com/wp-content/uploads/2026/02/bg-2-gold-450x532.jpg" alt="New Moon" class="tg-product-card__img" loading="lazy" width="450" height="532">
-            <div class="tg-product-card__actions">
-              <a href="/collections/all" class="tg-product-card__icon-btn" aria-label="Add to cart">
-                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              </a>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Wishlist">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Quick view">
-                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Compare">
-                <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="tg-product-card__info">
-            <h3 class="tg-product-card__title">New Moon</h3>
-            <p class="tg-product-card__price">$349.00</p>
-          </div>
-        </article>
+            <article class="tg-product-card" data-product-id="{{ product.id }}">
+              <div class="tg-product-card__img-wrap">
 
-        <!-- Product 3 — Obsidian Horizon -->
-        <article class="tg-product-card">
-          <div class="tg-product-card__img-wrap">
-            <img src="https://tatianaglen.com/wp-content/uploads/2026/02/1-2-450x532.jpg" alt="Obsidian Horizon" class="tg-product-card__img" loading="lazy" width="450" height="532">
-            <div class="tg-product-card__actions">
-              <a href="/collections/all" class="tg-product-card__icon-btn" aria-label="Add to cart">
-                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              </a>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Wishlist">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Quick view">
-                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Compare">
-                <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="tg-product-card__info">
-            <h3 class="tg-product-card__title">Obsidian Horizon</h3>
-            <p class="tg-product-card__price">$649.00</p>
-          </div>
-        </article>
+                {%- if featured_image -%}
+                  <img
+                    src="{{ featured_image | image_url: width: 600 }}"
+                    alt="{{ featured_image.alt | escape | default: product_title }}"
+                    class="tg-product-card__img"
+                    loading="lazy"
+                    width="{{ featured_image.width }}"
+                    height="{{ featured_image.height }}"
+                  >
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'tg-product-card__img tg-placeholder' }}
+                {%- endif -%}
 
-        <!-- Product 4 — Deepwater Passage -->
-        <article class="tg-product-card">
-          <div class="tg-product-card__img-wrap">
-            <img src="https://tatianaglen.com/wp-content/uploads/2026/02/2-2-450x532.jpg" alt="Deepwater Passage" class="tg-product-card__img" loading="lazy" width="450" height="532">
-            <div class="tg-product-card__actions">
-              <a href="/collections/all" class="tg-product-card__icon-btn" aria-label="Add to cart">
-                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              </a>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Wishlist">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Quick view">
-                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Compare">
-                <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="tg-product-card__info">
-            <h3 class="tg-product-card__title">Deepwater Passage</h3>
-            <p class="tg-product-card__price">$1,149.00</p>
-          </div>
-        </article>
+                <div class="tg-product-card__actions">
+                  <!-- Add to cart -->
+                  {%- if first_variant.available -%}
+                    {%- if product.variants.size == 1 -%}
+                      <a
+                        href="{{ product_url }}"
+                        class="tg-product-card__icon-btn"
+                        aria-label="Add to cart — {{ product_title | escape }}"
+                        data-product-id="{{ product.id }}"
+                        data-variant-id="{{ first_variant.id }}"
+                      >
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                      </a>
+                    {%- else -%}
+                      <a href="{{ product_url }}" class="tg-product-card__icon-btn" aria-label="Select options — {{ product_title | escape }}">
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                      </a>
+                    {%- endif -%}
+                  {%- else -%}
+                    <span class="tg-product-card__icon-btn tg-product-card__icon-btn--disabled" aria-label="Sold out">
+                      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    </span>
+                  {%- endif -%}
 
-        <!-- Product 5 — Half Moon -->
-        <article class="tg-product-card">
-          <div class="tg-product-card__img-wrap">
-            <img src="https://tatianaglen.com/wp-content/uploads/2026/02/70_-2-scaled-e1772412426365-450x532.jpg" alt="Half Moon – Ocean Tide Wall Décor Mirror" class="tg-product-card__img" loading="lazy" width="450" height="532">
-            <div class="tg-product-card__actions">
-              <a href="/collections/all" class="tg-product-card__icon-btn" aria-label="Add to cart">
-                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              </a>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Wishlist">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Quick view">
-                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Compare">
-                <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="tg-product-card__info">
-            <h3 class="tg-product-card__title">Half Moon – Ocean Tide Wall Décor Mirror</h3>
-            <p class="tg-product-card__price">$149.00 – $699.00</p>
-          </div>
-        </article>
+                  <!-- Wishlist -->
+                  <button class="tg-product-card__icon-btn" type="button" aria-label="Add to wishlist — {{ product_title | escape }}">
+                    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                  </button>
 
-        <!-- Product 6 — Silent Archway -->
-        <article class="tg-product-card">
-          <div class="tg-product-card__img-wrap">
-            <img src="https://tatianaglen.com/wp-content/uploads/2026/02/2-4-450x532.jpg" alt="Silent Archway – Marble Inspired Full-Length Wall Décor Mirror" class="tg-product-card__img" loading="lazy" width="450" height="532">
-            <div class="tg-product-card__actions">
-              <a href="/collections/all" class="tg-product-card__icon-btn" aria-label="Add to cart">
-                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              </a>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Wishlist">
-                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Quick view">
-                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              </button>
-              <button class="tg-product-card__icon-btn" type="button" aria-label="Compare">
-                <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="tg-product-card__info">
-            <h3 class="tg-product-card__title">Silent Archway – Marble Inspired Full-Length Wall Décor Mirror</h3>
-            <p class="tg-product-card__price">$649.99</p>
-          </div>
-        </article>
+                  <!-- Quick view -->
+                  <a href="{{ product_url }}" class="tg-product-card__icon-btn" aria-label="View {{ product_title | escape }}">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  </a>
+                </div>
 
+              </div>
+              <div class="tg-product-card__info">
+                <a href="{{ product_url }}" style="text-decoration:none;color:inherit;">
+                  <h3 class="tg-product-card__title">{{ product_title }}</h3>
+                </a>
+                <p class="tg-product-card__price">
+                  {%- if product.price_varies -%}
+                    {{ product.price_min | money }} – {{ product.price_max | money }}
+                  {%- else -%}
+                    {{ product.price | money }}
+                  {%- endif -%}
+                  {%- if first_variant.available == false -%}
+                    <span class="tg-product-card__sold-out"> — Sold Out</span>
+                  {%- endif -%}
+                </p>
+              </div>
+            </article>
+
+          {%- endfor -%}
+
+        </div>
+
+        <!-- Slider dots (generated by JS) -->
+        <div class="tg-product-dots" id="tg-product-dots"></div>
       </div>
 
-      <!-- Slider dots -->
-      <div class="tg-product-dots" id="tg-product-dots"></div>
-    </div>
+    {%- else -%}
+      <p style="text-align:center;color:var(--tg-text);padding:40px 0;">No products found in this collection.</p>
+    {%- endif -%}
 
     <div class="tg-collection-footer tg-animate">
-      <a href="/collections/all" class="tg-btn-primary">Explore The Collection</a>
-      <a href="/collections/all" class="tg-link-underline">VIEW MORE</a>
+      <a href="{{ collection_url }}" class="tg-btn-primary">Explore The Collection</a>
+      <a href="{{ collection_url }}" class="tg-link-underline">VIEW MORE</a>
     </div>
 
   </section>
@@ -1631,7 +1588,38 @@
   "name": "Homepage",
   "tag": "div",
   "class": "homepage-section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Collection Section"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection to display"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Number of products",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 9
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "The Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Section description",
+      "default": "Handcrafted resin mirrors and sculptural décor objects, designed and made by hand in our Miami & NY studio. Each piece is created using layered resin techniques, resulting in natural variation in depth, color, and form."
+    }
+  ],
   "blocks": [],
   "presets": [
     {
