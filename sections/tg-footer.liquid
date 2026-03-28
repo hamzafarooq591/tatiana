@@ -59,40 +59,55 @@
     width: 100%;
   }
 
-  .tg-footer__email-input {
+  .tg-footer__email-input,
+  .tg-footer__email-input[type="email"] {
     flex: 1;
-    padding: 14px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    background: transparent;
-    color: #ffffff;
-    font-size: 0.875rem;
-    font-family: 'Open Sans', Arial, sans-serif;
-    outline: none;
+    padding: 14px 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    border-right: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    font-size: 0.875rem !important;
+    font-family: 'Open Sans', Arial, sans-serif !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
     min-width: 0;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   .tg-footer__email-input::placeholder {
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.45) !important;
   }
 
-  .tg-footer__email-input:focus {
-    border-color: rgba(255, 255, 255, 0.6);
+  .tg-footer__email-input:focus,
+  .tg-footer__email-input:focus-visible {
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
   }
 
   .tg-footer__email-btn {
-    padding: 14px 32px;
-    background: #CD8F5C;
-    color: #ffffff;
-    border: none;
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    padding: 14px 32px !important;
+    background: #CD8F5C !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 0 !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
     cursor: pointer;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: 'Open Sans', Arial, sans-serif !important;
     transition: background 0.3s ease;
     white-space: nowrap;
     flex-shrink: 0;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   .tg-footer__email-btn:hover {
