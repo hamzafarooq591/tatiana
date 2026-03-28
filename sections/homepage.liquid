@@ -38,23 +38,10 @@
     font-family: var(--tg-sans);
   }
 
-  /* Override theme-global uppercase on all homepage headings */
-  .tg-homepage h1,
-  .tg-homepage h2,
-  .tg-homepage h3,
-  .tg-homepage h4,
-  .tg-homepage h5,
-  .tg-homepage h6,
-  .tg-hero__heading,
-  .tg-section-header__title,
-  .tg-process__cta-heading,
-  .tg-artist__heading,
-  .tg-trust__heading,
-  .tg-trust__item-title,
-  .tg-instagram__heading,
-  .tg-product-card__title,
-  .tg-artist__label {
-    text-transform: capitalize !important;
+  /* Global heading override */
+  h1, h2, h3, h4, .h0, .h1, .h2, .h3 {
+    letter-spacing: -1.2px;
+    font-weight: 400 !important;
   }
 
   /* ============================================================
@@ -230,13 +217,13 @@
      ============================================================ */
   .tg-categories-wrapper {
     background: #ffffff;
-    padding: 28px 36px;
+    padding: 70px 45px;
   }
 
   .tg-categories {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    gap: 50px;
   }
 
   .tg-category {
@@ -283,29 +270,27 @@
     align-items: center;
     text-align: center;
     padding: 32px 40px;
+    top: 30%;
   }
 
   .tg-category__title {
     font-family: var(--tg-serif);
-    font-size: 38px;
-    font-weight: 400;
+    font-size: 47px;
     color: #ffffff;
     margin: 0 0 22px;
-    letter-spacing: 0.04em;
-    text-transform: capitalize !important;
   }
 
   .tg-category__link {
     display: inline-block;
     font-family: var(--tg-sans);
-    font-size: 11px;
+    font-size: 16px;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
     color: #111111;
     background: #ffffff;
     border: 1px solid #ffffff;
-    padding: 12px 32px;
+    padding: 16px 42px;
     transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
 
