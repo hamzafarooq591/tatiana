@@ -46,20 +46,35 @@
         overflow: hidden !important;
       }
 
-      /* TatianaGlen: Nav styling — bold, spaced, full width */
-      .header-menu,
-      .menu-list__list {
-        width: 100% !important;
-        justify-content: space-between !important;
-        display: flex !important;
-      }
+      /* TatianaGlen: Nav — matches tatianaglen.com exactly */
       .menu-list__item a,
       .header-menu a,
-      header-menu a {
-        font-weight: 700 !important;
-        letter-spacing: 0.08em !important;
-        font-size: 0.95rem !important;
+      header-menu a,
+      [class*="menu-list"] a {
+        font-family: 'Open Sans', Arial, sans-serif !important;
+        font-size: 0.78rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.13em !important;
         text-transform: uppercase !important;
+        text-decoration: none !important;
+        transition: color 0.2s ease !important;
+      }
+
+      /* Active / current page link — amber underline */
+      .menu-list__item--active > a,
+      .menu-list__item[aria-current] > a,
+      [aria-current="page"],
+      .menu-list__item.is-active > a {
+        border-bottom: 2px solid #CD8F5C !important;
+        padding-bottom: 2px !important;
+        color: inherit !important;
+      }
+
+      /* Hover — amber */
+      .menu-list__item a:hover,
+      header-menu a:hover {
+        color: #CD8F5C !important;
+        text-decoration: none !important;
       }
 
       /* TatianaGlen: Transparent header overlay on homepage.
