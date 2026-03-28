@@ -26,32 +26,102 @@
   .tg-homepage {
     --tg-primary:       #CD8F5C;
     --tg-primary-hover: #bc753a;
-    --tg-secondary:     #EAF1F5;
-    --tg-text:          #666666;
+    --tg-secondary:     #FB4005;
+    --tg-text:          #585858;
     --tg-accent:        #111111;
+    --tg-dark:          #000000;
     --tg-border:        #EEEEEE;
     --tg-light:         #767676;
     --tg-cream:         #f7f1ed;
     --tg-dark-brown:    #5d2b09;
+    --tg-bg:            #ffffff;
+    --tg-bg-light:      #f5f5f5;
+    --tg-container:     1440px;
     --tg-serif:         'Cormorant Garamond', Georgia, serif;
     --tg-sans:          'Open Sans', Arial, sans-serif;
+
+    /* Base body typography */
     font-family: var(--tg-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--tg-text);
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
   }
 
-  /* Global heading override — capitalize, never uppercase */
+  /* ── Typography scale (from _typography.scss) ── */
+
+  /* h1 — 48px / mobile 40px */
+  .tg-homepage h1,
+  .tg-hero__heading           { font-size: 48px; line-height: 1.16666667; }
+
+  /* h2 — 40px / mobile 32px */
+  .tg-homepage h2,
+  .tg-section-header__title,
+  .tg-category__title,
+  .tg-process__cta-heading,
+  .tg-artist__heading,
+  .tg-trust__heading,
+  .tg-instagram__heading      { font-size: 40px; line-height: 1.2; }
+
+  /* h3 — 34px / mobile 30px */
+  .tg-homepage h3,
+  .tg-quote-banner__text      { font-size: 34px; line-height: 1.2352941176; }
+
+  /* h4 — 28px / mobile 26px */
+  .tg-homepage h4             { font-size: 28px; line-height: 1.2857142857; }
+
+  /* h5 — 22px */
+  .tg-homepage h5,
+  .tg-trust__item-title,
+  .tg-product-card__title     { font-size: 22px; line-height: 1.3636363636; }
+
+  /* h6 — 18px */
+  .tg-homepage h6,
+  .tg-artist__label           { font-size: 18px; line-height: 1.3333333333; }
+
+  /* All headings: serif font, capitalize, weight 400 */
   .tg-homepage h1,
   .tg-homepage h2,
   .tg-homepage h3,
   .tg-homepage h4,
   .tg-homepage h5,
   .tg-homepage h6,
-  h1, h2, h3, h4, .h0, .h1, .h2, .h3 {
-    letter-spacing: -1.2px;
+  h1, h2, h3, h4, .h0, .h1, .h2, .h3,
+  .tg-hero__heading,
+  .tg-section-header__title,
+  .tg-category__title,
+  .tg-process__cta-heading,
+  .tg-artist__heading,
+  .tg-trust__heading,
+  .tg-trust__item-title,
+  .tg-instagram__heading,
+  .tg-product-card__title {
+    font-family: var(--tg-serif);
     font-weight: 400 !important;
     text-transform: capitalize !important;
+    margin: 0 0 0.5rem;
+    color: var(--tg-accent);
   }
 
-  /* Buttons and CTAs stay uppercase */
+  /* Body / paragraph elements */
+  .tg-homepage p,
+  .tg-section-header__desc,
+  .tg-artist__bio,
+  .tg-process__desc,
+  .tg-trust__item-desc,
+  .tg-instagram__subtext,
+  .tg-sage-band__text,
+  .tg-product-card__price {
+    font-family: var(--tg-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--tg-text);
+    margin: 0 0 1rem;
+  }
+
+  /* Buttons and CTAs — uppercase, sans-serif */
   .tg-btn-primary,
   .tg-btn-outline,
   .tg-link-underline,
@@ -61,7 +131,24 @@
   .tg-product-card__icon-btn,
   .tg-artist__link,
   .tg-instagram__follow {
+    font-family: var(--tg-sans);
     text-transform: uppercase !important;
+  }
+
+  /* Mobile responsive heading sizes */
+  @media (max-width: 749px) {
+    .tg-homepage h1,
+    .tg-hero__heading                         { font-size: 40px; }
+    .tg-homepage h2,
+    .tg-section-header__title,
+    .tg-category__title,
+    .tg-process__cta-heading,
+    .tg-artist__heading,
+    .tg-trust__heading,
+    .tg-instagram__heading                    { font-size: 32px; }
+    .tg-homepage h3,
+    .tg-quote-banner__text                    { font-size: 28px; }
+    .tg-homepage h4                           { font-size: 26px; }
   }
 
   /* ============================================================
@@ -105,11 +192,9 @@
   }
 
   .tg-hero__heading {
-    font-family: var(--tg-serif);
-    font-size: 72px;
-    font-weight: 400;
+    font-size: 72px; /* display override — larger than h1 scale */
     line-height: 1.08;
-    color: #ffffff;
+    color: #ffffff !important; /* override global accent color */
     margin: 0 0 22px;
     letter-spacing: 0.02em;
     opacity: 0;
