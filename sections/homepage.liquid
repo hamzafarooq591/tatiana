@@ -355,12 +355,14 @@
   .tg-product-slider-wrap {
     position: relative;
     margin-bottom: 56px;
+    overflow: hidden; /* clip here, NOT on the track */
   }
 
   .tg-product-grid {
     display: flex;
-    overflow: hidden;
     gap: 32px;
+    will-change: transform;
+    /* transition set via JS */
   }
 
   .tg-product-card {
@@ -368,7 +370,6 @@
     cursor: pointer;
     flex: 0 0 calc((100% - 64px) / 3);
     min-width: 0;
-    transition: transform 0.5s ease;
   }
 
   .tg-product-card__img-wrap {
@@ -1521,45 +1522,76 @@
      PRODUCT SLIDER
      ============================================================ */
   (function () {
-    var slider    = document.getElementById('tg-product-slider');
-    var dotsWrap  = document.getElementById('tg-product-dots');
-    if (!slider || !dotsWrap) return;
+    var wrap     = document.querySelector('.tg-product-slider-wrap');
+    var slider   = document.getElementById('tg-product-slider');
+    var dotsWrap = document.getElementById('tg-product-dots');
+    if (!slider || !dotsWrap || !wrap) return;
 
-    var cards     = slider.querySelectorAll('.tg-product-card');
-    var perPage   = 3;
-    var total     = cards.length;
-    var pages     = Math.ceil(total / perPage);
-    var current   = 0;
+    var cards    = Array.prototype.slice.call(slider.querySelectorAll('.tg-product-card'));
+    var total    = cards.length;
+    var current  = 0;
+    var gap      = 32;
 
-    function cardWidth() {
-      return cards[0].offsetWidth + 32; /* card width + gap */
+    /* Responsive: how many cards per page */
+    function perPage() {
+      return wrap.offsetWidth < 600 ? 1 : wrap.offsetWidth < 900 ? 2 : 3;
+    }
+
+    function pages() {
+      return Math.ceil(total / perPage());
+    }
+
+    /* Offset to card at index i — avoids empty last page */
+    function offsetFor(page) {
+      var pp     = perPage();
+      var idx    = page * pp;
+      /* Don't scroll past the last card */
+      var maxIdx = Math.max(0, total - pp);
+      idx = Math.min(idx, maxIdx);
+      var cw = cards[0].offsetWidth + gap;
+      return idx * cw;
     }
 
     function goTo(page) {
-      current = page;
-      slider.style.transform = 'translateX(-' + (page * perPage * cardWidth()) + 'px)';
+      current = Math.max(0, Math.min(page, pages() - 1));
       slider.style.transition = 'transform 0.5s ease';
+      slider.style.transform  = 'translateX(-' + offsetFor(current) + 'px)';
       dotsWrap.querySelectorAll('.tg-product-dot').forEach(function (d, i) {
-        d.classList.toggle('is-active', i === page);
+        d.classList.toggle('is-active', i === current);
       });
     }
 
-    /* Build dots */
-    for (var i = 0; i < pages; i++) {
-      var dot = document.createElement('button');
-      dot.className = 'tg-product-dot' + (i === 0 ? ' is-active' : '');
-      dot.setAttribute('aria-label', 'Go to page ' + (i + 1));
-      dot.dataset.page = i;
-      dot.addEventListener('click', function () { goTo(parseInt(this.dataset.page)); });
-      dotsWrap.appendChild(dot);
+    function buildDots() {
+      dotsWrap.innerHTML = '';
+      var p = pages();
+      if (p <= 1) { dotsWrap.style.display = 'none'; return; }
+      dotsWrap.style.display = '';
+      for (var i = 0; i < p; i++) {
+        var dot = document.createElement('button');
+        dot.className = 'tg-product-dot' + (i === 0 ? ' is-active' : '');
+        dot.setAttribute('aria-label', 'Go to page ' + (i + 1));
+        dot.dataset.page = i;
+        dot.addEventListener('click', function () { goTo(parseInt(this.dataset.page)); });
+        dotsWrap.appendChild(dot);
+      }
     }
+
+    buildDots();
+
+    /* Rebuild on resize */
+    window.addEventListener('resize', function () {
+      slider.style.transition = 'none';
+      slider.style.transform  = 'translateX(0)';
+      current = 0;
+      buildDots();
+    }, { passive: true });
 
     /* Touch swipe */
     var touchX = 0;
-    slider.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
-    slider.addEventListener('touchend', function (e) {
+    wrap.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend', function (e) {
       var dx = e.changedTouches[0].clientX - touchX;
-      if (Math.abs(dx) > 40) goTo(dx < 0 ? Math.min(current + 1, pages - 1) : Math.max(current - 1, 0));
+      if (Math.abs(dx) > 40) goTo(dx < 0 ? current + 1 : current - 1);
     }, { passive: true });
   })();
 
