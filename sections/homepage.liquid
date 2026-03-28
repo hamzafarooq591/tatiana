@@ -372,6 +372,19 @@
     min-width: 0;
   }
 
+  /* Full-card clickable link */
+  .tg-product-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Action buttons sit above the card link */
+  .tg-product-card__actions {
+    position: absolute;
+    z-index: 2;
+  }
+
   .tg-product-card__img-wrap {
     position: relative;
     overflow: hidden;
@@ -1178,72 +1191,64 @@
             -%}
 
             <article class="tg-product-card" data-product-id="{{ product.id }}">
-              <div class="tg-product-card__img-wrap">
 
-                {%- if featured_image -%}
-                  <img
-                    src="{{ featured_image | image_url: width: 600 }}"
-                    alt="{{ featured_image.alt | escape | default: product_title }}"
-                    class="tg-product-card__img"
-                    loading="lazy"
-                    width="{{ featured_image.width }}"
-                    height="{{ featured_image.height }}"
+              {{- '<!-- card link covers entire card -->' }}
+              <a href="{{ product_url }}" class="tg-product-card__link" aria-label="{{ product_title | escape }}" tabindex="0">
+                <div class="tg-product-card__img-wrap">
+                  {%- if featured_image -%}
+                    <img
+                      src="{{ featured_image | image_url: width: 600 }}"
+                      alt="{{ featured_image.alt | escape | default: product_title }}"
+                      class="tg-product-card__img"
+                      loading="lazy"
+                      width="{{ featured_image.width }}"
+                      height="{{ featured_image.height }}"
+                    >
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'tg-product-card__img tg-placeholder' }}
+                  {%- endif -%}
+                </div>
+                <div class="tg-product-card__info">
+                  <h3 class="tg-product-card__title">{{ product_title }}</h3>
+                  <p class="tg-product-card__price">
+                    {%- if product.price_varies -%}
+                      {{ product.price_min | money }} – {{ product.price_max | money }}
+                    {%- else -%}
+                      {{ product.price | money }}
+                    {%- endif -%}
+                    {%- if first_variant.available == false -%}
+                      <span class="tg-product-card__sold-out"> — Sold Out</span>
+                    {%- endif -%}
+                  </p>
+                </div>
+              </a>
+
+              {{- '<!-- icon buttons sit above the link via z-index -->' }}
+              <div class="tg-product-card__actions">
+                {%- if first_variant.available -%}
+                  <a
+                    href="{{ product_url }}"
+                    class="tg-product-card__icon-btn"
+                    aria-label="Add to cart — {{ product_title | escape }}"
+                    data-variant-id="{{ first_variant.id }}"
                   >
+                    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                  </a>
                 {%- else -%}
-                  {{ 'product-1' | placeholder_svg_tag: 'tg-product-card__img tg-placeholder' }}
+                  <span class="tg-product-card__icon-btn tg-product-card__icon-btn--disabled" aria-label="Sold out">
+                    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                  </span>
                 {%- endif -%}
 
-                <div class="tg-product-card__actions">
-                  <!-- Add to cart -->
-                  {%- if first_variant.available -%}
-                    {%- if product.variants.size == 1 -%}
-                      <a
-                        href="{{ product_url }}"
-                        class="tg-product-card__icon-btn"
-                        aria-label="Add to cart — {{ product_title | escape }}"
-                        data-product-id="{{ product.id }}"
-                        data-variant-id="{{ first_variant.id }}"
-                      >
-                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                      </a>
-                    {%- else -%}
-                      <a href="{{ product_url }}" class="tg-product-card__icon-btn" aria-label="Select options — {{ product_title | escape }}">
-                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                      </a>
-                    {%- endif -%}
-                  {%- else -%}
-                    <span class="tg-product-card__icon-btn tg-product-card__icon-btn--disabled" aria-label="Sold out">
-                      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                    </span>
-                  {%- endif -%}
+                <button class="tg-product-card__icon-btn" type="button" aria-label="Add to wishlist — {{ product_title | escape }}">
+                  <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                </button>
 
-                  <!-- Wishlist -->
-                  <button class="tg-product-card__icon-btn" type="button" aria-label="Add to wishlist — {{ product_title | escape }}">
-                    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-                  </button>
-
-                  <!-- Quick view -->
-                  <a href="{{ product_url }}" class="tg-product-card__icon-btn" aria-label="View {{ product_title | escape }}">
-                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                  </a>
-                </div>
-
-              </div>
-              <div class="tg-product-card__info">
-                <a href="{{ product_url }}" style="text-decoration:none;color:inherit;">
-                  <h3 class="tg-product-card__title">{{ product_title }}</h3>
+                <a href="{{ product_url }}" class="tg-product-card__icon-btn" aria-label="View {{ product_title | escape }}">
+                  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </a>
-                <p class="tg-product-card__price">
-                  {%- if product.price_varies -%}
-                    {{ product.price_min | money }} – {{ product.price_max | money }}
-                  {%- else -%}
-                    {{ product.price | money }}
-                  {%- endif -%}
-                  {%- if first_variant.available == false -%}
-                    <span class="tg-product-card__sold-out"> — Sold Out</span>
-                  {%- endif -%}
-                </p>
               </div>
+
             </article>
 
           {%- endfor -%}
