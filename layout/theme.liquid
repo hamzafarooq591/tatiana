@@ -118,99 +118,101 @@
          TatianaGlen: Mobile menu drawer — matches tatianaglen.com
          ============================================================ */
 
-      /* Drawer background — cream, override all color scheme classes */
-      .menu-drawer-container .menu-drawer,
-      .menu-drawer-container [data-header-drawer],
-      #Details-menu-drawer-container .menu-drawer,
-      .menu-drawer.color-scheme-1,
-      .menu-drawer.color-scheme-2,
-      .menu-drawer.color-scheme-3,
-      .menu-drawer.color-scheme-4,
-      .menu-drawer.color-scheme-5,
-      .menu-drawer.color-scheme-6,
-      .menu-drawer {
-        background: #f0e2d0 !important;
+      /* Drawer background — cream matching reference site */
+      .menu-drawer,
+      .menu-drawer[class*="color-"] {
         background-color: #f0e2d0 !important;
-        --color-background: 240, 226, 208 !important;
+        background: #f0e2d0 !important;
+        border: none !important;
         box-shadow: none !important;
       }
 
-      /* Close button — dark, top-right */
+      /* Remove any scheme color overrides on the drawer */
+      .menu-drawer * {
+        --color-background: #f0e2d0 !important;
+      }
+
+      /* Close button — top left, simple X */
       .menu-drawer__close-button {
-        color: #1a1008 !important;
+        color: #111111 !important;
+        top: 18px !important;
+        left: 20px !important;
+        right: auto !important;
+        padding: 8px !important;
         background: transparent !important;
         border: none !important;
       }
 
       .menu-drawer__close-button svg,
-      .menu-drawer__close-button .svg-wrapper,
-      .menu-drawer__close-button path,
-      .menu-drawer__close-button line {
-        color: #1a1008 !important;
-        stroke: #1a1008 !important;
-        fill: none !important;
+      .menu-drawer__close-button .svg-wrapper {
+        color: #111111 !important;
+        width: 20px !important;
+        height: 20px !important;
       }
 
-      /* Navigation wrapper padding */
+      /* Navigation wrapper — generous top padding */
       .menu-drawer__navigation {
-        padding-top: 60px !important;
-        padding-left: 32px !important;
-        padding-right: 32px !important;
+        padding-top: 72px !important;
+        padding-left: 28px !important;
+        padding-right: 28px !important;
       }
 
-      /* Remove ALL dividers / borders from list items */
-      .menu-drawer__menu li,
+      /* Remove list styling */
+      .menu-drawer__menu {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+      }
+
+      /* Remove dividers */
+      .menu-drawer__list-item--divider,
       .menu-drawer__list-item--flat,
-      .menu-drawer__list-item--deep,
-      .menu-drawer__list-item--divider {
+      .menu-drawer__list-item--deep {
         border: none !important;
-        border-top: none !important;
         border-bottom: none !important;
-        outline: none !important;
+        border-top: none !important;
       }
 
-      /* Main nav links — Cormorant Garamond, large, dark */
+      /* Main nav items — large Cormorant Garamond serif */
       .menu-drawer__menu-item--mainlist,
-      a.menu-drawer__menu-item--mainlist,
-      button.menu-drawer__menu-item--mainlist {
+      .menu-drawer__menu-item--mainlist:visited {
         font-family: 'Cormorant Garamond', Georgia, serif !important;
-        font-size: 38px !important;
+        font-size: 42px !important;
         font-weight: 400 !important;
-        letter-spacing: 0.01em !important;
+        letter-spacing: 0.02em !important;
         text-transform: uppercase !important;
         color: #1a1008 !important;
         text-decoration: none !important;
-        padding: 4px 0 !important;
+        padding: 8px 0 !important;
         background: transparent !important;
-        line-height: 1.2 !important;
-        border: none !important;
         display: block !important;
+        line-height: 1.15 !important;
+        border: none !important;
       }
 
-      /* Menu item text */
-      .menu-drawer__menu-item-text,
-      .menu-drawer__menu-item--mainlist span {
+      .menu-drawer__menu-item--mainlist:hover {
+        color: #CD8F5C !important;
+      }
+
+      /* Menu item text span */
+      .menu-drawer__menu-item-text {
         font-family: 'Cormorant Garamond', Georgia, serif !important;
-        font-size: 38px !important;
+        font-size: 42px !important;
         font-weight: 400 !important;
-        color: #1a1008 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.01em !important;
+        color: inherit !important;
+        letter-spacing: 0.02em !important;
       }
 
-      /* Active page */
-      .menu-drawer__menu-item--active .menu-drawer__menu-item-text,
-      [aria-current="page"].menu-drawer__menu-item--mainlist {
+      /* Active/current page item */
+      .menu-drawer__menu-item--active,
+      .menu-drawer__menu-item--mainlist[aria-current="page"] {
         color: #CD8F5C !important;
       }
 
-      /* Hover */
-      .menu-drawer__menu-item--mainlist:hover .menu-drawer__menu-item-text,
-      a.menu-drawer__menu-item--mainlist:hover {
-        color: #CD8F5C !important;
-      }
-
-      /* Hide extras */
+      /* Hide utility links, localization, account in drawer */
       .menu-drawer__utility-links,
       .menu-drawer__localization,
       .menu-drawer__account {
