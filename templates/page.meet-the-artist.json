@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "tg-about",
+      "settings": {
+        "hero_title": "The Artists Behind the Name"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
