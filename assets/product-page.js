@@ -286,7 +286,7 @@
      Init — wait for DOM, then boot each product section
   ========================================================= */
   function initProductPage(sectionEl) {
-    const sectionId = sectionEl.id.replace('shopify-section-', '');
+    const sectionId = sectionEl.getAttribute('data-section-id') || sectionEl.id.replace('tgp-', '');
     const productData = window.tgpProductData && window.tgpProductData[sectionId];
 
     const gallery = new TGPGallery(sectionEl);
@@ -308,9 +308,7 @@
 
   // Shopify theme editor re-init support
   document.addEventListener('shopify:section:load', (e) => {
-    const sectionEl = e.target;
-    if (sectionEl && sectionEl.querySelector('.tgp-product-page')) {
-      initProductPage(sectionEl);
-    }
+    const inner = e.target.querySelector('.tgp-product-page');
+    if (inner) initProductPage(inner);
   });
 })();
