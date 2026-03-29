@@ -295,6 +295,55 @@
   }
 
   /* =========================================================
+     TGPZoom — jQuery Zoom style: pan hi-res image on mousemove
+  ========================================================= */
+  class TGPZoom {
+    constructor(section) {
+      this.wrap    = section.querySelector('[data-tgp-gallery-main]');
+      this.baseImg = section.querySelector('[data-tgp-main-img]');
+      if (!this.wrap || !this.baseImg) return;
+
+      this.zoomImg = null;
+      this.wrap.addEventListener('mouseenter', () => this._enter());
+      this.wrap.addEventListener('mouseleave', () => this._leave());
+      this.wrap.addEventListener('mousemove',  (e) => this._move(e));
+    }
+
+    _enter() {
+      const largeSrc = this.baseImg.getAttribute('data-large-src') || this.baseImg.src;
+      this.zoomImg = document.createElement('img');
+      this.zoomImg.className = 'tgp-zoom-img';
+      this.zoomImg.src = largeSrc;
+      this.zoomImg.onload = () => {
+        if (!this.zoomImg) return;
+        this.zoomImg.style.width  = (this.wrap.offsetWidth  * 2.5) + 'px';
+        this.zoomImg.style.height = (this.wrap.offsetHeight * 2.5) + 'px';
+        this.zoomImg.style.opacity = '1';
+      };
+      this.wrap.appendChild(this.zoomImg);
+    }
+
+    _leave() {
+      if (!this.zoomImg) return;
+      this.zoomImg.style.opacity = '0';
+      const img = this.zoomImg;
+      setTimeout(() => { if (img.parentNode) img.parentNode.removeChild(img); }, 130);
+      this.zoomImg = null;
+    }
+
+    _move(e) {
+      if (!this.zoomImg || !this.zoomImg.complete) return;
+      const rect  = this.wrap.getBoundingClientRect();
+      const ratioX = (e.clientX - rect.left) / rect.width;
+      const ratioY = (e.clientY - rect.top)  / rect.height;
+      const maxX = this.zoomImg.offsetWidth  - rect.width;
+      const maxY = this.zoomImg.offsetHeight - rect.height;
+      this.zoomImg.style.left = (-ratioX * maxX) + 'px';
+      this.zoomImg.style.top  = (-ratioY * maxY) + 'px';
+    }
+  }
+
+  /* =========================================================
      Init — wait for DOM, then boot each product section
   ========================================================= */
   function initProductPage(sectionEl) {
@@ -302,6 +351,7 @@
     const productData = window.tgpProductData && window.tgpProductData[sectionId];
 
     const gallery = new TGPGallery(sectionEl);
+    new TGPZoom(sectionEl);
     new TGPTabs(sectionEl);
     new TGPQuantity(sectionEl);
     new TGPVariants(sectionEl, gallery, productData);

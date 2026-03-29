@@ -65,12 +65,22 @@
   display: block;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  transition: opacity 0.3s ease, transform 0.4s ease;
+  transition: opacity 0.3s ease;
 }
-.tgp-gallery__main:hover .tgp-gallery__main-img {
-  transform: scale(1.08);
-  cursor: zoom-in;
+/* Panning zoom image injected by JS */
+.tgp-zoom-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  max-width: none;
+  max-height: none;
+  border: none;
+  display: block;
+  transition: opacity 0.12s ease;
 }
+.tgp-gallery__main { cursor: crosshair; }
 
 /* Zoom icon button */
 .tgp-gallery__zoom {
@@ -646,6 +656,7 @@
       <div class="tgp-gallery__main" data-tgp-gallery-main>
         <img
           src="{{ featured_media | image_url: width: 1200 }}"
+          data-large-src="{{ featured_media | image_url: width: 2400 }}"
           alt="{{ featured_media.alt | escape | default: product.title }}"
           class="tgp-gallery__main-img"
           data-tgp-main-img
@@ -667,6 +678,7 @@
           <img
             src="{{ image | image_url: width: 160 }}"
             data-src="{{ image | image_url: width: 1200 }}"
+            data-large-src="{{ image | image_url: width: 2400 }}"
             alt="{{ image.alt | escape | default: product.title }}"
             class="tgp-gallery__thumb{% if forloop.first %} is-active{% endif %}"
             data-tgp-thumb="{{ forloop.index0 }}"
