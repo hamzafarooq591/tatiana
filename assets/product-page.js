@@ -157,7 +157,7 @@
       this.comparePriceEl = section.querySelector('[data-tgp-compare-price]');
       this.atcBtn = section.querySelector('[data-tgp-atc]');
       this.variantInput = section.querySelector('[data-tgp-variant-id]');
-      this.variantBtns = section.querySelectorAll('[data-tgp-variant-btn]');
+      this.variantBtns = section.querySelectorAll('.tgp-variant-btn');
       this.variantSelects = section.querySelectorAll('[data-tgp-variant-select]');
 
       if (!this.product || !this.product.variants) return;
@@ -177,16 +177,20 @@
     _bindButtons() {
       this.variantBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
-          const position = parseInt(btn.getAttribute('data-option-position'), 10) - 1;
-          const value = btn.getAttribute('data-option-value');
+          const position = parseInt(btn.getAttribute('data-tgp-option'), 10) - 1;
+          const value = btn.getAttribute('data-tgp-value');
 
           this.selectedOptions[position] = value;
 
           // Update active state within this option group
           const siblings = this.section.querySelectorAll(
-            `[data-tgp-variant-btn][data-option-position="${position + 1}"]`
+            `.tgp-variant-btn[data-tgp-option="${position + 1}"]`
           );
-          siblings.forEach((s) => s.classList.toggle('is-active', s === btn));
+          siblings.forEach((s) => s.classList.toggle('is-selected', s === btn));
+
+          // Update the label showing the selected value
+          const label = this.section.querySelector(`[data-tgp-option-selected="${position + 1}"]`);
+          if (label) label.textContent = value;
 
           this._updateVariant();
         });
@@ -196,7 +200,7 @@
     _bindSelects() {
       this.variantSelects.forEach((select) => {
         select.addEventListener('change', () => {
-          const position = parseInt(select.getAttribute('data-option-position'), 10) - 1;
+          const position = parseInt(select.getAttribute('data-tgp-option'), 10) - 1;
           this.selectedOptions[position] = select.value;
           this._updateVariant();
         });
