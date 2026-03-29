@@ -596,6 +596,114 @@
 }
 
 /* ============================================================
+   LIGHTBOX MODAL
+   ============================================================ */
+.tgp-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.96);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.tgp-lightbox.is-open { display: flex; }
+
+/* Toolbar top */
+.tgp-lightbox__toolbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  z-index: 2;
+}
+.tgp-lightbox__counter {
+  color: rgba(255,255,255,0.85);
+  font-family: var(--tgp-sans);
+  font-size: 14px;
+  font-weight: 400;
+}
+.tgp-lightbox__actions {
+  display: flex;
+  gap: 4px;
+}
+.tgp-lightbox__action-btn {
+  width: 40px; height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.75);
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+.tgp-lightbox__action-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.tgp-lightbox__action-btn svg {
+  width: 18px; height: 18px;
+  stroke: currentColor; fill: none;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* Stage */
+.tgp-lightbox__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 72px 80px 60px;
+  box-sizing: border-box;
+}
+.tgp-lightbox__img {
+  max-width: 100%;
+  max-height: calc(100vh - 140px);
+  object-fit: contain;
+  display: block;
+  user-select: none;
+}
+.tgp-lightbox__caption {
+  color: rgba(255,255,255,0.6);
+  font-family: var(--tgp-sans);
+  font-size: 13px;
+  margin-top: 14px;
+  text-align: center;
+}
+
+/* Prev / Next arrows */
+.tgp-lightbox__prev,
+.tgp-lightbox__next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px; height: 80px;
+  background: rgba(255,255,255,0.06);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.8);
+  transition: background 0.2s, color 0.2s;
+  z-index: 2;
+}
+.tgp-lightbox__prev { left: 0; }
+.tgp-lightbox__next { right: 0; }
+.tgp-lightbox__prev:hover,
+.tgp-lightbox__next:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.tgp-lightbox__prev svg,
+.tgp-lightbox__next svg {
+  width: 20px; height: 20px;
+  stroke: currentColor; fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ============================================================
    FADE-IN
    ============================================================ */
 .tgp-fade-in {
@@ -955,6 +1063,31 @@
       </div>
 
     </div>
+  </div>
+
+  {%- comment -%} ──────────── LIGHTBOX MODAL ──────────── {%- endcomment -%}
+  <div class="tgp-lightbox" id="tgp-lightbox-{{ section.id }}" data-tgp-lightbox role="dialog" aria-modal="true" aria-label="Image gallery">
+    <div class="tgp-lightbox__toolbar">
+      <span class="tgp-lightbox__counter" data-tgp-lb-counter>1 / 1</span>
+      <div class="tgp-lightbox__actions">
+        <button class="tgp-lightbox__action-btn" data-tgp-lb-close aria-label="Close">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="tgp-lightbox__prev" data-tgp-lb-prev aria-label="Previous image">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    <div class="tgp-lightbox__stage">
+      <img class="tgp-lightbox__img" data-tgp-lb-img src="" alt="">
+      <p class="tgp-lightbox__caption" data-tgp-lb-caption></p>
+    </div>
+
+    <button class="tgp-lightbox__next" data-tgp-lb-next aria-label="Next image">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
   </div>
 
 </div>{%- comment -%} /tgp-root {%- endcomment -%}

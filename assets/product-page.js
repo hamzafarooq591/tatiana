@@ -295,6 +295,73 @@
   }
 
   /* =========================================================
+     TGPLightbox — full-screen modal gallery
+  ========================================================= */
+  class TGPLightbox {
+    constructor(section) {
+      this.modal    = section.querySelector('[data-tgp-lightbox]');
+      this.lbImg    = section.querySelector('[data-tgp-lb-img]');
+      this.lbCaption= section.querySelector('[data-tgp-lb-caption]');
+      this.lbCounter= section.querySelector('[data-tgp-lb-counter]');
+      this.thumbs   = Array.from(section.querySelectorAll('[data-tgp-thumb]'));
+      this.zoomBtn  = section.querySelector('.tgp-gallery__zoom');
+
+      if (!this.modal || !this.zoomBtn) return;
+
+      this.current = 0;
+      this.images  = this.thumbs.map((t) => ({
+        src:     t.getAttribute('data-large-src') || t.getAttribute('data-src') || t.src,
+        caption: t.getAttribute('alt') || ''
+      }));
+
+      // Open on zoom button click
+      this.zoomBtn.addEventListener('click', () => {
+        const active = this.thumbs.findIndex((t) => t.classList.contains('is-active'));
+        this.open(active >= 0 ? active : 0);
+      });
+
+      // Close
+      section.querySelector('[data-tgp-lb-close]').addEventListener('click', () => this.close());
+      this.modal.addEventListener('click', (e) => { if (e.target === this.modal) this.close(); });
+
+      // Arrows
+      section.querySelector('[data-tgp-lb-prev]').addEventListener('click', () => this.prev());
+      section.querySelector('[data-tgp-lb-next]').addEventListener('click', () => this.next());
+
+      // Keyboard
+      document.addEventListener('keydown', (e) => {
+        if (!this.modal.classList.contains('is-open')) return;
+        if (e.key === 'Escape')     this.close();
+        if (e.key === 'ArrowLeft')  this.prev();
+        if (e.key === 'ArrowRight') this.next();
+      });
+    }
+
+    open(index) {
+      this.current = index;
+      this._show();
+      this.modal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    close() {
+      this.modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    prev() { this.current = (this.current - 1 + this.images.length) % this.images.length; this._show(); }
+    next() { this.current = (this.current + 1) % this.images.length; this._show(); }
+
+    _show() {
+      const img = this.images[this.current];
+      if (!img) return;
+      this.lbImg.src           = img.src;
+      this.lbCaption.textContent = img.caption;
+      this.lbCounter.textContent = `${this.current + 1} / ${this.images.length}`;
+    }
+  }
+
+  /* =========================================================
      TGPZoom — jQuery Zoom style: pan hi-res image on mousemove
   ========================================================= */
   class TGPZoom {
@@ -351,6 +418,7 @@
     const productData = window.tgpProductData && window.tgpProductData[sectionId];
 
     const gallery = new TGPGallery(sectionEl);
+    new TGPLightbox(sectionEl);
     new TGPZoom(sectionEl);
     new TGPTabs(sectionEl);
     new TGPQuantity(sectionEl);
