@@ -88,11 +88,11 @@
   ========================================================= */
   class TGPAccordion {
     constructor(section) {
-      this.items = section.querySelectorAll('[data-tgp-accordion-item]');
+      this.items = section.querySelectorAll('[data-tgp-tab]');
 
       this.items.forEach((item) => {
-        const trigger = item.querySelector('[data-tgp-accordion-trigger]');
-        const body = item.querySelector('[data-tgp-accordion-body]');
+        const trigger = item.querySelector('[data-tgp-tab-trigger]');
+        const body = item.querySelector('[data-tgp-tab-body]');
 
         if (!trigger || !body) return;
 
