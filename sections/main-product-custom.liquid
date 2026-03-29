@@ -19,7 +19,7 @@
    BRAND VARIABLES
    ============================================================ */
 #shopify-section-{{ section.id }} {
-  --tgp-gold:    #c9a84c;
+  --tgp-gold:    #cd8f5c;
   --tgp-dark:    #1a1a1a;
   --tgp-text:    #1a1a1a;
   --tgp-muted:   #6b7280;
@@ -29,6 +29,20 @@
   --tgp-sans:    'Montserrat', Arial, sans-serif;
   background: #ffffff;
   font-family: var(--tgp-sans);
+}
+
+/* Override theme heading letter-spacing/weight inside this section */
+#shopify-section-{{ section.id }} h1,
+#shopify-section-{{ section.id }} h2,
+#shopify-section-{{ section.id }} h3,
+#shopify-section-{{ section.id }} h4 {
+  letter-spacing: 0.05em !important;
+  font-weight: 400 !important;
+}
+/* But keep product title bold */
+#shopify-section-{{ section.id }} .tgp-info__title {
+  letter-spacing: -0.01em !important;
+  font-weight: 700 !important;
 }
 
 /* ============================================================
@@ -153,7 +167,7 @@
 .tgp-info__title {
   font-family: 'Montserrat', sans-serif;
   font-size: 38px;
-  font-weight: 700;
+  font-weight: 700 !important;
   line-height: 1.18;
   color: var(--tgp-text);
   margin: 0;
@@ -181,7 +195,7 @@
 .tgp-info__price {
   font-family: var(--tgp-sans);
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--tgp-gold);
   letter-spacing: 0.02em;
 }
