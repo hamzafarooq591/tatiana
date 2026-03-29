@@ -192,6 +192,17 @@
           this._updateVariant();
         });
       });
+
+      // Clear buttons — deselect all buttons in the group, reset label
+      this.section.querySelectorAll('[data-tgp-clear]').forEach((clearBtn) => {
+        clearBtn.addEventListener('click', () => {
+          const position = parseInt(clearBtn.getAttribute('data-tgp-clear'), 10) - 1;
+          this.section.querySelectorAll(`.tgp-variant-btn[data-tgp-option="${position + 1}"]`)
+            .forEach((b) => b.classList.remove('is-selected'));
+          const label = this.section.querySelector(`[data-tgp-option-selected="${position + 1}"]`);
+          if (label) label.textContent = '';
+        });
+      });
     }
 
     _bindSelects() {
