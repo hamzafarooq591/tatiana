@@ -51,7 +51,7 @@
       .header-menu a,
       header-menu a,
       [class*="menu-list"] a {
-        font-family: 'Poppins', Sans-serif !important;
+        font-family: 'Montserrat', sans-serif !important;
         font-size: 14px !important;
         font-weight: 600 !important;
         color: #CECECE !important;
@@ -112,6 +112,26 @@
         justify-content: center !important;
         align-items: center !important;
         padding: var(--padding-lg) !important;
+      }
+
+      /* Mobile drawer overrides */
+      .menu-drawer__menu-item--mainlist {
+        min-height: calc(2 * var(--padding-lg) + var(--icon-size-xs)) !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-size: 14px !important;
+        justify-content: space-between !important;
+      }
+
+      .menu-drawer {
+        background-color: #fff !important;
+      }
+
+      .menu-drawer__menu .menu-drawer__list-item--flat {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        margin-block-end: var(--margin-md) !important;
+        border-bottom: 1px solid rgba(204, 204, 204, 1) !important;
       }
 
       /* TatianaGlen footer styles are owned by sections/tg-footer.liquid */
