@@ -1,0 +1,485 @@
+{% comment %} TatianaGlen — Our Process / The Creation Process page section {% endcomment %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+  .tgp-page {
+    --tgp-gold:  #cd8f5c;
+    --tgp-dark:  #111111;
+    --tgp-text:  #666666;
+    --tgp-cream: #f5ede4;
+    --tgp-serif: 'Cormorant Garamond', Georgia, serif;
+    --tgp-sans:  'Montserrat', Arial, sans-serif;
+  }
+
+  /* ============================================================
+     INTRO / HERO
+     ============================================================ */
+  .tgp-intro {
+    background: #ffffff;
+    padding: 96px 24px 80px;
+    text-align: center;
+  }
+
+  .tgp-intro__inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .tgp-intro__eyebrow {
+    font-family: var(--tgp-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tgp-gold);
+    margin: 0 0 20px;
+  }
+
+  .tgp-intro__heading {
+    font-family: var(--tgp-serif);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 300;
+    color: var(--tgp-dark);
+    letter-spacing: 0.03em;
+    line-height: 1.15;
+    margin: 0 0 16px;
+    text-transform: none;
+  }
+
+  .tgp-intro__sub {
+    font-family: var(--tgp-serif);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--tgp-gold);
+    letter-spacing: 0.04em;
+    margin: 0 0 36px;
+    text-transform: none;
+  }
+
+  .tgp-intro__divider {
+    width: 48px;
+    height: 1px;
+    background: var(--tgp-gold);
+    margin: 0 auto 36px;
+  }
+
+  .tgp-intro__body {
+    font-family: var(--tgp-sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--tgp-text);
+    line-height: 1.9;
+    margin: 0;
+  }
+
+  /* ============================================================
+     PROCESS STEPS — alternating image + text
+     ============================================================ */
+  .tgp-step {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 520px;
+  }
+
+  .tgp-step--reverse .tgp-step__img-col { order: 2; }
+  .tgp-step--reverse .tgp-step__text-col { order: 1; }
+
+  .tgp-step__img-col {
+    position: relative;
+    overflow: hidden;
+    background: #e8e0d8;
+  }
+
+  .tgp-step__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* placeholder when no image uploaded */
+  .tgp-step__img-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ede5db;
+  }
+
+  .tgp-step__img-placeholder svg {
+    width: 80px;
+    height: 80px;
+    opacity: 0.25;
+  }
+
+  .tgp-step__text-col {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 72px 80px;
+  }
+
+  .tgp-step--cream .tgp-step__text-col {
+    background: var(--tgp-cream);
+  }
+
+  .tgp-step__text-inner {
+    max-width: 480px;
+  }
+
+  .tgp-step__number {
+    font-family: var(--tgp-serif);
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--tgp-gold);
+    opacity: 0.4;
+    line-height: 1;
+    margin: 0 0 8px;
+    display: block;
+  }
+
+  .tgp-step__heading {
+    font-family: var(--tgp-serif);
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    font-weight: 400;
+    color: var(--tgp-dark);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    margin: 0 0 24px;
+    text-transform: none;
+  }
+
+  .tgp-step__divider {
+    width: 36px;
+    height: 1px;
+    background: var(--tgp-gold);
+    margin: 0 0 24px;
+  }
+
+  .tgp-step__body {
+    font-family: var(--tgp-sans);
+    font-size: 13.5px;
+    font-weight: 400;
+    color: var(--tgp-text);
+    line-height: 1.9;
+    margin: 0;
+  }
+
+  /* ============================================================
+     DARK QUOTE BANNER
+     ============================================================ */
+  .tgp-banner {
+    background: var(--tgp-dark);
+    padding: 96px 24px;
+    text-align: center;
+  }
+
+  .tgp-banner__inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .tgp-banner__quote {
+    font-family: var(--tgp-serif);
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-weight: 300;
+    font-style: italic;
+    color: #ffffff;
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+    margin: 0 0 24px;
+  }
+
+  .tgp-banner__attr {
+    font-family: var(--tgp-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tgp-gold);
+    margin: 0;
+  }
+
+  /* ============================================================
+     FEATURES / TRUST — cream bg, icon-left horizontal
+     ============================================================ */
+  .tgp-features {
+    background: var(--tgp-cream);
+    padding: 64px 80px;
+  }
+
+  .tgp-features__grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+
+  .tgp-features__item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .tgp-features__icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid var(--tgp-dark);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tgp-features__icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--tgp-dark);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tgp-features__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .tgp-features__title {
+    font-family: var(--tgp-sans);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--tgp-dark);
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .tgp-features__text {
+    font-family: var(--tgp-sans);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--tgp-text);
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media screen and (max-width: 989px) {
+    .tgp-step {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .tgp-step--reverse .tgp-step__img-col { order: 0; }
+    .tgp-step--reverse .tgp-step__text-col { order: 0; }
+    .tgp-step__img-col { min-height: 360px; }
+    .tgp-step__img-placeholder { min-height: 360px; }
+    .tgp-step__text-col { padding: 56px 40px; }
+    .tgp-step__text-inner { max-width: 100%; }
+    .tgp-features { padding: 56px 40px; }
+    .tgp-features__grid { grid-template-columns: repeat(2, 1fr); gap: 36px; }
+  }
+
+  @media screen and (max-width: 749px) {
+    .tgp-intro { padding: 64px 20px 56px; }
+    .tgp-step__img-col { min-height: 280px; }
+    .tgp-step__img-placeholder { min-height: 280px; }
+    .tgp-step__text-col { padding: 48px 20px; }
+    .tgp-banner { padding: 64px 20px; }
+    .tgp-features { padding: 48px 20px; }
+    .tgp-features__grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+{% endstyle %}
+
+<div class="tgp-page">
+
+  {%- comment -%} ========== INTRO ========== {%- endcomment -%}
+  <section class="tgp-intro">
+    <div class="tgp-intro__inner">
+      <p class="tgp-intro__eyebrow">The Studio</p>
+      <h1 class="tgp-intro__heading">Our Process</h1>
+      <p class="tgp-intro__sub">Where Craft Meets Intention</p>
+      <div class="tgp-intro__divider"></div>
+      <p class="tgp-intro__body">Every Tatiana &amp; Glen piece begins in conversation — between material, light, and form. From our studio in Miami, each mirror is designed, poured, sanded, and finished by hand. We do not produce in volume. We create deliberately, one piece at a time.</p>
+    </div>
+  </section>
+
+  {%- comment -%} ========== STEP 1: Design & Form — image left, text right ========== {%- endcomment -%}
+  <div class="tgp-step">
+    <div class="tgp-step__img-col">
+      {%- if section.settings.step1_image != blank -%}
+        <img class="tgp-step__img" src="{{ section.settings.step1_image | image_url: width: 1200 }}" alt="{{ section.settings.step1_image.alt | default: 'Design & Form' | escape }}" loading="lazy" width="{{ section.settings.step1_image.width }}" height="{{ section.settings.step1_image.height }}">
+      {%- else -%}
+        <div class="tgp-step__img-placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+      {%- endif -%}
+    </div>
+    <div class="tgp-step__text-col">
+      <div class="tgp-step__text-inner">
+        <span class="tgp-step__number">01</span>
+        <h2 class="tgp-step__heading">Design &amp; Form</h2>
+        <div class="tgp-step__divider"></div>
+        <p class="tgp-step__body">Each piece begins as a study in proportion and balance. Sketches explore silhouette, scale, and visual weight before any material is poured. Our work is rooted in restraint — form first, ornament second. Every curve and edge must feel intentional.</p>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ========== STEP 2: Finishing & Refinement — text left, image right ========== {%- endcomment -%}
+  <div class="tgp-step tgp-step--reverse tgp-step--cream">
+    <div class="tgp-step__img-col">
+      {%- if section.settings.step2_image != blank -%}
+        <img class="tgp-step__img" src="{{ section.settings.step2_image | image_url: width: 1200 }}" alt="{{ section.settings.step2_image.alt | default: 'Finishing & Refinement' | escape }}" loading="lazy" width="{{ section.settings.step2_image.width }}" height="{{ section.settings.step2_image.height }}">
+      {%- else -%}
+        <div class="tgp-step__img-placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+      {%- endif -%}
+    </div>
+    <div class="tgp-step__text-col">
+      <div class="tgp-step__text-inner">
+        <span class="tgp-step__number">02</span>
+        <h2 class="tgp-step__heading">Finishing &amp; Refinement</h2>
+        <div class="tgp-step__divider"></div>
+        <p class="tgp-step__body">Once cured, every piece is sanded and refined by hand. Edges are examined from multiple angles. Surfaces are inspected under changing light. If a piece does not meet our standard, it does not leave the studio. We believe craftsmanship is respect — for the material and for the home it enters.</p>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ========== STEP 3: Made to Endure — image left, text right ========== {%- endcomment -%}
+  <div class="tgp-step">
+    <div class="tgp-step__img-col">
+      {%- if section.settings.step3_image != blank -%}
+        <img class="tgp-step__img" src="{{ section.settings.step3_image | image_url: width: 1200 }}" alt="{{ section.settings.step3_image.alt | default: 'Made to Endure' | escape }}" loading="lazy" width="{{ section.settings.step3_image.width }}" height="{{ section.settings.step3_image.height }}">
+      {%- else -%}
+        <div class="tgp-step__img-placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+      {%- endif -%}
+    </div>
+    <div class="tgp-step__text-col">
+      <div class="tgp-step__text-inner">
+        <span class="tgp-step__number">03</span>
+        <h2 class="tgp-step__heading">Made to Endure</h2>
+        <div class="tgp-step__divider"></div>
+        <p class="tgp-step__body">Our mirrors are created with longevity in mind. Materials are selected for durability, clarity, and structural integrity. Each piece is accompanied by a certificate of authenticity and backed by our two-year finish commitment.</p>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ========== STEP 4: The Studio — text left, image right ========== {%- endcomment -%}
+  <div class="tgp-step tgp-step--reverse tgp-step--cream">
+    <div class="tgp-step__img-col">
+      {%- if section.settings.step4_image != blank -%}
+        <img class="tgp-step__img" src="{{ section.settings.step4_image | image_url: width: 1200 }}" alt="{{ section.settings.step4_image.alt | default: 'The Studio' | escape }}" loading="lazy" width="{{ section.settings.step4_image.width }}" height="{{ section.settings.step4_image.height }}">
+      {%- else -%}
+        <div class="tgp-step__img-placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+      {%- endif -%}
+    </div>
+    <div class="tgp-step__text-col">
+      <div class="tgp-step__text-inner">
+        <span class="tgp-step__number">04</span>
+        <h2 class="tgp-step__heading">The Studio</h2>
+        <div class="tgp-step__divider"></div>
+        <p class="tgp-step__body">Tatiana leads the making process with precision and discipline. Glen guides form, proportion, and conceptual direction. Together, our practice is quiet, focused, and unhurried. We make slowly — by choice.</p>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ========== DARK QUOTE BANNER ========== {%- endcomment -%}
+  <section class="tgp-banner">
+    <div class="tgp-banner__inner">
+      <p class="tgp-banner__quote">"We do not produce in volume. We create deliberately, one piece at a time."</p>
+      <p class="tgp-banner__attr">Tatiana &amp; Glen Studio — Miami</p>
+    </div>
+  </section>
+
+  {%- comment -%} ========== FEATURES ========== {%- endcomment -%}
+  <section class="tgp-features">
+    <div class="tgp-features__grid">
+
+      <div class="tgp-features__item">
+        <div class="tgp-features__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div class="tgp-features__body">
+          <p class="tgp-features__title">Signed &amp; Sealed Authenticity</p>
+          <p class="tgp-features__text">Every piece comes with a certificate of authenticity</p>
+        </div>
+      </div>
+
+      <div class="tgp-features__item">
+        <div class="tgp-features__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="tgp-features__body">
+          <p class="tgp-features__title">Two Year Finish Commitment</p>
+          <p class="tgp-features__text">We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.</p>
+        </div>
+      </div>
+
+      <div class="tgp-features__item">
+        <div class="tgp-features__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 11V6.5a2.5 2.5 0 0 0-5 0V12"/>
+            <path d="M13 11.5V9a2 2 0 0 0-4 0v3"/>
+            <path d="M9 12.5V11a2 2 0 0 0-4 0v4c0 3.31 2.69 6 6 6h2a5 5 0 0 0 5-5v-4a2 2 0 0 0-4 0"/>
+          </svg>
+        </div>
+        <div class="tgp-features__body">
+          <p class="tgp-features__title">Handled &amp; Insured Delivery</p>
+          <p class="tgp-features__text">We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Our Process",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Step Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "step1_image",
+      "label": "Step 1 — Design & Form"
+    },
+    {
+      "type": "image_picker",
+      "id": "step2_image",
+      "label": "Step 2 — Finishing & Refinement"
+    },
+    {
+      "type": "image_picker",
+      "id": "step3_image",
+      "label": "Step 3 — Made to Endure"
+    },
+    {
+      "type": "image_picker",
+      "id": "step4_image",
+      "label": "Step 4 — The Studio"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Process"
+    }
+  ]
+}
+{% endschema %}
