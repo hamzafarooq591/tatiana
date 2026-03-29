@@ -2,14 +2,12 @@
   ============================================================
   TatianaGlen — Custom Product Page
   File: sections/main-product-custom.liquid
-  Brand: Tatiana & Glen | Luxury Home Decor, Miami
   ============================================================
 {%- endcomment -%}
 
-{%- comment -%} Google Fonts {%- endcomment -%}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
@@ -18,13 +16,13 @@
 
 {% style %}
 /* ============================================================
-   BRAND VARIABLES — scoped to section
+   BRAND VARIABLES
    ============================================================ */
 #shopify-section-{{ section.id }} {
   --tgp-gold:    #c9a84c;
   --tgp-dark:    #1a1a1a;
   --tgp-text:    #1a1a1a;
-  --tgp-muted:   #555555;
+  --tgp-muted:   #6b7280;
   --tgp-border:  #e5e5e5;
   --tgp-bg-warm: #f9f5f0;
   --tgp-serif:   'Playfair Display', Georgia, serif;
@@ -39,46 +37,86 @@
 .tgp-product {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 64px 80px;
+  padding: 40px 80px 60px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 64px;
   align-items: flex-start;
 }
 
 /* ============================================================
-   GALLERY
+   GALLERY — main image on top, thumbs below
    ============================================================ */
 .tgp-gallery {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 10px;
   position: sticky;
   top: 24px;
 }
 
-/* Desktop: vertical thumbnails */
+/* Main image container */
+.tgp-gallery__main {
+  position: relative;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+.tgp-gallery__main-img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+/* Zoom icon button */
+.tgp-gallery__zoom {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  background: rgba(255,255,255,0.92);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  z-index: 2;
+}
+.tgp-gallery__zoom:hover { background: #fff; }
+.tgp-gallery__zoom svg {
+  width: 16px; height: 16px;
+  stroke: #444;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Horizontal thumbnail strip */
 .tgp-gallery__thumbs {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 76px;
-  flex-shrink: 0;
-  max-height: 600px;
-  overflow-y: auto;
+  flex-direction: row;
+  gap: 8px;
+  overflow-x: auto;
   scrollbar-width: none;
+  padding-bottom: 2px;
 }
 .tgp-gallery__thumbs::-webkit-scrollbar { display: none; }
 
 .tgp-gallery__thumb {
-  width: 76px;
-  height: 88px;
+  width: 68px;
+  height: 68px;
   object-fit: cover;
   cursor: pointer;
   border: 2px solid transparent;
-  transition: border-color 0.25s ease, opacity 0.25s ease;
-  opacity: 0.55;
-  display: block;
   flex-shrink: 0;
+  display: block;
+  opacity: 0.65;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
 }
 .tgp-gallery__thumb.is-active,
 .tgp-gallery__thumb:hover {
@@ -86,71 +124,37 @@
   opacity: 1;
 }
 
-/* Main image container */
-.tgp-gallery__main {
-  flex: 1;
-  overflow: hidden;
-  background: var(--tgp-bg-warm);
-  position: relative;
-}
-.tgp-gallery__main-img {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  display: block;
-  transition: opacity 0.3s ease;
-}
-.tgp-gallery__main-img.is-fading { opacity: 0; }
-
-/* Mobile: horizontal thumbnail strip (hidden on desktop) */
-.tgp-gallery__thumbs--mobile {
-  display: none;
-  flex-direction: row;
-  gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  margin-top: 12px;
-  scrollbar-width: none;
-}
-.tgp-gallery__thumbs--mobile::-webkit-scrollbar { display: none; }
-.tgp-gallery__thumbs--mobile .tgp-gallery__thumb {
-  width: 66px;
-  height: 76px;
-  flex-shrink: 0;
-}
-
 /* ============================================================
    PRODUCT INFO — right column
    ============================================================ */
-.tgp-info { padding-top: 4px; }
+.tgp-info { padding-top: 0; }
 
-/* Brand tag */
-.tgp-info__brand {
-  font-family: var(--tgp-sans);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--tgp-gold);
-  margin: 0 0 14px;
+/* Title row — title left, brand right */
+.tgp-info__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
 }
-
-/* Title */
 .tgp-info__title {
   font-family: var(--tgp-serif);
-  font-size: 34px;
-  font-weight: 400;
+  font-size: 32px;
+  font-weight: 600;
   line-height: 1.22;
   color: var(--tgp-text);
-  margin: 0 0 20px;
+  margin: 0;
   letter-spacing: 0.01em;
+  flex: 1;
 }
-
-/* Divider */
-.tgp-info__divider {
-  border: none;
-  border-top: 1px solid var(--tgp-border);
-  margin: 24px 0;
+.tgp-info__brand {
+  font-family: var(--tgp-sans);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--tgp-muted);
+  white-space: nowrap;
+  padding-top: 6px;
+  letter-spacing: 0.04em;
 }
 
 /* Price */
@@ -158,14 +162,14 @@
   display: flex;
   align-items: baseline;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 .tgp-info__price {
   font-family: var(--tgp-sans);
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--tgp-gold);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
 }
 .tgp-info__price-compare {
   font-family: var(--tgp-sans);
@@ -173,103 +177,101 @@
   font-weight: 300;
   color: var(--tgp-muted);
   text-decoration: line-through;
-  letter-spacing: 0.04em;
 }
 
 /* Short description */
 .tgp-info__short-desc {
   font-family: var(--tgp-sans);
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--tgp-muted);
   line-height: 1.85;
-  margin: 0 0 28px;
-  letter-spacing: 0.04em;
+  margin: 0 0 22px;
 }
 
-/* Variant buttons */
-.tgp-variants { margin-bottom: 24px; }
+/* Divider */
+.tgp-info__divider {
+  border: none;
+  border-top: 1px solid var(--tgp-border);
+  margin: 18px 0;
+}
+
+/* Variant options */
+.tgp-variants { margin-bottom: 20px; }
 .tgp-variants__label {
   font-family: var(--tgp-sans);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 400;
   color: var(--tgp-text);
   display: block;
   margin-bottom: 10px;
+  letter-spacing: 0.02em;
 }
 .tgp-variants__options {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 18px;
 }
 .tgp-variant-btn {
-  padding: 8px 18px;
-  border: 1px solid var(--tgp-border);
+  padding: 7px 18px;
+  border: 1px solid #ccc;
   background: transparent;
   font-family: var(--tgp-sans);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-size: 13px;
+  font-weight: 400;
   color: var(--tgp-text);
   cursor: pointer;
   transition: all 0.2s ease;
+  border-radius: 2px;
 }
 .tgp-variant-btn.is-selected {
   border-color: var(--tgp-gold);
   background: var(--tgp-gold);
   color: #ffffff;
 }
-.tgp-variant-btn:hover:not(.is-selected) { border-color: var(--tgp-dark); }
+.tgp-variant-btn:hover:not(.is-selected) { border-color: #888; }
 .tgp-variant-btn.is-unavailable {
   opacity: 0.35;
   cursor: not-allowed;
   text-decoration: line-through;
 }
 
-/* Quantity stepper */
-.tgp-quantity-wrap { margin-bottom: 20px; }
-.tgp-quantity__label {
-  font-family: var(--tgp-sans);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--tgp-text);
-  display: block;
-  margin-bottom: 10px;
+/* Quantity + ATC row */
+.tgp-buy-row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  margin-bottom: 12px;
 }
 .tgp-quantity {
   display: flex;
   align-items: stretch;
-  width: fit-content;
-  border: 1px solid var(--tgp-border);
+  border: 1px solid #ccc;
+  flex-shrink: 0;
 }
 .tgp-quantity__btn {
-  width: 44px;
+  width: 40px;
   height: 48px;
   background: transparent;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 300;
   color: var(--tgp-text);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease;
   user-select: none;
+  transition: background 0.2s;
 }
-.tgp-quantity__btn:hover { background: var(--tgp-bg-warm); }
+.tgp-quantity__btn:hover { background: #f5f5f5; }
 .tgp-quantity__input {
-  width: 56px;
+  width: 48px;
   height: 48px;
   text-align: center;
   border: none;
-  border-left: 1px solid var(--tgp-border);
-  border-right: 1px solid var(--tgp-border);
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
   font-family: var(--tgp-sans);
   font-size: 14px;
   font-weight: 500;
@@ -281,164 +283,143 @@
 .tgp-quantity__input::-webkit-outer-spin-button,
 .tgp-quantity__input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-/* Add to Cart button */
+/* Add to Cart */
 .tgp-atc {
-  width: 100%;
-  padding: 17px 32px;
-  background: var(--tgp-gold);
+  flex: 1;
+  padding: 14px 24px;
+  background: #333333;
   color: #ffffff;
-  border: 2px solid var(--tgp-gold);
+  border: 2px solid #333333;
   font-family: var(--tgp-sans);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
-  margin-bottom: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
 .tgp-atc:hover:not(:disabled) {
   background: transparent;
-  color: var(--tgp-gold);
+  color: #333333;
 }
 .tgp-atc:disabled {
   opacity: 0.45;
   cursor: not-allowed;
-  pointer-events: none;
 }
 
-/* Dynamic payment buttons wrapper */
-.tgp-payment-btns { margin-top: 10px; }
-.tgp-payment-btns .shopify-payment-button__button {
-  border-radius: 0 !important;
-}
-
-/* Info snippets */
-.tgp-info-snippets {
-  margin-top: 28px;
+/* Compare / Wishlist links */
+.tgp-product-actions {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-top: 20px;
-  border-top: 1px solid var(--tgp-border);
+  gap: 24px;
+  margin-bottom: 18px;
 }
-.tgp-info-snippet {
+.tgp-product-actions a {
+  font-family: var(--tgp-sans);
+  font-size: 12px;
+  color: var(--tgp-muted);
+  text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--tgp-sans);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  color: var(--tgp-muted);
+  gap: 6px;
+  transition: color 0.2s ease;
 }
-.tgp-info-snippet svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  stroke: var(--tgp-gold);
+.tgp-product-actions a:hover { color: var(--tgp-dark); }
+.tgp-product-actions svg {
+  width: 14px; height: 14px;
+  stroke: currentColor;
   fill: none;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.5;
+}
+
+/* Dynamic payment buttons */
+.tgp-payment-btns { margin-bottom: 16px; }
+.tgp-payment-btns .shopify-payment-button__button { border-radius: 0 !important; }
+
+/* SKU / Category / Brand meta */
+.tgp-meta {
+  border-top: 1px solid var(--tgp-border);
+  padding-top: 14px;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tgp-meta__item {
+  font-family: var(--tgp-sans);
+  font-size: 13px;
+  color: var(--tgp-muted);
+}
+.tgp-meta__item strong {
+  color: var(--tgp-dark);
+  font-weight: 600;
 }
 
 /* ============================================================
-   ACCORDION TABS
+   HORIZONTAL TABS
    ============================================================ */
 .tgp-tabs {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 80px 80px;
-  border-top: 1px solid var(--tgp-border);
+  padding: 0 80px 60px;
 }
-.tgp-tab { border-bottom: 1px solid var(--tgp-border); }
-.tgp-tab__trigger {
-  width: 100%;
+.tgp-tabs__nav {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 0;
-  background: transparent;
+  border-bottom: 1px solid var(--tgp-border);
+  margin-bottom: 0;
+}
+.tgp-tab-btn {
+  padding: 14px 24px 12px;
+  background: none;
   border: none;
-  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
   font-family: var(--tgp-sans);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--tgp-text);
-  text-align: left;
-  transition: color 0.2s ease;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--tgp-muted);
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
 }
-.tgp-tab__trigger:hover { color: var(--tgp-gold); }
+.tgp-tab-btn.is-active {
+  color: var(--tgp-dark);
+  font-weight: 700;
+  border-bottom-color: var(--tgp-dark);
+}
+.tgp-tab-btn:hover:not(.is-active) { color: var(--tgp-dark); }
 
-/* +/− icon */
-.tgp-tab__icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  position: relative;
-}
-.tgp-tab__icon::before,
-.tgp-tab__icon::after {
-  content: '';
-  position: absolute;
-  background: currentColor;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-.tgp-tab__icon::before {
-  width: 14px; height: 1px;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-}
-.tgp-tab__icon::after {
-  width: 1px; height: 14px;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-}
-.tgp-tab.is-open .tgp-tab__icon::after {
-  transform: translate(-50%, -50%) rotate(90deg);
-  opacity: 0;
-}
-
-/* Smooth height animation via grid trick */
-.tgp-tab__body {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s ease;
-}
-.tgp-tab.is-open .tgp-tab__body { grid-template-rows: 1fr; }
-.tgp-tab__body-inner { overflow: hidden; }
-.tgp-tab__content {
-  padding: 0 0 32px;
+.tgp-tab-panel {
+  display: none;
+  padding: 32px 0 0;
   font-family: var(--tgp-sans);
   font-size: 13px;
-  font-weight: 300;
   color: var(--tgp-muted);
   line-height: 1.9;
-  letter-spacing: 0.04em;
 }
-.tgp-tab__content h1, .tgp-tab__content h2,
-.tgp-tab__content h3, .tgp-tab__content h4 {
+.tgp-tab-panel.is-active { display: block; }
+
+.tgp-tab-panel p { margin-bottom: 12px; }
+.tgp-tab-panel ul, .tgp-tab-panel ol { padding-left: 18px; margin-bottom: 12px; }
+.tgp-tab-panel li { margin-bottom: 6px; }
+.tgp-tab-panel h1, .tgp-tab-panel h2,
+.tgp-tab-panel h3, .tgp-tab-panel h4 {
   font-family: var(--tgp-serif);
   font-weight: 400;
-  color: var(--tgp-text);
-  margin: 0 0 12px;
+  color: var(--tgp-dark);
+  margin-bottom: 10px;
 }
-.tgp-tab__content p { margin-bottom: 12px; }
-.tgp-tab__content ul, .tgp-tab__content ol { padding-left: 18px; margin-bottom: 12px; }
-.tgp-tab__content li { margin-bottom: 6px; }
 
-/* Attributes table */
+/* Attributes table inside Additional Info tab */
 .tgp-attrs {
   width: 100%;
   border-collapse: collapse;
-  font-family: var(--tgp-sans);
 }
 .tgp-attrs tr:nth-child(odd) { background: #f7f5f2; }
 .tgp-attrs tr:nth-child(even) { background: #ffffff; }
@@ -455,19 +436,85 @@
   width: 38%;
   white-space: nowrap;
 }
-.tgp-attrs td:last-child {
+.tgp-attrs td:last-child { color: var(--tgp-muted); }
+
+/* Reviews placeholder */
+.tgp-reviews-placeholder {
   color: var(--tgp-muted);
+  font-size: 13px;
+  padding: 20px 0;
 }
 
 /* ============================================================
-   TRUST BADGES
+   RELATED PRODUCTS
+   ============================================================ */
+.tgp-related {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 60px 80px;
+  border-top: 1px solid var(--tgp-border);
+}
+.tgp-related__heading {
+  font-family: var(--tgp-sans);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--tgp-dark);
+  text-align: center;
+  margin: 0 0 40px;
+  letter-spacing: 0.01em;
+}
+.tgp-related__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.tgp-related-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.tgp-related-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: #f5f5f5;
+  margin-bottom: 12px;
+}
+.tgp-related-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.tgp-related-card:hover .tgp-related-card__img { transform: scale(1.04); }
+.tgp-related-card__title {
+  font-family: var(--tgp-sans);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--tgp-text);
+  margin: 0 0 6px;
+  line-height: 1.4;
+}
+.tgp-related-card__price {
+  font-family: var(--tgp-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tgp-text);
+}
+
+/* ============================================================
+   TRUST BADGES — white bg, 3-col
    ============================================================ */
 .tgp-trust {
-  background: var(--tgp-bg-warm);
-  padding: 72px 80px;
+  background: #fff;
+  border-top: 1px solid var(--tgp-border);
+  padding: 56px 80px;
 }
 .tgp-trust__inner {
-  max-width: 1440px;
+  max-width: 960px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -478,16 +525,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 .tgp-trust__icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .tgp-trust__icon svg {
-  width: 100%;
-  height: 100%;
-  stroke: var(--tgp-gold);
+  width: 36px;
+  height: 36px;
+  stroke: #444;
   fill: none;
   stroke-width: 1.5;
   stroke-linecap: round;
@@ -495,102 +545,27 @@
 }
 .tgp-trust__title {
   font-family: var(--tgp-sans);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--tgp-text);
-  margin: 0;
-}
-.tgp-trust__text {
-  font-family: var(--tgp-sans);
   font-size: 13px;
-  font-weight: 300;
-  color: var(--tgp-muted);
-  line-height: 1.75;
+  font-weight: 700;
+  color: var(--tgp-dark);
   margin: 0;
   letter-spacing: 0.04em;
 }
-
-/* ============================================================
-   RELATED PRODUCTS
-   ============================================================ */
-.tgp-related {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 88px 80px;
-}
-.tgp-related__subheading {
-  display: block;
+.tgp-trust__text {
   font-family: var(--tgp-sans);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--tgp-gold);
-  text-align: center;
-  margin: 0 0 12px;
-}
-.tgp-related__heading {
-  font-family: var(--tgp-serif);
-  font-size: 30px;
+  font-size: 12px;
   font-weight: 400;
-  color: var(--tgp-text);
-  text-align: center;
-  margin: 0 0 52px;
-  letter-spacing: 0.02em;
-}
-.tgp-related__grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
-}
-.tgp-related-card {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  outline: none;
-}
-.tgp-related-card__img-wrap {
-  overflow: hidden;
-  background: var(--tgp-bg-warm);
-  margin-bottom: 16px;
-  aspect-ratio: 3 / 4;
-  position: relative;
-}
-.tgp-related-card__img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.tgp-related-card:hover .tgp-related-card__img { transform: scale(1.05); }
-.tgp-related-card__title {
-  font-family: var(--tgp-serif);
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--tgp-text);
-  margin: 0 0 8px;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
-}
-.tgp-related-card__price {
-  font-family: var(--tgp-sans);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--tgp-gold);
-  letter-spacing: 0.08em;
+  color: var(--tgp-muted);
+  line-height: 1.7;
+  margin: 0;
 }
 
 /* ============================================================
-   FADE-IN ANIMATION
+   FADE-IN
    ============================================================ */
 .tgp-fade-in {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(18px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 .tgp-fade-in.is-visible {
@@ -599,36 +574,35 @@
 }
 
 /* ============================================================
-   RESPONSIVE — Tablet 768–1024px
+   RESPONSIVE — Tablet ≤1024px
    ============================================================ */
 @media screen and (max-width: 1024px) {
-  .tgp-product { padding: 48px 40px; gap: 48px; }
-  .tgp-tabs    { padding: 0 40px 60px; }
-  .tgp-trust   { padding: 56px 40px; }
-  .tgp-related { padding: 64px 40px; }
+  .tgp-product  { padding: 36px 40px 48px; gap: 40px; }
+  .tgp-tabs     { padding: 0 40px 48px; }
+  .tgp-related  { padding: 48px 40px; }
+  .tgp-trust    { padding: 48px 40px; }
   .tgp-related__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ============================================================
-   RESPONSIVE — Mobile <768px
+   RESPONSIVE — Mobile ≤767px
    ============================================================ */
 @media screen and (max-width: 767px) {
   .tgp-product {
     grid-template-columns: 1fr;
-    padding: 24px 20px;
-    gap: 28px;
+    padding: 20px 20px 36px;
+    gap: 24px;
     position: static;
   }
-  .tgp-gallery        { flex-direction: column; position: static; }
-  .tgp-gallery__thumbs { display: none; }
-  .tgp-gallery__thumbs--mobile { display: flex; }
-  .tgp-info__title    { font-size: 26px; }
-  .tgp-tabs           { padding: 0 20px 48px; }
-  .tgp-trust          { padding: 48px 20px; }
-  .tgp-trust__inner   { grid-template-columns: 1fr; gap: 36px; }
-  .tgp-related        { padding: 52px 20px; }
-  .tgp-related__grid  { grid-template-columns: 1fr; gap: 24px; }
-  .tgp-related__heading { font-size: 24px; }
+  .tgp-gallery { position: static; }
+  .tgp-info__title { font-size: 24px; }
+  .tgp-tabs { padding: 0 20px 40px; }
+  .tgp-tabs__nav { overflow-x: auto; }
+  .tgp-tab-btn { padding: 12px 16px 10px; font-size: 13px; }
+  .tgp-related { padding: 40px 20px; }
+  .tgp-related__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .tgp-trust { padding: 40px 20px; }
+  .tgp-trust__inner { grid-template-columns: 1fr; gap: 32px; }
 }
 {% endstyle %}
 
@@ -643,45 +617,37 @@
     {%- comment -%} ── LEFT: GALLERY ── {%- endcomment -%}
     <div class="tgp-gallery" data-tgp-gallery>
 
-      {%- comment -%} Desktop vertical thumbnails {%- endcomment -%}
-      <div class="tgp-gallery__thumbs" data-tgp-thumbs>
-        {%- for image in product.images -%}
-          <img
-            src="{{ image | image_url: width: 160 }}"
-            alt="{{ image.alt | escape | default: product.title }}"
-            class="tgp-gallery__thumb{% if forloop.first %} is-active{% endif %}"
-            data-tgp-thumb="{{ forloop.index0 }}"
-            loading="lazy"
-            width="76"
-            height="88"
-          >
-        {%- endfor -%}
-      </div>
-
       {%- comment -%} Main large image {%- endcomment -%}
       <div class="tgp-gallery__main" data-tgp-gallery-main>
         <img
-          id="tgp-main-img-{{ section.id }}"
           src="{{ featured_media | image_url: width: 1200 }}"
           alt="{{ featured_media.alt | escape | default: product.title }}"
           class="tgp-gallery__main-img"
+          data-tgp-main-img
           loading="eager"
           width="{{ featured_media.width }}"
           height="{{ featured_media.height }}"
         >
+        <button class="tgp-gallery__zoom" aria-label="Zoom image" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+        </button>
       </div>
 
-      {%- comment -%} Mobile horizontal thumbnail strip {%- endcomment -%}
-      <div class="tgp-gallery__thumbs--mobile" data-tgp-thumbs-mobile>
+      {%- comment -%} Horizontal thumbnail strip {%- endcomment -%}
+      <div class="tgp-gallery__thumbs" data-tgp-thumbs>
         {%- for image in product.images -%}
           <img
             src="{{ image | image_url: width: 160 }}"
+            data-src="{{ image | image_url: width: 1200 }}"
             alt="{{ image.alt | escape | default: product.title }}"
             class="tgp-gallery__thumb{% if forloop.first %} is-active{% endif %}"
             data-tgp-thumb="{{ forloop.index0 }}"
             loading="lazy"
-            width="66"
-            height="76"
+            width="68"
+            height="68"
           >
         {%- endfor -%}
       </div>
@@ -691,13 +657,13 @@
     {%- comment -%} ── RIGHT: PRODUCT INFO ── {%- endcomment -%}
     <div class="tgp-info" data-tgp-info>
 
-      {%- comment -%} Brand label {%- endcomment -%}
-      <p class="tgp-info__brand">Tatiana &amp; Glen</p>
+      {%- comment -%} Title + brand side by side {%- endcomment -%}
+      <div class="tgp-info__header">
+        <h1 class="tgp-info__title">{{ product.title }}</h1>
+        <span class="tgp-info__brand">Tatiana &amp; Glen</span>
+      </div>
 
-      {%- comment -%} Product title {%- endcomment -%}
-      <h1 class="tgp-info__title">{{ product.title }}</h1>
-
-      {%- comment -%} Price block {%- endcomment -%}
+      {%- comment -%} Price {%- endcomment -%}
       <div class="tgp-info__price-wrap">
         <span class="tgp-info__price" data-tgp-price-amount>
           {{ current_variant.price | money }}
@@ -709,24 +675,21 @@
         {%- endif -%}
       </div>
 
-      <hr class="tgp-info__divider">
-
-      {%- comment -%} Short description / excerpt {%- endcomment -%}
+      {%- comment -%} Short description {%- endcomment -%}
       {%- if product.metafields.custom.short_description != blank -%}
-        <p class="tgp-info__short-desc">{{ product.metafields.custom.short_description }}</p>
+        <div class="tgp-info__short-desc rte">{{ product.metafields.custom.short_description }}</div>
       {%- elsif product.description != blank -%}
-        <p class="tgp-info__short-desc">{{ product.description | strip_html | truncate: 300 }}</p>
+        <div class="tgp-info__short-desc rte">{{ product.description }}</div>
       {%- endif -%}
 
-      {%- comment -%} Variant options — only if not default single variant {%- endcomment -%}
+      {%- comment -%} Variant options {%- endcomment -%}
       {%- unless product.has_only_default_variant -%}
         <div class="tgp-variants" data-tgp-variants>
           {%- for option in product.options_with_values -%}
             <span class="tgp-variants__label">
-              {{ option.name }}:
-              <strong data-tgp-option-selected="{{ option.position }}">{{ option.selected_value }}</strong>
+              {{ option.name }}
             </span>
-            <div class="tgp-variants__options">
+            <div class="tgp-variants__options" style="margin-bottom:16px">
               {%- for value in option.values -%}
                 <button
                   type="button"
@@ -734,180 +697,138 @@
                   data-tgp-option="{{ option.position }}"
                   data-tgp-value="{{ value | escape }}"
                   aria-label="{{ option.name }}: {{ value }}"
-                >
-                  {{ value }}
-                </button>
+                >{{ value }}</button>
               {%- endfor -%}
             </div>
           {%- endfor -%}
         </div>
       {%- endunless -%}
 
-      <hr class="tgp-info__divider">
-
-      {%- comment -%} Quantity stepper {%- endcomment -%}
-      <div class="tgp-quantity-wrap">
-        <span class="tgp-quantity__label">Quantity</span>
-        <div class="tgp-quantity">
-          <button class="tgp-quantity__btn" type="button" data-tgp-qty-minus aria-label="Decrease quantity">&#8722;</button>
-          <input
-            class="tgp-quantity__input"
-            type="number"
-            name="quantity"
-            value="1"
-            min="1"
-            aria-label="Quantity"
-            data-tgp-qty-input
-          >
-          <button class="tgp-quantity__btn" type="button" data-tgp-qty-plus aria-label="Increase quantity">&#43;</button>
-        </div>
-      </div>
-
-      {%- comment -%} Product form: ATC + dynamic checkout {%- endcomment -%}
+      {%- comment -%} Quantity + ATC row {%- endcomment -%}
       {%- form 'product', product, id: 'tgp-product-form', data-tgp-form: '' -%}
         <input type="hidden" name="id"       value="{{ current_variant.id }}" data-tgp-variant-id>
         <input type="hidden" name="quantity" value="1"                        data-tgp-qty-hidden>
 
-        <button
-          class="tgp-atc"
-          type="submit"
-          name="add"
-          data-tgp-atc
-          {% unless current_variant.available %}disabled{% endunless %}
-        >
-          {%- if current_variant.available -%}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <path d="M16 10a4 4 0 01-8 0"/>
-            </svg>
-            Add to Cart
-          {%- else -%}
-            Sold Out
-          {%- endif -%}
-        </button>
+        <div class="tgp-buy-row">
+          <div class="tgp-quantity">
+            <button class="tgp-quantity__btn" type="button" data-tgp-qty-minus aria-label="Decrease">&#8722;</button>
+            <input
+              class="tgp-quantity__input"
+              type="number"
+              name="quantity"
+              value="1"
+              min="1"
+              aria-label="Quantity"
+              data-tgp-qty-input
+            >
+            <button class="tgp-quantity__btn" type="button" data-tgp-qty-plus aria-label="Increase">&#43;</button>
+          </div>
 
-        <div class="tgp-payment-btns">
-          {{ form | payment_button }}
+          <button
+            class="tgp-atc"
+            type="submit"
+            name="add"
+            data-tgp-atc
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            {%- if current_variant.available -%}Add To Cart{%- else -%}Sold Out{%- endif -%}
+          </button>
         </div>
+
+        <div class="tgp-payment-btns">{{ form | payment_button }}</div>
       {%- endform -%}
 
-      {%- comment -%} Quick info snippets {%- endcomment -%}
-      <div class="tgp-info-snippets">
-        <div class="tgp-info-snippet">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          {{ section.settings.trust_1_title | default: 'Free Shipping' }} — {{ section.settings.trust_1_text | default: 'On orders over $500' }}
-        </div>
-        <div class="tgp-info-snippet">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          {{ section.settings.trust_2_title | default: 'Secure Checkout' }} — {{ section.settings.trust_2_text | default: 'SSL encrypted & insured delivery' }}
-        </div>
-        <div class="tgp-info-snippet">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-          {{ section.settings.trust_3_title | default: 'Easy Returns' }} — {{ section.settings.trust_3_text | default: '30-day hassle-free policy' }}
-        </div>
+      {%- comment -%} Compare + Wishlist links {%- endcomment -%}
+      <div class="tgp-product-actions">
+        <a href="#" aria-label="Compare">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+          Compare
+        </a>
+        <a href="/wishlist" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Add to wishlist
+        </a>
+      </div>
+
+      {%- comment -%} SKU / Category / Brand meta {%- endcomment -%}
+      <div class="tgp-meta">
+        {%- if product.selected_or_first_available_variant.sku != blank -%}
+          <div class="tgp-meta__item"><strong>SKU:</strong> {{ product.selected_or_first_available_variant.sku }}</div>
+        {%- endif -%}
+        {%- if product.collections.first != blank -%}
+          <div class="tgp-meta__item"><strong>Category:</strong> <a href="{{ product.collections.first.url }}" style="color:inherit;text-decoration:none">{{ product.collections.first.title }}</a></div>
+        {%- endif -%}
+        <div class="tgp-meta__item"><strong>Brand:</strong> Tatiana &amp; Glen</div>
       </div>
 
     </div>{%- comment -%} /tgp-info {%- endcomment -%}
 
   </section>{%- comment -%} /tgp-product {%- endcomment -%}
 
-  {%- comment -%} ──────────── ACCORDION TABS ──────────── {%- endcomment -%}
+  {%- comment -%} ──────────── HORIZONTAL TABS ──────────── {%- endcomment -%}
   <div class="tgp-tabs" data-tgp-tabs>
 
-    {%- if section.settings.show_description_tab and product.description != blank -%}
-      <div class="tgp-tab" data-tgp-tab>
-        <button class="tgp-tab__trigger" type="button" data-tgp-tab-trigger aria-expanded="false">
-          Description
-          <span class="tgp-tab__icon" aria-hidden="true"></span>
-        </button>
-        <div class="tgp-tab__body" data-tgp-tab-body>
-          <div class="tgp-tab__body-inner">
-            <div class="tgp-tab__content rte">{{ product.description }}</div>
-          </div>
-        </div>
+    <div class="tgp-tabs__nav" role="tablist">
+      {%- if product.description != blank -%}
+        <button class="tgp-tab-btn is-active" data-tgp-tab-btn="description" role="tab" aria-selected="true">Description</button>
+      {%- endif -%}
+      <button class="tgp-tab-btn{% if product.description == blank %} is-active{% endif %}" data-tgp-tab-btn="additional" role="tab">Additional information</button>
+      <button class="tgp-tab-btn" data-tgp-tab-btn="reviews" role="tab">Reviews (0)</button>
+    </div>
+
+    {%- comment -%} Description panel {%- endcomment -%}
+    {%- if product.description != blank -%}
+      <div class="tgp-tab-panel is-active" data-tgp-tab-panel="description" role="tabpanel">
+        <div class="rte">{{ product.description }}</div>
       </div>
     {%- endif -%}
 
-    {%- if section.settings.details_tab_content != blank -%}
-      <div class="tgp-tab" data-tgp-tab>
-        <button class="tgp-tab__trigger" type="button" data-tgp-tab-trigger aria-expanded="false">
-          {{ section.settings.details_tab_heading | default: 'Product Details' }}
-          <span class="tgp-tab__icon" aria-hidden="true"></span>
-        </button>
-        <div class="tgp-tab__body" data-tgp-tab-body>
-          <div class="tgp-tab__body-inner">
-            <div class="tgp-tab__content">{{ section.settings.details_tab_content }}</div>
-          </div>
-        </div>
-      </div>
-    {%- endif -%}
+    {%- comment -%} Additional information panel {%- endcomment -%}
+    <div class="tgp-tab-panel{% if product.description == blank %} is-active{% endif %}" data-tgp-tab-panel="additional" role="tabpanel">
+      {%- liquid
+        assign has_attrs = false
+        if product.options_with_values.size > 0
+          assign has_attrs = true
+        endif
+        if product.variants.first.weight > 0
+          assign has_attrs = true
+        endif
+      -%}
+      {%- if has_attrs -%}
+        <table class="tgp-attrs">
+          {%- if product.variants.first.weight > 0 -%}
+            <tr>
+              <td>Weight</td>
+              <td>{{ product.variants.first.weight | weight_with_unit: product.variants.first.weight_unit }}</td>
+            </tr>
+          {%- endif -%}
+          {%- for option in product.options_with_values -%}
+            <tr>
+              <td>{{ option.name }}</td>
+              <td>{{ option.values | join: ', ' }}</td>
+            </tr>
+          {%- endfor -%}
+          {%- if product.metafields.custom.dimensions != blank -%}
+            <tr><td>Dimensions</td><td>{{ product.metafields.custom.dimensions }}</td></tr>
+          {%- endif -%}
+          {%- if product.metafields.custom.materials != blank -%}
+            <tr><td>Materials</td><td>{{ product.metafields.custom.materials }}</td></tr>
+          {%- endif -%}
+          {%- if product.metafields.custom.origin != blank -%}
+            <tr><td>Origin</td><td>{{ product.metafields.custom.origin }}</td></tr>
+          {%- endif -%}
+        </table>
+      {%- else -%}
+        <p>No additional information available.</p>
+      {%- endif -%}
+    </div>
 
-    {%- comment -%} Additional Information tab — product options + weight + metafields {%- endcomment -%}
-    {%- liquid
-      assign has_attrs = false
-      if product.options_with_values.size > 0
-        assign has_attrs = true
-      endif
-      if product.variants.first.weight > 0
-        assign has_attrs = true
-      endif
-    -%}
-    {%- if has_attrs -%}
-      <div class="tgp-tab" data-tgp-tab>
-        <button class="tgp-tab__trigger" type="button" data-tgp-tab-trigger aria-expanded="false">
-          Additional Information
-          <span class="tgp-tab__icon" aria-hidden="true"></span>
-        </button>
-        <div class="tgp-tab__body" data-tgp-tab-body>
-          <div class="tgp-tab__body-inner">
-            <div class="tgp-tab__content">
-              <table class="tgp-attrs">
-                {%- if product.variants.first.weight > 0 -%}
-                  <tr>
-                    <td>Weight</td>
-                    <td>{{ product.variants.first.weight | weight_with_unit: product.variants.first.weight_unit }}</td>
-                  </tr>
-                {%- endif -%}
-                {%- for option in product.options_with_values -%}
-                  <tr>
-                    <td>{{ option.name }}</td>
-                    <td>{{ option.values | join: ', ' }}</td>
-                  </tr>
-                {%- endfor -%}
-                {%- comment -%} Metafields: add any custom namespace rows below {%- endcomment -%}
-                {%- if product.metafields.custom.dimensions != blank -%}
-                  <tr><td>Dimensions</td><td>{{ product.metafields.custom.dimensions }}</td></tr>
-                {%- endif -%}
-                {%- if product.metafields.custom.materials != blank -%}
-                  <tr><td>Materials</td><td>{{ product.metafields.custom.materials }}</td></tr>
-                {%- endif -%}
-                {%- if product.metafields.custom.origin != blank -%}
-                  <tr><td>Origin</td><td>{{ product.metafields.custom.origin }}</td></tr>
-                {%- endif -%}
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    {%- endif -%}
-
-    {%- if section.settings.shipping_tab_content != blank -%}
-      <div class="tgp-tab" data-tgp-tab>
-        <button class="tgp-tab__trigger" type="button" data-tgp-tab-trigger aria-expanded="false">
-          {{ section.settings.shipping_tab_heading | default: 'Shipping & Returns' }}
-          <span class="tgp-tab__icon" aria-hidden="true"></span>
-        </button>
-        <div class="tgp-tab__body" data-tgp-tab-body>
-          <div class="tgp-tab__body-inner">
-            <div class="tgp-tab__content">{{ section.settings.shipping_tab_content }}</div>
-          </div>
-        </div>
-      </div>
-    {%- endif -%}
+    {%- comment -%} Reviews panel {%- endcomment -%}
+    <div class="tgp-tab-panel" data-tgp-tab-panel="reviews" role="tabpanel">
+      <p class="tgp-reviews-placeholder">There are no reviews yet.</p>
+    </div>
 
   </div>{%- comment -%} /tgp-tabs {%- endcomment -%}
-
 
   {%- comment -%} ──────────── RELATED PRODUCTS ──────────── {%- endcomment -%}
   {%- if section.settings.show_related_products -%}
@@ -923,8 +844,7 @@
 
     {%- if has_related -%}
       <div class="tgp-related tgp-fade-in">
-        <span class="tgp-related__subheading">You May Also Like</span>
-        <h2 class="tgp-related__heading">{{ section.settings.related_heading | default: 'Related Works' }}</h2>
+        <h2 class="tgp-related__heading">{{ section.settings.related_heading | default: 'Related products' }}</h2>
         <div class="tgp-related__grid">
           {%- assign shown_count = 0 -%}
           {%- for rp in collection_products -%}
@@ -954,13 +874,56 @@
     {%- endif -%}
   {%- endif -%}
 
+  {%- comment -%} ──────────── TRUST BADGES ──────────── {%- endcomment -%}
+  <div class="tgp-trust">
+    <div class="tgp-trust__inner">
+
+      <div class="tgp-trust__item">
+        <div class="tgp-trust__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
+        <p class="tgp-trust__title">{{ section.settings.trust_1_title | default: 'Signed & Sealed Authenticity' }}</p>
+        <p class="tgp-trust__text">{{ section.settings.trust_1_text | default: 'Every piece comes with a certificate of authenticity' }}</p>
+      </div>
+
+      <div class="tgp-trust__item">
+        <div class="tgp-trust__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <p class="tgp-trust__title">{{ section.settings.trust_2_title | default: 'Two Year Finish Commitment' }}</p>
+        <p class="tgp-trust__text">{{ section.settings.trust_2_text | default: 'We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.' }}</p>
+      </div>
+
+      <div class="tgp-trust__item">
+        <div class="tgp-trust__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8h1a4 4 0 010 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+            <line x1="6" y1="1" x2="6" y2="4"/>
+            <line x1="10" y1="1" x2="10" y2="4"/>
+            <line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <p class="tgp-trust__title">{{ section.settings.trust_3_title | default: 'Handled & Insured Delivery' }}</p>
+        <p class="tgp-trust__text">{{ section.settings.trust_3_text | default: 'We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.' }}</p>
+      </div>
+
+    </div>
+  </div>
+
 </div>{%- comment -%} /tgp-root {%- endcomment -%}
 
-{%- comment -%} ── Product data for JS ── {%- endcomment -%}
+{%- comment -%} Product data for JS {%- endcomment -%}
 <script>
   window.tgpProductData = window.tgpProductData || {};
   window.tgpProductData['{{ section.id }}'] = {
-    sectionId:    '{{ section.id }}',
+    sectionId:        '{{ section.id }}',
     currentVariantId: {{ current_variant.id }},
     variants: {{ product.variants | json }},
     images: [
@@ -979,83 +942,43 @@
   "settings": [
     {
       "type": "header",
-      "content": "Accordion Tabs"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_description_tab",
-      "label": "Show Description Tab",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "details_tab_heading",
-      "label": "Details Tab Heading",
-      "default": "Product Details"
-    },
-    {
-      "type": "richtext",
-      "id": "details_tab_content",
-      "label": "Details Tab Content",
-      "info": "Leave blank to hide this tab"
-    },
-    {
-      "type": "text",
-      "id": "shipping_tab_heading",
-      "label": "Shipping Tab Heading",
-      "default": "Shipping & Returns"
-    },
-    {
-      "type": "richtext",
-      "id": "shipping_tab_content",
-      "label": "Shipping Tab Content",
-      "info": "Leave blank to hide this tab"
-    },
-    {
-      "type": "header",
       "content": "Trust Badges"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_trust_section",
-      "label": "Show Trust Badges",
-      "default": true
     },
     {
       "type": "text",
       "id": "trust_1_title",
       "label": "Badge 1 — Title",
-      "default": "Free Shipping"
+      "default": "Signed & Sealed Authenticity"
     },
     {
       "type": "text",
       "id": "trust_1_text",
       "label": "Badge 1 — Text",
-      "default": "Complimentary shipping on all orders over $500."
+      "default": "Every piece comes with a certificate of authenticity"
     },
     {
       "type": "text",
       "id": "trust_2_title",
       "label": "Badge 2 — Title",
-      "default": "Secure Checkout"
+      "default": "Two Year Finish Commitment"
     },
     {
       "type": "text",
       "id": "trust_2_text",
       "label": "Badge 2 — Text",
-      "default": "Your payment information is always protected."
+      "default": "We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs."
     },
     {
       "type": "text",
       "id": "trust_3_title",
       "label": "Badge 3 — Title",
-      "default": "Easy Returns"
+      "default": "Handled & Insured Delivery"
     },
     {
       "type": "text",
       "id": "trust_3_text",
       "label": "Badge 3 — Text",
-      "default": "Hassle-free 30-day return policy."
+      "default": "We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs."
     },
     {
       "type": "header",
@@ -1071,7 +994,7 @@
       "type": "text",
       "id": "related_heading",
       "label": "Section Heading",
-      "default": "Related Works"
+      "default": "Related products"
     }
   ],
   "presets": [

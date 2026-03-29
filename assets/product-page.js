@@ -84,35 +84,32 @@
   }
 
   /* =========================================================
-     TGPAccordion — smooth grid-rows animation
+     TGPTabs — horizontal tab nav switching
   ========================================================= */
-  class TGPAccordion {
+  class TGPTabs {
     constructor(section) {
-      this.items = section.querySelectorAll('[data-tgp-tab]');
+      this.btns   = section.querySelectorAll('[data-tgp-tab-btn]');
+      this.panels = section.querySelectorAll('[data-tgp-tab-panel]');
 
-      this.items.forEach((item) => {
-        const trigger = item.querySelector('[data-tgp-tab-trigger]');
-        const body = item.querySelector('[data-tgp-tab-body]');
+      if (!this.btns.length) return;
 
-        if (!trigger || !body) return;
-
-        trigger.setAttribute('aria-expanded', 'false');
-        trigger.addEventListener('click', () => this.toggle(item, trigger, body));
+      this.btns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const target = btn.getAttribute('data-tgp-tab-btn');
+          this.switchTo(target);
+        });
       });
     }
 
-    toggle(item, trigger, body) {
-      const isOpen = item.classList.contains('is-open');
-
-      if (isOpen) {
-        item.classList.remove('is-open');
-        trigger.setAttribute('aria-expanded', 'false');
-        body.style.gridTemplateRows = '0fr';
-      } else {
-        item.classList.add('is-open');
-        trigger.setAttribute('aria-expanded', 'true');
-        body.style.gridTemplateRows = '1fr';
-      }
+    switchTo(target) {
+      this.btns.forEach((b) => {
+        const isActive = b.getAttribute('data-tgp-tab-btn') === target;
+        b.classList.toggle('is-active', isActive);
+        b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+      this.panels.forEach((p) => {
+        p.classList.toggle('is-active', p.getAttribute('data-tgp-tab-panel') === target);
+      });
     }
   }
 
@@ -294,7 +291,7 @@
     const productData = window.tgpProductData && window.tgpProductData[sectionId];
 
     const gallery = new TGPGallery(sectionEl);
-    new TGPAccordion(sectionEl);
+    new TGPTabs(sectionEl);
     new TGPQuantity(sectionEl);
     new TGPVariants(sectionEl, gallery, productData);
     new TGPFadeIn(sectionEl);
