@@ -68,6 +68,21 @@
   transition: opacity 0.3s ease;
 }
 
+/* Magnifying glass zoom lens */
+.tgp-zoom-lens {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 2px solid var(--tgp-gold);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  background-repeat: no-repeat;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 20;
+}
+
 /* Zoom icon button */
 .tgp-gallery__zoom {
   position: absolute;
@@ -126,7 +141,7 @@
 /* ============================================================
    PRODUCT INFO — right column
    ============================================================ */
-.tgp-info { padding-top: 0; }
+.tgp-info { padding: 0px 40px; }
 
 /* Title row — title left, brand right */
 .tgp-info__header {
@@ -181,7 +196,7 @@
 
 /* Short description */
 .tgp-info__short-desc {
-  font-family: var(--tgp-sans);
+  font-family: 'Montserrat';
   font-size: 14px;
   font-weight: 400;
   color: var(--tgp-muted);
