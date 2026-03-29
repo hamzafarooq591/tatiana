@@ -134,17 +134,17 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 14px;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 .tgp-info__title {
   font-family: var(--tgp-serif);
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 1.22;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.18;
   color: var(--tgp-text);
   margin: 0;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   flex: 1;
   text-transform: none !important;
 }
@@ -154,7 +154,7 @@
   font-weight: 400;
   color: var(--tgp-gold);
   white-space: nowrap;
-  padding-top: 6px;
+  padding-top: 8px;
   letter-spacing: 0.02em;
 }
 
@@ -163,18 +163,18 @@
   display: flex;
   align-items: baseline;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 .tgp-info__price {
   font-family: var(--tgp-sans);
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 700;
   color: var(--tgp-gold);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
 }
 .tgp-info__price-compare {
   font-family: var(--tgp-sans);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 300;
   color: var(--tgp-muted);
   text-decoration: line-through;
@@ -183,25 +183,27 @@
 /* Short description */
 .tgp-info__short-desc {
   font-family: var(--tgp-sans);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--tgp-muted);
-  line-height: 1.85;
-  margin: 0 0 22px;
+  line-height: 1.8;
+  margin: 0 0 24px;
 }
+.tgp-info__short-desc p { margin-bottom: 10px; }
+.tgp-info__short-desc p:last-child { margin-bottom: 0; }
 
 /* Divider */
 .tgp-info__divider {
   border: none;
   border-top: 1px solid var(--tgp-border);
-  margin: 18px 0;
+  margin: 20px 0;
 }
 
 /* Variant options */
 .tgp-variants { margin-bottom: 20px; }
 .tgp-variants__label {
   font-family: var(--tgp-sans);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--tgp-text);
   display: block;
@@ -213,15 +215,15 @@
 }
 .tgp-variants__options {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 .tgp-variant-btn {
-  padding: 6px 16px;
+  padding: 8px 20px;
   border: 1px solid #ccc;
   background: #fff;
   font-family: var(--tgp-sans);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--tgp-text);
   cursor: pointer;
@@ -268,11 +270,11 @@
   width: fit-content;
 }
 .tgp-quantity__btn {
-  width: 40px;
-  height: 48px;
+  width: 44px;
+  height: 52px;
   background: transparent;
   border: none;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 300;
   color: var(--tgp-text);
   cursor: pointer;
@@ -284,14 +286,14 @@
 }
 .tgp-quantity__btn:hover { background: #f5f5f5; }
 .tgp-quantity__input {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   text-align: center;
   border: none;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
   font-family: var(--tgp-sans);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--tgp-text);
   background: transparent;
@@ -304,7 +306,8 @@
 /* Add to Cart */
 .tgp-atc {
   flex: 1;
-  padding: 14px 24px;
+  padding: 0 24px;
+  height: 52px;
   background: #333333;
   color: #ffffff;
   border: 2px solid #333333;
@@ -692,6 +695,8 @@
           </span>
         {%- endif -%}
       </div>
+
+      <hr class="tgp-info__divider">
 
       {%- comment -%} Short description {%- endcomment -%}
       {%- if product.metafields.custom.short_description != blank -%}
