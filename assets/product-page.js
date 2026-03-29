@@ -295,57 +295,6 @@
   }
 
   /* =========================================================
-     TGPZoom — circular magnifying glass lens on main image
-  ========================================================= */
-  class TGPZoom {
-    constructor(section) {
-      this.wrap = section.querySelector('[data-tgp-gallery-main]');
-      this.img  = section.querySelector('[data-tgp-main-img]');
-      if (!this.wrap || !this.img) return;
-
-      this.lens = document.createElement('div');
-      this.lens.className = 'tgp-zoom-lens';
-      this.wrap.appendChild(this.lens);
-
-      this._onMove  = (e) => this._move(e);
-      this._onEnter = ()  => { this.lens.style.opacity = '1'; this.wrap.style.cursor = 'none'; };
-      this._onLeave = ()  => { this.lens.style.opacity = '0'; this.wrap.style.cursor = ''; };
-
-      this.wrap.addEventListener('mousemove',  this._onMove);
-      this.wrap.addEventListener('mouseenter', this._onEnter);
-      this.wrap.addEventListener('mouseleave', this._onLeave);
-    }
-
-    _move(e) {
-      const rect   = this.wrap.getBoundingClientRect();
-      const lensW  = this.lens.offsetWidth;
-      const lensH  = this.lens.offsetHeight;
-      const zoom   = 3;
-
-      // Lens position clamped within image
-      let x = e.clientX - rect.left - lensW / 2;
-      let y = e.clientY - rect.top  - lensH / 2;
-      x = Math.max(0, Math.min(x, rect.width  - lensW));
-      y = Math.max(0, Math.min(y, rect.height - lensH));
-
-      this.lens.style.left = x + 'px';
-      this.lens.style.top  = y + 'px';
-
-      // Background shows zoomed portion
-      this.lens.style.backgroundImage    = `url('${this.img.src}')`;
-      this.lens.style.backgroundSize     = `${rect.width * zoom}px ${rect.height * zoom}px`;
-      this.lens.style.backgroundPosition = `${-(x * zoom)}px ${-(y * zoom)}px`;
-    }
-
-    // Called by gallery when main image changes
-    updateSrc(src) {
-      if (this.lens.style.opacity === '1') {
-        this.lens.style.backgroundImage = `url('${src}')`;
-      }
-    }
-  }
-
-  /* =========================================================
      Init — wait for DOM, then boot each product section
   ========================================================= */
   function initProductPage(sectionEl) {
@@ -353,7 +302,6 @@
     const productData = window.tgpProductData && window.tgpProductData[sectionId];
 
     const gallery = new TGPGallery(sectionEl);
-    new TGPZoom(sectionEl);
     new TGPTabs(sectionEl);
     new TGPQuantity(sectionEl);
     new TGPVariants(sectionEl, gallery, productData);

@@ -65,22 +65,11 @@
   display: block;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.4s ease;
 }
-
-/* Magnifying glass zoom lens */
-.tgp-zoom-lens {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  border: 2px solid var(--tgp-gold);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-  background-repeat: no-repeat;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-  z-index: 20;
+.tgp-gallery__main:hover .tgp-gallery__main-img {
+  transform: scale(1.08);
+  cursor: zoom-in;
 }
 
 /* Zoom icon button */
