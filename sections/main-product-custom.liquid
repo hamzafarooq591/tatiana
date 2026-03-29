@@ -434,6 +434,31 @@
 .tgp-tab__content ul, .tgp-tab__content ol { padding-left: 18px; margin-bottom: 12px; }
 .tgp-tab__content li { margin-bottom: 6px; }
 
+/* Attributes table */
+.tgp-attrs {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--tgp-sans);
+}
+.tgp-attrs tr:nth-child(odd) { background: #f7f5f2; }
+.tgp-attrs tr:nth-child(even) { background: #ffffff; }
+.tgp-attrs td {
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  border-bottom: 1px solid var(--tgp-border);
+  vertical-align: top;
+}
+.tgp-attrs td:first-child {
+  font-weight: 600;
+  color: var(--tgp-dark);
+  width: 38%;
+  white-space: nowrap;
+}
+.tgp-attrs td:last-child {
+  color: var(--tgp-muted);
+}
+
 /* ============================================================
    TRUST BADGES
    ============================================================ */
@@ -813,6 +838,55 @@
         <div class="tgp-tab__body" data-tgp-tab-body>
           <div class="tgp-tab__body-inner">
             <div class="tgp-tab__content">{{ section.settings.details_tab_content }}</div>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Additional Information tab — product options + weight + metafields {%- endcomment -%}
+    {%- liquid
+      assign has_attrs = false
+      if product.options_with_values.size > 0
+        assign has_attrs = true
+      endif
+      if product.variants.first.weight > 0
+        assign has_attrs = true
+      endif
+    -%}
+    {%- if has_attrs -%}
+      <div class="tgp-tab" data-tgp-tab>
+        <button class="tgp-tab__trigger" type="button" data-tgp-tab-trigger aria-expanded="false">
+          Additional Information
+          <span class="tgp-tab__icon" aria-hidden="true"></span>
+        </button>
+        <div class="tgp-tab__body" data-tgp-tab-body>
+          <div class="tgp-tab__body-inner">
+            <div class="tgp-tab__content">
+              <table class="tgp-attrs">
+                {%- if product.variants.first.weight > 0 -%}
+                  <tr>
+                    <td>Weight</td>
+                    <td>{{ product.variants.first.weight | weight_with_unit: product.variants.first.weight_unit }}</td>
+                  </tr>
+                {%- endif -%}
+                {%- for option in product.options_with_values -%}
+                  <tr>
+                    <td>{{ option.name }}</td>
+                    <td>{{ option.values | join: ', ' }}</td>
+                  </tr>
+                {%- endfor -%}
+                {%- comment -%} Metafields: add any custom namespace rows below {%- endcomment -%}
+                {%- if product.metafields.custom.dimensions != blank -%}
+                  <tr><td>Dimensions</td><td>{{ product.metafields.custom.dimensions }}</td></tr>
+                {%- endif -%}
+                {%- if product.metafields.custom.materials != blank -%}
+                  <tr><td>Materials</td><td>{{ product.metafields.custom.materials }}</td></tr>
+                {%- endif -%}
+                {%- if product.metafields.custom.origin != blank -%}
+                  <tr><td>Origin</td><td>{{ product.metafields.custom.origin }}</td></tr>
+                {%- endif -%}
+              </table>
+            </div>
           </div>
         </div>
       </div>
