@@ -109,9 +109,9 @@
     font-family: var(--tg-serif);
     font-size: 72px;
     font-weight: 400;
-    line-height: 1.08;
+    line-height: 1;
     color: #ffffff;
-    margin: 0 0 22px;
+    margin: 0 0 10px;
     letter-spacing: 0.02em;
     opacity: 0;
     transform: translateY(32px);
@@ -129,8 +129,8 @@
     font-weight: 400;
     font-style: italic;
     color: rgb(255, 255, 255);
-    margin: 0 0 44px;
-    line-height: 32px;
+    margin: 0 0 20px;
+    line-height: 1.4em;
     opacity: 0;
     transform: translateY(22px);
     transition: opacity 0.9s ease 0.52s, transform 0.9s ease 0.52s;
@@ -144,9 +144,9 @@
   .tg-hero__cta {
     display: inline-block;
     font-family: var(--tg-sans);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #111111;
     background: #ffffff;
@@ -154,11 +154,7 @@
     text-decoration: none;
     opacity: 0;
     transform: translateY(20px);
-    transition:
-      opacity 0.9s ease 0.72s,
-      transform 0.9s ease 0.72s,
-      background 0.35s ease,
-      color 0.35s ease;
+    transition: opacity 0.9s ease 0.72s, transform 0.9s ease 0.72s, background 0.35s ease, color 0.35s ease;
   }
 
   .tg-hero__slide.is-active .tg-hero__cta {
@@ -303,7 +299,7 @@
     font-family: var(--tg-serif);
     font-size: 47px;
     color: #ffffff;
-    margin: 0 0 22px;
+    margin: 0 0 10px;
   }
 
   .tg-category__link {
@@ -575,16 +571,19 @@
   }
 
   .tg-link-underline {
-    font-family: var(--tg-sans);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--tg-text);
+    padding: 16px 41px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #FFFFFF;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--tg-primary);
+    border-radius: 0;
+    background-color: #111111;
     text-decoration: none;
-    border-bottom: 1px solid var(--tg-border);
-    padding-bottom: 4px;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    display: inline-block;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 
   .tg-link-underline:hover {
@@ -1042,8 +1041,8 @@
     .tg-hero__content   { padding: 0 40px; max-width: 560px; }
     .tg-hero__heading   { font-size: 52px; }
 
-    .tg-categories-wrapper { padding: 20px 24px; }
-    .tg-categories      { grid-template-columns: 1fr; gap: 6px; }
+    .tg-categories-wrapper { padding: 20px 14px; }
+    .tg-categories      { grid-template-columns: 1fr; gap: 20px; }
     .tg-category        { height: 360px; }
 
     .tg-collection      { padding: 70px 40px; }
@@ -1067,14 +1066,15 @@
      RESPONSIVE — MOBILE (≤ 749px)
      ============================================================ */
   @media (max-width: 749px) {
-    .tg-hero            { height: 720px; }
-    .tg-hero__content   { padding: 0 24px; }
-    .tg-hero__heading   { font-size: 40px; }
-    .tg-hero__subheading{ font-size: 15px; margin-bottom: 32px; }
+    .tg-hero            { height: 650px; }
+    .tg-hero__content   { padding: 0 12px; top: 25%; }
+    .tg-hero__heading   { font-size: 33px; }
+    .tg-hero__subheading{ font-size: 12px; margin-bottom: 20px; }
     .tg-hero__arrow     { display: none; }
 
-    .tg-category        { height: 300px; }
-    .tg-category__title { font-size: 28px; }
+    .tg-category        { height: 370px; }
+    .tg-category__title { font-size: 48px; }
+    .tg-category__content { padding: 0 10px; top: 16%; }
 
     .tg-collection      { padding: 56px 20px; }
     .tg-section-header__title { font-size: 36px; }
@@ -1295,7 +1295,6 @@
     {%- endif -%}
 
     <div class="tg-collection-footer tg-animate">
-      <a href="{{ collection_url }}" class="tg-btn-primary">Explore The Collection</a>
       <a href="{{ collection_url }}" class="tg-link-underline">VIEW MORE</a>
     </div>
 
