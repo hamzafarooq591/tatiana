@@ -834,38 +834,6 @@
 
   </div>{%- comment -%} /tgp-tabs {%- endcomment -%}
 
-  {%- comment -%} ──────────── TRUST BADGES ──────────── {%- endcomment -%}
-  {%- if section.settings.show_trust_section -%}
-    <div class="tgp-trust tgp-fade-in">
-      <div class="tgp-trust__inner">
-
-        <div class="tgp-trust__item">
-          <div class="tgp-trust__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          </div>
-          <p class="tgp-trust__title">{{ section.settings.trust_1_title | default: 'Free Shipping' }}</p>
-          <p class="tgp-trust__text">{{ section.settings.trust_1_text | default: 'Complimentary shipping on all orders over $500.' }}</p>
-        </div>
-
-        <div class="tgp-trust__item">
-          <div class="tgp-trust__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <p class="tgp-trust__title">{{ section.settings.trust_2_title | default: 'Secure Checkout' }}</p>
-          <p class="tgp-trust__text">{{ section.settings.trust_2_text | default: 'Your payment information is always protected.' }}</p>
-        </div>
-
-        <div class="tgp-trust__item">
-          <div class="tgp-trust__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-          </div>
-          <p class="tgp-trust__title">{{ section.settings.trust_3_title | default: 'Easy Returns' }}</p>
-          <p class="tgp-trust__text">{{ section.settings.trust_3_text | default: 'Hassle-free 30-day return policy.' }}</p>
-        </div>
-
-      </div>
-    </div>
-  {%- endif -%}
 
   {%- comment -%} ──────────── RELATED PRODUCTS ──────────── {%- endcomment -%}
   {%- if section.settings.show_related_products -%}
