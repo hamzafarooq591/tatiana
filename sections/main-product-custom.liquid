@@ -231,9 +231,9 @@
   border-radius: 0;
 }
 .tgp-variant-btn.is-selected {
-  border: 2px solid var(--tgp-dark);
+  border: 1px solid var(--tgp-gold);
+  color: var(--tgp-gold);
   font-weight: 600;
-  color: var(--tgp-dark);
 }
 .tgp-variant-btn:hover:not(.is-selected) { border-color: #888; }
 .tgp-variant-btn.is-unavailable {
@@ -256,49 +256,53 @@
   padding: 0;
 }
 
-/* Quantity + ATC — side by side on same row */
+/* Quantity + ATC — side by side */
 .tgp-buy-row {
   display: flex;
   flex-direction: row;
-  gap: 12px;
-  align-items: stretch;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 .tgp-quantity {
   display: flex;
-  align-items: stretch;
-  border: 1px solid #ccc;
-  width: fit-content;
+  align-items: center;
+  border: 2px solid var(--tgp-border);
+  width: 120px;
+  flex-shrink: 0;
 }
 .tgp-quantity__btn {
-  width: 44px;
-  height: 52px;
+  width: 40px;
+  height: 50px;
   background: transparent;
   border: none;
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   color: var(--tgp-text);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  transition: background 0.2s;
+  flex-shrink: 0;
 }
-.tgp-quantity__btn:hover { background: #f5f5f5; }
+.tgp-quantity__btn:hover { color: var(--tgp-gold); }
 .tgp-quantity__input {
-  width: 52px;
-  height: 52px;
+  width: 33.33%;
+  flex: 1;
+  height: 50px;
   text-align: center;
   border: none;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+  border-left: 1px solid var(--tgp-border);
+  border-right: 1px solid var(--tgp-border);
   font-family: var(--tgp-sans);
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
   color: var(--tgp-text);
   background: transparent;
   outline: none;
+  padding: 14px 0;
   -moz-appearance: textfield;
 }
 .tgp-quantity__input::-webkit-outer-spin-button,
@@ -306,28 +310,24 @@
 
 /* Add to Cart */
 .tgp-atc {
-  flex: 1;
-  padding: 0 24px;
-  height: 52px;
-  background: #333333;
+  min-width: 160px;
+  padding: 16px 42px;
+  background: #1a1a1a;
   color: #ffffff;
-  border: 2px solid #333333;
+  border: none;
   font-family: var(--tgp-sans);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-  display: flex;
+  transition: background 0.3s ease;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  white-space: nowrap;
 }
-.tgp-atc:hover:not(:disabled) {
-  background: transparent;
-  color: #333333;
-}
+.tgp-atc:hover:not(:disabled) { background: #333333; }
 .tgp-atc:disabled {
   opacity: 0.45;
   cursor: not-allowed;
