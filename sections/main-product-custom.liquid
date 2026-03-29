@@ -253,11 +253,12 @@
   padding: 0;
 }
 
-/* Quantity + ATC — stepper row, then full-width ATC below */
+/* Quantity + ATC — side by side on same row */
 .tgp-buy-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 12px;
+  align-items: stretch;
   margin-bottom: 12px;
 }
 .tgp-quantity {
@@ -302,7 +303,7 @@
 
 /* Add to Cart */
 .tgp-atc {
-  width: 100%;
+  flex: 1;
   padding: 14px 24px;
   background: #333333;
   color: #ffffff;
