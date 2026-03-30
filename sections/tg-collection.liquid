@@ -139,33 +139,72 @@
     font-size: 11px;
   }
 
-  /* Price range */
-  .tgc-price-range {
+  /* Price slider */
+  .tgc-price-slider {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
 
-  .tgc-price-range__inputs {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .tgc-price-slider__track {
+    position: relative;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin: 14px 0;
   }
 
-  .tgc-price-range__input {
-    width: 80px;
-    padding: 8px 10px;
-    border: 1px solid var(--tgc-border);
+  .tgc-price-slider__fill {
+    position: absolute;
+    height: 100%;
+    background: var(--tgc-dark);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .tgc-price-slider__input {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+    outline: none;
+  }
+
+  .tgc-price-slider__input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid var(--tgc-dark);
+    cursor: pointer;
+    pointer-events: all;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+
+  .tgc-price-slider__input::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid var(--tgc-dark);
+    cursor: pointer;
+    pointer-events: all;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+
+  .tgc-price-slider__label {
     font-family: var(--tgc-sans);
     font-size: 12px;
-    color: var(--tgc-dark);
-    outline: none;
-    text-align: center;
-  }
-
-  .tgc-price-range__sep {
-    font-size: 12px;
     color: var(--tgc-text);
+    margin: 0;
   }
 
   .tgc-price-range__btn {
@@ -552,20 +591,37 @@
           <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
         </p>
         <div class="tgc-sidebar__options">
-          {%- assign cat_types = collection.products | map: 'type' | uniq -%}
-          {%- for type in cat_types -%}
-            {%- if type != blank -%}
-              {%- assign type_count = 0 -%}
-              {%- for p in collection.products -%}
-                {%- if p.type == type -%}{%- assign type_count = type_count | plus: 1 -%}{%- endif -%}
-              {%- endfor -%}
-              <div class="tgc-sidebar__option">
-                <input type="checkbox" id="cat-{{ forloop.index }}" data-tgc-cat="{{ type | downcase | strip }}" checked>
-                <label for="cat-{{ forloop.index }}">
-                  {{ type }}
-                  <span>({{ type_count }})</span>
-                </label>
-              </div>
+          {%- comment -%} Build unique collection list from all products {%- endcomment -%}
+          {%- assign _sb_handles = '' -%}
+          {%- for _sp in collection.products -%}
+            {%- for _spc in _sp.collections -%}
+              {%- unless _spc.handle == 'all' or _spc.handle == 'frontpage' or _spc.handle == collection.handle -%}
+                {%- unless _sb_handles contains _spc.handle -%}
+                  {%- assign _sb_handles = _sb_handles | append: _spc.handle | append: '|' -%}
+                {%- endunless -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endfor -%}
+          {%- assign _sb_col_list = _sb_handles | split: '|' -%}
+          {%- for _col_handle in _sb_col_list -%}
+            {%- if _col_handle != blank -%}
+              {%- assign _col_obj = collections[_col_handle] -%}
+              {%- if _col_obj != blank -%}
+                {%- assign _col_count = 0 -%}
+                {%- for _cp in collection.products -%}
+                  {%- assign _cp_handles = _cp.collections | map: 'handle' -%}
+                  {%- if _cp_handles contains _col_handle -%}
+                    {%- assign _col_count = _col_count | plus: 1 -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                <div class="tgc-sidebar__option">
+                  <input type="checkbox" id="col-{{ _col_handle }}" data-tgc-col="{{ _col_handle }}" checked>
+                  <label for="col-{{ _col_handle }}">
+                    {{ _col_obj.title }}
+                    <span>({{ _col_count }})</span>
+                  </label>
+                </div>
+              {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
         </div>
@@ -577,16 +633,25 @@
           Price
           <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
         </p>
-        <div class="tgc-price-range">
-          <div class="tgc-price-range__inputs">
-            <input class="tgc-price-range__input" type="number" id="tgc-price-min" placeholder="Min"
-              value="{{ collection.products | map: 'price' | sort | first | money_without_currency | remove: ',' }}"
-              min="0">
-            <span class="tgc-price-range__sep">—</span>
-            <input class="tgc-price-range__input" type="number" id="tgc-price-max" placeholder="Max"
-              value="{{ collection.products | map: 'price' | sort | last | money_without_currency | remove: ',' }}"
-              min="0">
+        {%- liquid
+          assign _price_min_d = collection.products | map: 'price' | sort | first | divided_by: 100
+          assign _price_max_d = collection.products | map: 'price' | sort | last | divided_by: 100
+          if _price_min_d == blank or _price_min_d == 0
+            assign _price_min_d = 0
+          endif
+          if _price_max_d == blank or _price_max_d == 0
+            assign _price_max_d = 9999
+          endif
+        -%}
+        <div class="tgc-price-slider">
+          <div class="tgc-price-slider__track">
+            <div class="tgc-price-slider__fill" id="tgc-slider-fill"></div>
+            <input type="range" class="tgc-price-slider__input" id="tgc-range-min"
+              min="{{ _price_min_d }}" max="{{ _price_max_d }}" value="{{ _price_min_d }}" step="1">
+            <input type="range" class="tgc-price-slider__input" id="tgc-range-max"
+              min="{{ _price_min_d }}" max="{{ _price_max_d }}" value="{{ _price_max_d }}" step="1">
           </div>
+          <p class="tgc-price-slider__label" id="tgc-price-label">Price: ${{ _price_min_d }} &mdash; ${{ _price_max_d }}</p>
           <button class="tgc-price-range__btn" id="tgc-price-filter-btn">Filter</button>
         </div>
       </div>
@@ -646,7 +711,13 @@
               assign featured_image   = product.featured_image
               assign first_variant    = product.selected_or_first_available_variant
             -%}
-            <article class="tgc-card" data-tgc-price="{{ product.price }}" data-tgc-available="{{ first_variant.available }}" data-tgc-type="{{ product.type | downcase | strip }}">
+            {%- assign _p_col_handles = '' -%}
+            {%- for _pc in product.collections -%}
+              {%- unless _pc.handle == 'all' or _pc.handle == 'frontpage' -%}
+                {%- assign _p_col_handles = _p_col_handles | append: _pc.handle | append: ',' -%}
+              {%- endunless -%}
+            {%- endfor -%}
+            <article class="tgc-card" data-tgc-price="{{ product.price }}" data-tgc-available="{{ first_variant.available }}" data-tgc-type="{{ product.type | downcase | strip }}" data-tgc-cols="{{ _p_col_handles }}">
               <a href="{{ product.url }}" class="tgc-card__link" aria-label="{{ product.title | escape }}">
                 <div class="tgc-card__img-wrap">
                   {%- if featured_image -%}
@@ -760,61 +831,79 @@
 
 <script>
   (function() {
-    var cards    = Array.from(document.querySelectorAll('.tgc-card'));
-    var countEl  = document.querySelector('.tgc-toolbar__count');
+    var cards   = Array.from(document.querySelectorAll('.tgc-card'));
+    var countEl = document.querySelector('.tgc-toolbar__count');
 
+    // --- Price slider ---
+    var rangeMin   = document.getElementById('tgc-range-min');
+    var rangeMax   = document.getElementById('tgc-range-max');
+    var sliderFill = document.getElementById('tgc-slider-fill');
+    var priceLabel = document.getElementById('tgc-price-label');
+
+    function updateSliderUI() {
+      var minVal   = parseFloat(rangeMin.value);
+      var maxVal   = parseFloat(rangeMax.value);
+      var totalMin = parseFloat(rangeMin.min);
+      var totalMax = parseFloat(rangeMin.max);
+      var range    = totalMax - totalMin || 1;
+      sliderFill.style.left  = ((minVal - totalMin) / range * 100) + '%';
+      sliderFill.style.right = ((totalMax - maxVal) / range * 100) + '%';
+      priceLabel.textContent = 'Price: $' + Math.round(minVal) + ' \u2014 $' + Math.round(maxVal);
+    }
+
+    rangeMin.addEventListener('input', function() {
+      if (parseFloat(rangeMin.value) > parseFloat(rangeMax.value)) rangeMin.value = rangeMax.value;
+      updateSliderUI();
+    });
+    rangeMax.addEventListener('input', function() {
+      if (parseFloat(rangeMax.value) < parseFloat(rangeMin.value)) rangeMax.value = rangeMin.value;
+      updateSliderUI();
+    });
+    updateSliderUI();
+
+    // --- Combined filter ---
     function applyFilters() {
-      // --- read states ---
-      var catChecks  = Array.from(document.querySelectorAll('[data-tgc-cat]'));
-      var activeCats = catChecks.filter(function(cb){ return cb.checked; })
-                                .map(function(cb){ return cb.dataset.tgcCat; });
+      var colChecks  = Array.from(document.querySelectorAll('[data-tgc-col]'));
+      var activeCols = colChecks.filter(function(cb){ return cb.checked; }).map(function(cb){ return cb.dataset.tgcCol; });
+      var allColsChecked = activeCols.length === colChecks.length;
 
-      var minPrice = parseFloat(document.getElementById('tgc-price-min').value) * 100;
-      var maxPrice = parseFloat(document.getElementById('tgc-price-max').value) * 100;
+      var minPrice = parseFloat(rangeMin.value) * 100;
+      var maxPrice = parseFloat(rangeMax.value) * 100;
       if (isNaN(minPrice)) minPrice = 0;
       if (isNaN(maxPrice)) maxPrice = Infinity;
 
       var inStock = document.getElementById('avail-instock').checked;
       var soldOut = document.getElementById('avail-soldout').checked;
 
-      // --- apply to each card ---
       var visible = 0;
       cards.forEach(function(card) {
-        var price  = parseFloat(card.dataset.tgcPrice);
-        var avail  = card.dataset.tgcAvailable === 'true';
-        var type   = (card.dataset.tgcType || '').toLowerCase().trim();
+        var price = parseFloat(card.dataset.tgcPrice);
+        var avail = card.dataset.tgcAvailable === 'true';
+        var cols  = (card.dataset.tgcCols || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
 
-        var catOk  = activeCats.length === 0 ||
-                     activeCats.some(function(c){ return type === c; });
+        var colOk   = colChecks.length === 0 || allColsChecked ||
+                      activeCols.some(function(c){ return cols.indexOf(c) !== -1; });
         var priceOk = price >= minPrice && price <= maxPrice;
-        var availOk = (!inStock && !soldOut) ||
-                      (inStock && avail) ||
-                      (soldOut && !avail);
+        var availOk = (!inStock && !soldOut) || (inStock && avail) || (soldOut && !avail);
 
-        var show = catOk && priceOk && availOk;
+        var show = colOk && priceOk && availOk;
         card.style.display = show ? '' : 'none';
         if (show) visible++;
       });
 
-      // update count label
       if (countEl) {
         countEl.textContent = 'Showing ' + visible + ' of ' + cards.length +
           ' result' + (cards.length !== 1 ? 's' : '');
       }
     }
 
-    // Category checkboxes
-    document.querySelectorAll('[data-tgc-cat]').forEach(function(cb) {
+    // Collection checkboxes
+    document.querySelectorAll('[data-tgc-col]').forEach(function(cb) {
       cb.addEventListener('change', applyFilters);
     });
 
-    // Price filter button + Enter key
+    // Price filter button
     document.getElementById('tgc-price-filter-btn').addEventListener('click', applyFilters);
-    ['tgc-price-min','tgc-price-max'].forEach(function(id) {
-      document.getElementById(id).addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') applyFilters();
-      });
-    });
 
     // Availability checkboxes
     document.getElementById('avail-instock').addEventListener('change', applyFilters);
