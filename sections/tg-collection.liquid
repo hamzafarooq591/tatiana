@@ -552,29 +552,21 @@
           <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
         </p>
         <div class="tgc-sidebar__options">
-          {%- for link in linklists['collection-links'].links -%}
-            <div class="tgc-sidebar__option">
-              <input type="checkbox" id="cat-{{ forloop.index }}"
-                {%- if collection.handle == link.object.handle %} checked{%- endif -%}>
-              <label for="cat-{{ forloop.index }}" onclick="window.location='{{ link.url }}'">
-                {{ link.title }}
-                <span>({{ link.object.products_count }})</span>
-              </label>
-            </div>
-          {%- else -%}
-            {%- assign all_colls = collections -%}
-            {%- for coll in all_colls limit: 8 -%}
-              {%- unless coll.handle == 'frontpage' -%}
-                <div class="tgc-sidebar__option">
-                  <input type="checkbox" id="cat-{{ forloop.index }}"
-                    {%- if collection.handle == coll.handle %} checked{%- endif -%}>
-                  <label for="cat-{{ forloop.index }}" onclick="window.location='{{ coll.url }}'">
-                    {{ coll.title }}
-                    <span>({{ coll.products_count }})</span>
-                  </label>
-                </div>
-              {%- endunless -%}
-            {%- endfor -%}
+          {%- assign cat_types = collection.products | map: 'type' | uniq -%}
+          {%- for type in cat_types -%}
+            {%- if type != blank -%}
+              {%- assign type_count = 0 -%}
+              {%- for p in collection.products -%}
+                {%- if p.type == type -%}{%- assign type_count = type_count | plus: 1 -%}{%- endif -%}
+              {%- endfor -%}
+              <div class="tgc-sidebar__option">
+                <input type="checkbox" id="cat-{{ forloop.index }}" data-tgc-cat="{{ type | downcase | strip }}" checked>
+                <label for="cat-{{ forloop.index }}">
+                  {{ type }}
+                  <span>({{ type_count }})</span>
+                </label>
+              </div>
+            {%- endif -%}
           {%- endfor -%}
         </div>
       </div>
@@ -654,7 +646,7 @@
               assign featured_image   = product.featured_image
               assign first_variant    = product.selected_or_first_available_variant
             -%}
-            <article class="tgc-card" data-tgc-price="{{ product.price }}" data-tgc-available="{{ first_variant.available }}">
+            <article class="tgc-card" data-tgc-price="{{ product.price }}" data-tgc-available="{{ first_variant.available }}" data-tgc-type="{{ product.type | downcase | strip }}">
               <a href="{{ product.url }}" class="tgc-card__link" aria-label="{{ product.title | escape }}">
                 <div class="tgc-card__img-wrap">
                   {%- if featured_image -%}
@@ -768,49 +760,83 @@
 
 <script>
   (function() {
-    // Sidebar accordion toggle
-    document.querySelectorAll('[data-tgc-filter-toggle]').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var group = btn.closest('[data-tgc-filter-group]');
-        group.classList.toggle('is-open');
-        var opts = group.querySelector('.tgc-sidebar__options, .tgc-price-range');
-        if (opts) opts.style.display = group.classList.contains('is-open') ? '' : 'none';
+    var cards    = Array.from(document.querySelectorAll('.tgc-card'));
+    var countEl  = document.querySelector('.tgc-toolbar__count');
+
+    function applyFilters() {
+      // --- read states ---
+      var catChecks  = Array.from(document.querySelectorAll('[data-tgc-cat]'));
+      var activeCats = catChecks.filter(function(cb){ return cb.checked; })
+                                .map(function(cb){ return cb.dataset.tgcCat; });
+
+      var minPrice = parseFloat(document.getElementById('tgc-price-min').value) * 100;
+      var maxPrice = parseFloat(document.getElementById('tgc-price-max').value) * 100;
+      if (isNaN(minPrice)) minPrice = 0;
+      if (isNaN(maxPrice)) maxPrice = Infinity;
+
+      var inStock = document.getElementById('avail-instock').checked;
+      var soldOut = document.getElementById('avail-soldout').checked;
+
+      // --- apply to each card ---
+      var visible = 0;
+      cards.forEach(function(card) {
+        var price  = parseFloat(card.dataset.tgcPrice);
+        var avail  = card.dataset.tgcAvailable === 'true';
+        var type   = (card.dataset.tgcType || '').toLowerCase().trim();
+
+        var catOk  = activeCats.length === 0 ||
+                     activeCats.some(function(c){ return type === c; });
+        var priceOk = price >= minPrice && price <= maxPrice;
+        var availOk = (!inStock && !soldOut) ||
+                      (inStock && avail) ||
+                      (soldOut && !avail);
+
+        var show = catOk && priceOk && availOk;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      // update count label
+      if (countEl) {
+        countEl.textContent = 'Showing ' + visible + ' of ' + cards.length +
+          ' result' + (cards.length !== 1 ? 's' : '');
+      }
+    }
+
+    // Category checkboxes
+    document.querySelectorAll('[data-tgc-cat]').forEach(function(cb) {
+      cb.addEventListener('change', applyFilters);
+    });
+
+    // Price filter button + Enter key
+    document.getElementById('tgc-price-filter-btn').addEventListener('click', applyFilters);
+    ['tgc-price-min','tgc-price-max'].forEach(function(id) {
+      document.getElementById(id).addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') applyFilters();
       });
     });
 
-    // Grid/List view toggle
+    // Availability checkboxes
+    document.getElementById('avail-instock').addEventListener('change', applyFilters);
+    document.getElementById('avail-soldout').addEventListener('change', applyFilters);
+
+    // Grid / List toggle
     var grid = document.getElementById('tgc-grid');
     document.getElementById('tgc-view-grid').addEventListener('click', function() {
-      if (grid) grid.classList.remove('is-list');
+      grid && grid.classList.remove('is-list');
       this.classList.add('is-active');
       document.getElementById('tgc-view-list').classList.remove('is-active');
     });
     document.getElementById('tgc-view-list').addEventListener('click', function() {
-      if (grid) grid.classList.add('is-list');
+      grid && grid.classList.add('is-list');
       this.classList.add('is-active');
       document.getElementById('tgc-view-grid').classList.remove('is-active');
     });
 
-    // Client-side price filter
-    document.getElementById('tgc-price-filter-btn').addEventListener('click', function() {
-      var min = parseFloat(document.getElementById('tgc-price-min').value) * 100 || 0;
-      var max = parseFloat(document.getElementById('tgc-price-max').value) * 100 || Infinity;
-      document.querySelectorAll('.tgc-card').forEach(function(card) {
-        var price = parseFloat(card.dataset.tgcPrice);
-        card.style.display = (price >= min && price <= max) ? '' : 'none';
-      });
-    });
-
-    // Availability filter
-    document.querySelectorAll('[data-tgc-avail]').forEach(function(cb) {
-      cb.addEventListener('change', function() {
-        var inStock  = document.querySelector('[data-tgc-avail="true"]').checked;
-        var soldOut  = document.querySelector('[data-tgc-avail="false"]').checked;
-        document.querySelectorAll('.tgc-card').forEach(function(card) {
-          var avail = card.dataset.tgcAvailable === 'true';
-          if (!inStock && !soldOut) { card.style.display = ''; return; }
-          card.style.display = ((inStock && avail) || (soldOut && !avail)) ? '' : 'none';
-        });
+    // Sidebar accordion
+    document.querySelectorAll('[data-tgc-filter-toggle]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        btn.closest('[data-tgc-filter-group]').classList.toggle('is-open');
       });
     });
   })();
