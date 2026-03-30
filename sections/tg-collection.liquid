@@ -1,0 +1,824 @@
+{% comment %} TatianaGlen — Shop / Collection page with left sidebar filters {% endcomment %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+  .tgc-page {
+    --tgc-gold:   #cd8f5c;
+    --tgc-dark:   #111111;
+    --tgc-text:   #666666;
+    --tgc-border: #eeeeee;
+    --tgc-cream:  #f7f1ed;
+    --tgc-serif:  'Cormorant Garamond', Georgia, serif;
+    --tgc-sans:   'Montserrat', Arial, sans-serif;
+    font-family: var(--tgc-sans);
+    background: #ffffff;
+  }
+
+  /* ============================================================
+     PAGE HEADER
+     ============================================================ */
+  .tgc-header {
+    padding: 48px 80px 0;
+    background: #ffffff;
+  }
+
+  .tgc-header__title {
+    font-family: var(--tgc-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    color: var(--tgc-dark);
+    margin: 0 0 8px;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+
+  .tgc-header__desc {
+    font-family: var(--tgc-sans);
+    font-size: 13px;
+    color: var(--tgc-text);
+    line-height: 1.75;
+    margin: 0;
+    max-width: 680px;
+  }
+
+  /* ============================================================
+     LAYOUT: SIDEBAR + GRID
+     ============================================================ */
+  .tgc-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    padding: 40px 80px 80px;
+    background: #ffffff;
+    align-items: start;
+  }
+
+  /* ============================================================
+     LEFT SIDEBAR
+     ============================================================ */
+  .tgc-sidebar {
+    position: sticky;
+    top: 100px;
+    padding-right: 40px;
+    border-right: 1px solid var(--tgc-border);
+  }
+
+  .tgc-sidebar__group {
+    border-bottom: 1px solid var(--tgc-border);
+    padding: 20px 0;
+  }
+
+  .tgc-sidebar__group:first-child {
+    padding-top: 0;
+  }
+
+  .tgc-sidebar__heading {
+    font-family: var(--tgc-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tgc-dark);
+    margin: 0 0 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .tgc-sidebar__heading svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--tgc-dark);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    transition: transform 0.25s;
+  }
+
+  .tgc-sidebar__group.is-open .tgc-sidebar__heading svg {
+    transform: rotate(180deg);
+  }
+
+  .tgc-sidebar__options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tgc-sidebar__option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .tgc-sidebar__option input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid #ccc;
+    border-radius: 2px;
+    cursor: pointer;
+    accent-color: var(--tgc-dark);
+    flex-shrink: 0;
+  }
+
+  .tgc-sidebar__option label {
+    font-family: var(--tgc-sans);
+    font-size: 12.5px;
+    color: var(--tgc-text);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .tgc-sidebar__option label span {
+    color: #aaa;
+    font-size: 11px;
+  }
+
+  /* Price range */
+  .tgc-price-range {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tgc-price-range__inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tgc-price-range__input {
+    width: 80px;
+    padding: 8px 10px;
+    border: 1px solid var(--tgc-border);
+    font-family: var(--tgc-sans);
+    font-size: 12px;
+    color: var(--tgc-dark);
+    outline: none;
+    text-align: center;
+  }
+
+  .tgc-price-range__sep {
+    font-size: 12px;
+    color: var(--tgc-text);
+  }
+
+  .tgc-price-range__btn {
+    align-self: flex-start;
+    padding: 8px 20px;
+    background: var(--tgc-dark);
+    color: #fff;
+    font-family: var(--tgc-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .tgc-price-range__btn:hover {
+    background: var(--tgc-gold);
+  }
+
+  /* ============================================================
+     RIGHT: MAIN CONTENT
+     ============================================================ */
+  .tgc-main {
+    padding-left: 40px;
+  }
+
+  /* TOOLBAR */
+  .tgc-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--tgc-border);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .tgc-toolbar__count {
+    font-family: var(--tgc-sans);
+    font-size: 12px;
+    color: var(--tgc-text);
+    margin: 0;
+  }
+
+  .tgc-toolbar__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .tgc-toolbar__sort {
+    font-family: var(--tgc-sans);
+    font-size: 12px;
+    color: var(--tgc-dark);
+    border: 1px solid var(--tgc-border);
+    padding: 8px 32px 8px 12px;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .tgc-toolbar__views {
+    display: flex;
+    gap: 6px;
+  }
+
+  .tgc-toolbar__view-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--tgc-border);
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .tgc-toolbar__view-btn.is-active,
+  .tgc-toolbar__view-btn:hover {
+    background: var(--tgc-dark);
+    border-color: var(--tgc-dark);
+  }
+
+  .tgc-toolbar__view-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--tgc-dark);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+  }
+
+  .tgc-toolbar__view-btn.is-active svg,
+  .tgc-toolbar__view-btn:hover svg {
+    stroke: #fff;
+  }
+
+  /* PRODUCT GRID */
+  .tgc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 16px;
+  }
+
+  .tgc-grid.is-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* PRODUCT CARD */
+  .tgc-card {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .tgc-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .tgc-card__img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 450 / 532;
+    background: #f4ede6;
+    margin-bottom: 14px;
+  }
+
+  .tgc-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .tgc-card:hover .tgc-card__img {
+    transform: scale(1.04);
+  }
+
+  .tgc-card__actions {
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 2;
+  }
+
+  .tgc-card:hover .tgc-card__actions {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tgc-card__icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #111;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .tgc-card__icon-btn:hover {
+    background: var(--tgc-gold);
+    transform: scale(1.1);
+  }
+
+  .tgc-card__icon-btn--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .tgc-card__icon-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tgc-card__title {
+    font-family: var(--tgc-sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--tgc-dark);
+    margin: 0 0 6px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tgc-card__price {
+    font-family: var(--tgc-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--tgc-dark);
+    margin: 0;
+  }
+
+  .tgc-card__sold-out {
+    color: #aaa;
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  /* LIST VIEW CARD */
+  .tgc-grid.is-list .tgc-card__link {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .tgc-grid.is-list .tgc-card__img-wrap {
+    margin-bottom: 0;
+    aspect-ratio: 1 / 1;
+  }
+
+  /* EMPTY */
+  .tgc-empty {
+    text-align: center;
+    padding: 80px 0;
+    font-family: var(--tgc-sans);
+    font-size: 14px;
+    color: var(--tgc-text);
+  }
+
+  /* PAGINATION */
+  .tgc-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--tgc-border);
+  }
+
+  .tgc-pagination__btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--tgc-sans);
+    font-size: 12px;
+    color: var(--tgc-dark);
+    border: 1px solid var(--tgc-border);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .tgc-pagination__btn.is-active,
+  .tgc-pagination__btn:hover {
+    background: var(--tgc-dark);
+    color: #fff;
+    border-color: var(--tgc-dark);
+  }
+
+  .tgc-pagination__btn--wide {
+    width: auto;
+    padding: 0 14px;
+    letter-spacing: 0.08em;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  /* FEATURES STRIP */
+  .tgc-features {
+    background: #f5ede4;
+    padding: 56px 80px;
+  }
+
+  .tgc-features__grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+
+  .tgc-features__item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .tgc-features__icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid var(--tgc-dark);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tgc-features__icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--tgc-dark);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tgc-features__body { display: flex; flex-direction: column; gap: 6px; }
+  .tgc-features__title { font-family: var(--tgc-sans); font-size: 13px; font-weight: 700; color: var(--tgc-dark); margin: 0; }
+  .tgc-features__text  { font-family: var(--tgc-sans); font-size: 12px; color: var(--tgc-text); line-height: 1.75; margin: 0; }
+
+  /* RESPONSIVE */
+  @media screen and (max-width: 989px) {
+    .tgc-header { padding: 36px 40px 0; }
+    .tgc-layout { padding: 32px 40px 64px; grid-template-columns: 220px 1fr; }
+    .tgc-grid { grid-template-columns: repeat(2, 1fr); }
+    .tgc-features { padding: 48px 40px; }
+    .tgc-features__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  }
+
+  @media screen and (max-width: 749px) {
+    .tgc-header { padding: 28px 20px 0; }
+    .tgc-layout { padding: 24px 20px 48px; grid-template-columns: 1fr; }
+    .tgc-sidebar { position: static; padding-right: 0; border-right: none; border-bottom: 1px solid var(--tgc-border); padding-bottom: 24px; margin-bottom: 24px; }
+    .tgc-main { padding-left: 0; }
+    .tgc-grid { grid-template-columns: repeat(2, 1fr); gap: 16px 10px; }
+    .tgc-features { padding: 40px 20px; }
+    .tgc-features__grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+{% endstyle %}
+
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign products_count = collection.products_count
+  assign current_page = current_page | default: 1
+-%}
+
+<div class="tgc-page">
+
+  {%- comment -%} PAGE HEADER {%- endcomment -%}
+  <div class="tgc-header">
+    <h1 class="tgc-header__title">{{ collection.title | default: 'The Collection' }}</h1>
+    {%- if collection.description != blank -%}
+      <p class="tgc-header__desc">{{ collection.description }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="tgc-layout">
+
+    {%- comment -%} ========== LEFT SIDEBAR ========== {%- endcomment -%}
+    <aside class="tgc-sidebar" id="tgc-sidebar">
+
+      {%- comment -%} CATEGORIES {%- endcomment -%}
+      <div class="tgc-sidebar__group is-open" data-tgc-filter-group>
+        <p class="tgc-sidebar__heading" data-tgc-filter-toggle>
+          Product Categories
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </p>
+        <div class="tgc-sidebar__options">
+          {%- for link in linklists['collection-links'].links -%}
+            <div class="tgc-sidebar__option">
+              <input type="checkbox" id="cat-{{ forloop.index }}"
+                {%- if collection.handle == link.object.handle %} checked{%- endif -%}>
+              <label for="cat-{{ forloop.index }}" onclick="window.location='{{ link.url }}'">
+                {{ link.title }}
+                <span>({{ link.object.products_count }})</span>
+              </label>
+            </div>
+          {%- else -%}
+            {%- assign all_colls = collections -%}
+            {%- for coll in all_colls limit: 8 -%}
+              {%- unless coll.handle == 'frontpage' -%}
+                <div class="tgc-sidebar__option">
+                  <input type="checkbox" id="cat-{{ forloop.index }}"
+                    {%- if collection.handle == coll.handle %} checked{%- endif -%}>
+                  <label for="cat-{{ forloop.index }}" onclick="window.location='{{ coll.url }}'">
+                    {{ coll.title }}
+                    <span>({{ coll.products_count }})</span>
+                  </label>
+                </div>
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- comment -%} PRICE RANGE {%- endcomment -%}
+      <div class="tgc-sidebar__group is-open" data-tgc-filter-group>
+        <p class="tgc-sidebar__heading" data-tgc-filter-toggle>
+          Price
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </p>
+        <div class="tgc-price-range">
+          <div class="tgc-price-range__inputs">
+            <input class="tgc-price-range__input" type="number" id="tgc-price-min" placeholder="Min"
+              value="{{ collection.products | map: 'price' | sort | first | money_without_currency | remove: ',' }}"
+              min="0">
+            <span class="tgc-price-range__sep">—</span>
+            <input class="tgc-price-range__input" type="number" id="tgc-price-max" placeholder="Max"
+              value="{{ collection.products | map: 'price' | sort | last | money_without_currency | remove: ',' }}"
+              min="0">
+          </div>
+          <button class="tgc-price-range__btn" id="tgc-price-filter-btn">Filter</button>
+        </div>
+      </div>
+
+      {%- comment -%} AVAILABILITY {%- endcomment -%}
+      <div class="tgc-sidebar__group is-open" data-tgc-filter-group>
+        <p class="tgc-sidebar__heading" data-tgc-filter-toggle>
+          Availability
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </p>
+        <div class="tgc-sidebar__options">
+          <div class="tgc-sidebar__option">
+            <input type="checkbox" id="avail-instock" data-tgc-avail="true">
+            <label for="avail-instock">In Stock</label>
+          </div>
+          <div class="tgc-sidebar__option">
+            <input type="checkbox" id="avail-soldout" data-tgc-avail="false">
+            <label for="avail-soldout">Sold Out</label>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    {%- comment -%} ========== MAIN CONTENT ========== {%- endcomment -%}
+    <div class="tgc-main">
+
+      {%- comment -%} TOOLBAR {%- endcomment -%}
+      <div class="tgc-toolbar">
+        <p class="tgc-toolbar__count">
+          Showing {{ collection.products.size }} of {{ products_count }} result{%- if products_count != 1 -%}s{%- endif -%}
+        </p>
+        <div class="tgc-toolbar__right">
+          <select class="tgc-toolbar__sort" id="tgc-sort" onchange="window.location=this.value">
+            <option value="?sort_by=manual" {% if sort_by == 'manual' %}selected{% endif %}>Default sorting</option>
+            <option value="?sort_by=best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Sort by popularity</option>
+            <option value="?sort_by=created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Sort by latest</option>
+            <option value="?sort_by=price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Sort by price: low to high</option>
+            <option value="?sort_by=price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Sort by price: high to low</option>
+          </select>
+          <div class="tgc-toolbar__views">
+            <button class="tgc-toolbar__view-btn is-active" id="tgc-view-grid" aria-label="Grid view">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+            <button class="tgc-toolbar__view-btn" id="tgc-view-list" aria-label="List view">
+              <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} PRODUCT GRID {%- endcomment -%}
+      {%- if collection.products.size > 0 -%}
+        <div class="tgc-grid" id="tgc-grid">
+          {%- for product in collection.products -%}
+            {%- liquid
+              assign featured_image   = product.featured_image
+              assign first_variant    = product.selected_or_first_available_variant
+            -%}
+            <article class="tgc-card" data-tgc-price="{{ product.price }}" data-tgc-available="{{ first_variant.available }}">
+              <a href="{{ product.url }}" class="tgc-card__link" aria-label="{{ product.title | escape }}">
+                <div class="tgc-card__img-wrap">
+                  {%- if featured_image -%}
+                    <img class="tgc-card__img"
+                      src="{{ featured_image | image_url: width: 800 }}"
+                      alt="{{ featured_image.alt | default: product.title | escape }}"
+                      loading="lazy"
+                      width="{{ featured_image.width }}"
+                      height="{{ featured_image.height }}">
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'tgc-card__img' }}
+                  {%- endif -%}
+                  <div class="tgc-card__actions" onclick="event.preventDefault()">
+                    {%- if first_variant.available -%}
+                      <a href="{{ product.url }}" class="tgc-card__icon-btn" aria-label="View {{ product.title | escape }}" onclick="event.stopPropagation()">
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                      </a>
+                    {%- else -%}
+                      <span class="tgc-card__icon-btn tgc-card__icon-btn--disabled">
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                      </span>
+                    {%- endif -%}
+                    <button class="tgc-card__icon-btn" type="button" aria-label="Wishlist" onclick="event.stopPropagation()">
+                      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                    </button>
+                    <a href="{{ product.url }}" class="tgc-card__icon-btn" aria-label="Quick view">
+                      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </a>
+                  </div>
+                </div>
+                <div class="tgc-card__info">
+                  <h3 class="tgc-card__title">{{ product.title }}</h3>
+                  <p class="tgc-card__price">
+                    {%- if product.price_varies -%}
+                      {{ product.price_min | money }} – {{ product.price_max | money }}
+                    {%- else -%}
+                      {{ product.price | money }}
+                    {%- endif -%}
+                    {%- unless first_variant.available -%}
+                      <span class="tgc-card__sold-out"> — Sold Out</span>
+                    {%- endunless -%}
+                  </p>
+                </div>
+              </a>
+            </article>
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} PAGINATION {%- endcomment -%}
+        {%- if paginate.pages > 1 -%}
+          {%- paginate collection.products by 12 -%}
+            <nav class="tgc-pagination">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="tgc-pagination__btn tgc-pagination__btn--wide">← Prev</a>
+              {%- endif -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="tgc-pagination__btn">{{ part.title }}</a>
+                {%- else -%}
+                  <span class="tgc-pagination__btn is-active">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="tgc-pagination__btn tgc-pagination__btn--wide">Next →</a>
+              {%- endif -%}
+            </nav>
+          {%- endpaginate -%}
+        {%- endif -%}
+
+      {%- else -%}
+        <div class="tgc-empty">No products found in this collection.</div>
+      {%- endif -%}
+
+    </div>
+  </div>
+
+  {%- comment -%} FEATURES STRIP {%- endcomment -%}
+  <section class="tgc-features">
+    <div class="tgc-features__grid">
+      <div class="tgc-features__item">
+        <div class="tgc-features__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="tgc-features__body">
+          <p class="tgc-features__title">Signed &amp; Sealed Authenticity</p>
+          <p class="tgc-features__text">Every piece comes with a certificate of authenticity</p>
+        </div>
+      </div>
+      <div class="tgc-features__item">
+        <div class="tgc-features__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="tgc-features__body">
+          <p class="tgc-features__title">Two Year Finish Commitment</p>
+          <p class="tgc-features__text">We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.</p>
+        </div>
+      </div>
+      <div class="tgc-features__item">
+        <div class="tgc-features__icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 11V6.5a2.5 2.5 0 0 0-5 0V12"/><path d="M13 11.5V9a2 2 0 0 0-4 0v3"/><path d="M9 12.5V11a2 2 0 0 0-4 0v4c0 3.31 2.69 6 6 6h2a5 5 0 0 0 5-5v-4a2 2 0 0 0-4 0"/></svg>
+        </div>
+        <div class="tgc-features__body">
+          <p class="tgc-features__title">Handled &amp; Insured Delivery</p>
+          <p class="tgc-features__text">We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  (function() {
+    // Sidebar accordion toggle
+    document.querySelectorAll('[data-tgc-filter-toggle]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var group = btn.closest('[data-tgc-filter-group]');
+        group.classList.toggle('is-open');
+        var opts = group.querySelector('.tgc-sidebar__options, .tgc-price-range');
+        if (opts) opts.style.display = group.classList.contains('is-open') ? '' : 'none';
+      });
+    });
+
+    // Grid/List view toggle
+    var grid = document.getElementById('tgc-grid');
+    document.getElementById('tgc-view-grid').addEventListener('click', function() {
+      if (grid) grid.classList.remove('is-list');
+      this.classList.add('is-active');
+      document.getElementById('tgc-view-list').classList.remove('is-active');
+    });
+    document.getElementById('tgc-view-list').addEventListener('click', function() {
+      if (grid) grid.classList.add('is-list');
+      this.classList.add('is-active');
+      document.getElementById('tgc-view-grid').classList.remove('is-active');
+    });
+
+    // Client-side price filter
+    document.getElementById('tgc-price-filter-btn').addEventListener('click', function() {
+      var min = parseFloat(document.getElementById('tgc-price-min').value) * 100 || 0;
+      var max = parseFloat(document.getElementById('tgc-price-max').value) * 100 || Infinity;
+      document.querySelectorAll('.tgc-card').forEach(function(card) {
+        var price = parseFloat(card.dataset.tgcPrice);
+        card.style.display = (price >= min && price <= max) ? '' : 'none';
+      });
+    });
+
+    // Availability filter
+    document.querySelectorAll('[data-tgc-avail]').forEach(function(cb) {
+      cb.addEventListener('change', function() {
+        var inStock  = document.querySelector('[data-tgc-avail="true"]').checked;
+        var soldOut  = document.querySelector('[data-tgc-avail="false"]').checked;
+        document.querySelectorAll('.tgc-card').forEach(function(card) {
+          var avail = card.dataset.tgcAvailable === 'true';
+          if (!inStock && !soldOut) { card.style.display = ''; return; }
+          card.style.display = ((inStock && avail) || (soldOut && !avail)) ? '' : 'none';
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Shop Collection",
+  "presets": [{ "name": "Shop Collection" }]
+}
+{% endschema %}

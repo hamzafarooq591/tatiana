@@ -1,0 +1,333 @@
+{% comment %} TatianaGlen — FAQ page with accordion {% endcomment %}
+
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+  .tgf-page {
+    --tgf-gold:  #cd8f5c;
+    --tgf-dark:  #111111;
+    --tgf-text:  #666666;
+    --tgf-cream: #f5ede4;
+    --tgf-border:#e8e0d8;
+    --tgf-serif: 'Cormorant Garamond', Georgia, serif;
+    --tgf-sans:  'Montserrat', Arial, sans-serif;
+    font-family: var(--tgf-sans);
+    background: #ffffff;
+  }
+
+  /* ============================================================
+     INTRO
+     ============================================================ */
+  .tgf-intro {
+    background: #ffffff;
+    padding: 96px 80px 64px;
+    text-align: center;
+  }
+
+  .tgf-intro__inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .tgf-intro__eyebrow {
+    font-family: var(--tgf-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tgf-gold);
+    margin: 0 0 18px;
+  }
+
+  .tgf-intro__heading {
+    font-family: var(--tgf-serif);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400;
+    color: var(--tgf-dark);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    margin: 0 0 20px;
+    text-transform: none;
+  }
+
+  .tgf-intro__divider {
+    width: 48px;
+    height: 1px;
+    background: var(--tgf-gold);
+    margin: 0 auto 24px;
+  }
+
+  .tgf-intro__body {
+    font-family: var(--tgf-sans);
+    font-size: 13.5px;
+    color: var(--tgf-text);
+    line-height: 1.85;
+    margin: 0;
+  }
+
+  /* ============================================================
+     ACCORDION
+     ============================================================ */
+  .tgf-accordion {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 80px 96px;
+  }
+
+  .tgf-item {
+    border-bottom: 1px solid var(--tgf-border);
+  }
+
+  .tgf-item:first-child {
+    border-top: 1px solid var(--tgf-border);
+  }
+
+  .tgf-item__trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 22px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 16px;
+  }
+
+  .tgf-item__question {
+    font-family: var(--tgf-sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--tgf-dark);
+    margin: 0;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
+
+  .tgf-item__icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--tgf-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .tgf-item__icon svg {
+    width: 10px;
+    height: 10px;
+    stroke: var(--tgf-dark);
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: transform 0.3s;
+  }
+
+  .tgf-item.is-open .tgf-item__icon {
+    background: var(--tgf-dark);
+    border-color: var(--tgf-dark);
+  }
+
+  .tgf-item.is-open .tgf-item__icon svg {
+    stroke: #fff;
+    transform: rotate(45deg);
+  }
+
+  .tgf-item__body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+  }
+
+  .tgf-item.is-open .tgf-item__body {
+    max-height: 600px;
+  }
+
+  .tgf-item__answer {
+    font-family: var(--tgf-sans);
+    font-size: 13px;
+    color: var(--tgf-text);
+    line-height: 1.85;
+    padding: 0 0 24px;
+    margin: 0;
+  }
+
+  .tgf-item__answer strong {
+    color: var(--tgf-dark);
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     FEATURES STRIP
+     ============================================================ */
+  .tgf-features {
+    background: var(--tgf-cream);
+    padding: 64px 80px;
+  }
+
+  .tgf-features__grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+
+  .tgf-features__item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .tgf-features__icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid var(--tgf-dark);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tgf-features__icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--tgf-dark);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tgf-features__body { display: flex; flex-direction: column; gap: 6px; }
+  .tgf-features__title { font-family: var(--tgf-sans); font-size: 13px; font-weight: 700; color: var(--tgf-dark); margin: 0; }
+  .tgf-features__text  { font-family: var(--tgf-sans); font-size: 12px; color: var(--tgf-text); line-height: 1.75; margin: 0; }
+
+  /* RESPONSIVE */
+  @media screen and (max-width: 989px) {
+    .tgf-intro { padding: 72px 40px 48px; }
+    .tgf-accordion { padding: 0 40px 72px; }
+    .tgf-features { padding: 56px 40px; }
+    .tgf-features__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  }
+
+  @media screen and (max-width: 749px) {
+    .tgf-intro { padding: 56px 20px 36px; }
+    .tgf-accordion { padding: 0 20px 56px; }
+    .tgf-features { padding: 48px 20px; }
+    .tgf-features__grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+{% endstyle %}
+
+<div class="tgf-page">
+
+  {%- comment -%} INTRO {%- endcomment -%}
+  <section class="tgf-intro">
+    <div class="tgf-intro__inner">
+      <p class="tgf-intro__eyebrow">Support</p>
+      <h1 class="tgf-intro__heading">Frequently Asked Questions</h1>
+      <div class="tgf-intro__divider"></div>
+      <p class="tgf-intro__body">Everything you need to know about our pieces, process, and studio practice.</p>
+    </div>
+  </section>
+
+  {%- comment -%} FAQ ACCORDION {%- endcomment -%}
+  <div class="tgf-accordion" id="tgf-accordion">
+
+    {%- assign faqs = "
+      Are all mirrors handmade?|Yes. Every Tatiana & Glen mirror is individually poured, finished, and inspected by hand in our studio. Subtle variations in texture, color, and contour are a natural result of the handcrafted resin process — and part of what makes each piece unique.||
+      Do you offer custom sizes or colors?|Yes. We occasionally accept custom requests for designers and special projects. Please use the Design Inquiries form to submit your project details and we will review your request.||
+      How long does production take?|Production typically takes <strong>2–4 weeks</strong>, depending on the piece and studio schedule. Most items are made-to-order.||
+      Do your mirrors come with a certificate of authenticity?|Yes. Every piece is accompanied by a <strong>certificate of authenticity</strong>, confirming it was created in our studio.||
+      What if my mirror arrives damaged?|Please contact our studio <strong>within 48 hours of delivery</strong> with photos of the damage and your order details. We will review and arrange a replacement where appropriate.||
+      How should I care for my mirror?|Use a soft microfiber cloth and a standard glass cleaner. Avoid harsh chemicals or abrasive materials on the resin areas.||
+      Can the mirrors be hung in different orientations?|Some mirrors can be displayed both vertically and horizontally, depending on the design. Please refer to the individual product page or contact us for specific guidance.||
+      Do you offer trade pricing for interior designers?|Yes. We work with interior designers, architects, and creative studios. Please complete the Trade & Design Inquiries form to discuss trade pricing and project sourcing.
+    " | split: "||" -%}
+
+    {%- for faq_raw in faqs -%}
+      {%- assign faq_raw = faq_raw | strip -%}
+      {%- if faq_raw != blank -%}
+        {%- assign parts = faq_raw | split: "|" -%}
+        {%- assign q = parts[0] | strip -%}
+        {%- assign a = parts[1] | strip -%}
+        {%- if q != blank and a != blank -%}
+          <div class="tgf-item" data-tgf-item>
+            <button class="tgf-item__trigger" data-tgf-trigger aria-expanded="false">
+              <span class="tgf-item__question">{{ q }}</span>
+              <span class="tgf-item__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="tgf-item__body" data-tgf-body>
+              <p class="tgf-item__answer">{{ a }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+  </div>
+
+  {%- comment -%} FEATURES {%- endcomment -%}
+  <section class="tgf-features">
+    <div class="tgf-features__grid">
+      <div class="tgf-features__item">
+        <div class="tgf-features__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="tgf-features__body">
+          <p class="tgf-features__title">Signed &amp; Sealed Authenticity</p>
+          <p class="tgf-features__text">Every piece comes with a certificate of authenticity</p>
+        </div>
+      </div>
+      <div class="tgf-features__item">
+        <div class="tgf-features__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="tgf-features__body">
+          <p class="tgf-features__title">Two Year Finish Commitment</p>
+          <p class="tgf-features__text">We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.</p>
+        </div>
+      </div>
+      <div class="tgf-features__item">
+        <div class="tgf-features__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 11V6.5a2.5 2.5 0 0 0-5 0V12"/><path d="M13 11.5V9a2 2 0 0 0-4 0v3"/><path d="M9 12.5V11a2 2 0 0 0-4 0v4c0 3.31 2.69 6 6 6h2a5 5 0 0 0 5-5v-4a2 2 0 0 0-4 0"/></svg></div>
+        <div class="tgf-features__body">
+          <p class="tgf-features__title">Handled &amp; Insured Delivery</p>
+          <p class="tgf-features__text">We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  (function() {
+    document.querySelectorAll('[data-tgf-trigger]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = btn.closest('[data-tgf-item]');
+        var isOpen = item.classList.contains('is-open');
+        // Close all
+        document.querySelectorAll('[data-tgf-item]').forEach(function(el) {
+          el.classList.remove('is-open');
+          el.querySelector('[data-tgf-trigger]').setAttribute('aria-expanded', 'false');
+        });
+        // Open clicked if it was closed
+        if (!isOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Page",
+  "presets": [{ "name": "FAQ Page" }]
+}
+{% endschema %}
