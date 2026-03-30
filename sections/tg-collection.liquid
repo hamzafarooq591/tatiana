@@ -717,7 +717,7 @@
                 {%- assign _p_col_handles = _p_col_handles | append: _pc.handle | append: ',' -%}
               {%- endunless -%}
             {%- endfor -%}
-            <article class="tgc-card" data-tgc-price="{{ product.price }}" data-tgc-available="{{ first_variant.available }}" data-tgc-type="{{ product.type | downcase | strip }}" data-tgc-cols="{{ _p_col_handles }}">
+            <article class="tgc-card" data-tgc-price="{{ product.price | divided_by: 100 }}" data-tgc-available="{{ first_variant.available }}" data-tgc-type="{{ product.type | downcase | strip }}" data-tgc-cols="{{ _p_col_handles }}">
               <a href="{{ product.url }}" class="tgc-card__link" aria-label="{{ product.title | escape }}">
                 <div class="tgc-card__img-wrap">
                   {%- if featured_image -%}
@@ -854,10 +854,12 @@
     rangeMin.addEventListener('input', function() {
       if (parseFloat(rangeMin.value) > parseFloat(rangeMax.value)) rangeMin.value = rangeMax.value;
       updateSliderUI();
+      applyFilters();
     });
     rangeMax.addEventListener('input', function() {
       if (parseFloat(rangeMax.value) < parseFloat(rangeMin.value)) rangeMax.value = rangeMin.value;
       updateSliderUI();
+      applyFilters();
     });
     updateSliderUI();
 
@@ -867,8 +869,8 @@
       var activeCols = colChecks.filter(function(cb){ return cb.checked; }).map(function(cb){ return cb.dataset.tgcCol; });
       var allColsChecked = activeCols.length === colChecks.length;
 
-      var minPrice = parseFloat(rangeMin.value) * 100;
-      var maxPrice = parseFloat(rangeMax.value) * 100;
+      var minPrice = parseFloat(rangeMin.value);
+      var maxPrice = parseFloat(rangeMax.value);
       if (isNaN(minPrice)) minPrice = 0;
       if (isNaN(maxPrice)) maxPrice = Infinity;
 
