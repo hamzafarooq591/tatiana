@@ -207,24 +207,6 @@
     margin: 0;
   }
 
-  .tgc-price-range__btn {
-    align-self: flex-start;
-    padding: 8px 20px;
-    background: var(--tgc-dark);
-    color: #fff;
-    font-family: var(--tgc-sans);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .tgc-price-range__btn:hover {
-    background: var(--tgc-gold);
-  }
 
   /* ============================================================
      RIGHT: MAIN CONTENT
@@ -652,7 +634,6 @@
               min="{{ _price_min_d }}" max="{{ _price_max_d }}" value="{{ _price_max_d }}" step="1">
           </div>
           <p class="tgc-price-slider__label" id="tgc-price-label">Price: ${{ _price_min_d }} &mdash; ${{ _price_max_d }}</p>
-          <button class="tgc-price-range__btn" id="tgc-price-filter-btn">Filter</button>
         </div>
       </div>
 
@@ -903,9 +884,6 @@
     document.querySelectorAll('[data-tgc-col]').forEach(function(cb) {
       cb.addEventListener('change', applyFilters);
     });
-
-    // Price filter button
-    document.getElementById('tgc-price-filter-btn').addEventListener('click', applyFilters);
 
     // Availability checkboxes
     document.getElementById('avail-instock').addEventListener('change', applyFilters);
