@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "tg-legal",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
