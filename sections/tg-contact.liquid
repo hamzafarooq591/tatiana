@@ -16,19 +16,40 @@
   }
 
   /* ============================================================
-     INTRO SECTION
+     2-COLUMN LAYOUT: IMAGE LEFT + FORM RIGHT
      ============================================================ */
-  .tgct-intro {
+  .tgct-body {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    min-height: 720px;
     background: #ffffff;
-    padding: 96px 80px 72px;
-    text-align: center;
   }
 
-  .tgct-intro__inner {
-    max-width: 680px;
-    margin: 0 auto;
+  /* ---- LEFT: IMAGE ---- */
+  .tgct-image-col {
+    position: relative;
+    overflow: hidden;
   }
 
+  .tgct-image-col img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* ---- RIGHT: FORM PANEL ---- */
+  .tgct-form-col {
+    padding: 80px 72px 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* ---- INTRO (inside form col) ---- */
   .tgct-intro__eyebrow {
     font-family: var(--tgct-sans);
     font-size: 11px;
@@ -36,17 +57,17 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--tgct-gold);
-    margin: 0 0 18px;
+    margin: 0 0 16px;
   }
 
   .tgct-intro__heading {
     font-family: var(--tgct-serif);
-    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
     font-weight: 400;
     color: var(--tgct-dark);
     letter-spacing: 0.02em;
     line-height: 1.2;
-    margin: 0 0 20px;
+    margin: 0 0 18px;
     text-transform: none;
   }
 
@@ -54,60 +75,44 @@
     width: 48px;
     height: 1px;
     background: var(--tgct-gold);
-    margin: 0 auto 24px;
+    margin: 0 0 22px;
   }
 
   .tgct-intro__body {
     font-family: var(--tgct-sans);
-    font-size: 13.5px;
+    font-size: 13px;
     color: var(--tgct-text);
     line-height: 1.85;
-    margin: 0;
+    margin: 0 0 10px;
   }
 
-  /* ============================================================
-     FORM SECTION
-     ============================================================ */
-  .tgct-form-section {
-    background: #ffffff;
-    padding: 0 80px 96px;
-  }
+  .tgct-intro__body:last-of-type { margin-bottom: 36px; }
 
-  .tgct-form {
-    max-width: 680px;
-    margin: 0 auto;
-  }
-
+  /* ---- FORM ---- */
   .tgct-form__row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 20px;
+    gap: 18px;
+    margin-bottom: 18px;
   }
 
   .tgct-form__group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-
-  .tgct-form__group--full {
-    grid-column: 1 / -1;
+    gap: 7px;
+    margin-bottom: 18px;
   }
 
   .tgct-form__label {
     font-family: var(--tgct-sans);
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--tgct-dark);
   }
 
-  .tgct-form__required {
-    color: var(--tgct-gold);
-  }
+  .tgct-form__required { color: var(--tgct-gold); }
 
   .tgct-form__input,
   .tgct-form__textarea {
@@ -116,7 +121,7 @@
     color: var(--tgct-dark);
     background: #ffffff;
     border: 1px solid var(--tgct-border);
-    padding: 14px 16px;
+    padding: 13px 15px;
     outline: none;
     width: 100%;
     box-sizing: border-box;
@@ -138,38 +143,35 @@
 
   .tgct-form__textarea {
     resize: vertical;
-    min-height: 140px;
+    min-height: 130px;
   }
 
   .tgct-form__submit {
     display: inline-block;
-    padding: 16px 48px;
+    padding: 15px 44px;
     background: var(--tgct-dark);
     color: #ffffff;
     font-family: var(--tgct-sans);
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     border: none;
     cursor: pointer;
     transition: background 0.25s;
-    margin-top: 8px;
+    margin-top: 4px;
   }
 
-  .tgct-form__submit:hover {
-    background: var(--tgct-gold);
-  }
+  .tgct-form__submit:hover { background: var(--tgct-gold); }
 
-  /* Success message */
   .tgct-form__success {
     display: none;
-    text-align: center;
-    padding: 32px;
-    background: #f5f5f5;
+    padding: 28px;
+    background: #f9f5f0;
     font-family: var(--tgct-sans);
     font-size: 14px;
     color: var(--tgct-dark);
+    border-left: 3px solid var(--tgct-gold);
   }
 
   /* ============================================================
@@ -222,15 +224,17 @@
 
   /* RESPONSIVE */
   @media screen and (max-width: 989px) {
-    .tgct-intro { padding: 72px 40px 56px; }
-    .tgct-form-section { padding: 0 40px 72px; }
+    .tgct-body { grid-template-columns: 1fr; }
+    .tgct-image-col { min-height: 380px; position: relative; }
+    .tgct-image-col img { position: absolute; }
+    .tgct-form-col { padding: 64px 40px; }
     .tgct-features { padding: 56px 40px; }
     .tgct-features__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
   }
 
   @media screen and (max-width: 749px) {
-    .tgct-intro { padding: 56px 20px 40px; }
-    .tgct-form-section { padding: 0 20px 56px; }
+    .tgct-image-col { min-height: 280px; }
+    .tgct-form-col { padding: 48px 20px; }
     .tgct-form__row { grid-template-columns: 1fr; }
     .tgct-features { padding: 48px 20px; }
     .tgct-features__grid { grid-template-columns: 1fr; gap: 28px; }
@@ -239,59 +243,68 @@
 
 <div class="tgct-page">
 
-  {%- comment -%} INTRO {%- endcomment -%}
-  <section class="tgct-intro">
-    <div class="tgct-intro__inner">
+  {%- comment -%} 2-COLUMN: IMAGE + FORM {%- endcomment -%}
+  <div class="tgct-body">
+
+    {%- comment -%} LEFT: IMAGE {%- endcomment -%}
+    <div class="tgct-image-col">
+      <img
+        src="https://tatianaglen.com/wp-content/uploads/2026/03/Contact-Us.png"
+        alt="Contact Tatiana Glen Studio"
+        loading="eager">
+    </div>
+
+    {%- comment -%} RIGHT: INTRO + FORM {%- endcomment -%}
+    <div class="tgct-form-col">
+
       <p class="tgct-intro__eyebrow">Get In Touch</p>
-      <h1 class="tgct-intro__heading">Trade &amp; Design Inquiries</h1>
+      <h1 class="tgct-intro__heading">Trade &amp; Design<br>Inquiries</h1>
       <div class="tgct-intro__divider"></div>
       <p class="tgct-intro__body">We collaborate with interior designers, architects, and creative studios seeking sculptural mirrors for residential and hospitality projects.</p>
-      <p class="tgct-intro__body" style="margin-top:12px;">If you are sourcing for a client, requesting trade pricing, or exploring custom specifications, please complete the form below. Our studio will review your inquiry and respond directly.</p>
+      <p class="tgct-intro__body">If you are sourcing for a client, requesting trade pricing, or exploring custom specifications, please complete the form below. Our studio will review your inquiry and respond directly.</p>
+
+      {%- form 'contact', id: 'tgct-contact-form' -%}
+
+        {%- if form.posted_successfully? -%}
+          <div class="tgct-form__success" style="display:block;">
+            Thank you for your inquiry. Our studio will be in touch shortly.
+          </div>
+        {%- else -%}
+
+          <div class="tgct-form__row">
+            <div class="tgct-form__group">
+              <label class="tgct-form__label" for="tgct-name">Full Name <span class="tgct-form__required">*</span></label>
+              <input class="tgct-form__input" type="text" id="tgct-name" name="contact[name]" placeholder="Your full name" required autocomplete="name">
+            </div>
+            <div class="tgct-form__group">
+              <label class="tgct-form__label" for="tgct-studio">Studio / Company <span class="tgct-form__required">*</span></label>
+              <input class="tgct-form__input" type="text" id="tgct-studio" name="contact[studio]" placeholder="Studio or company name" required>
+            </div>
+          </div>
+
+          <div class="tgct-form__row">
+            <div class="tgct-form__group">
+              <label class="tgct-form__label" for="tgct-email">Your E-mail <span class="tgct-form__required">*</span></label>
+              <input class="tgct-form__input" type="email" id="tgct-email" name="contact[email]" placeholder="your@email.com" required autocomplete="email">
+            </div>
+            <div class="tgct-form__group">
+              <label class="tgct-form__label" for="tgct-phone">Phone Number</label>
+              <input class="tgct-form__input" type="tel" id="tgct-phone" name="contact[phone]" placeholder="+1 (000) 000-0000" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="tgct-form__group">
+            <label class="tgct-form__label" for="tgct-message">Message <span class="tgct-form__required">*</span></label>
+            <textarea class="tgct-form__textarea" id="tgct-message" name="contact[body]" placeholder="Tell us about your project, timeline, and what you're looking for..." required></textarea>
+          </div>
+
+          <button class="tgct-form__submit" type="submit">Send Inquiry</button>
+
+        {%- endif -%}
+      {%- endform -%}
+
     </div>
-  </section>
-
-  {%- comment -%} FORM {%- endcomment -%}
-  <section class="tgct-form-section">
-    {%- form 'contact', class: 'tgct-form', id: 'tgct-contact-form' -%}
-
-      {%- if form.posted_successfully? -%}
-        <div class="tgct-form__success" style="display:block;">
-          Thank you for your inquiry. Our studio will be in touch shortly.
-        </div>
-      {%- else -%}
-
-        <div class="tgct-form__row">
-          <div class="tgct-form__group">
-            <label class="tgct-form__label" for="tgct-name">Full Name <span class="tgct-form__required">*</span></label>
-            <input class="tgct-form__input" type="text" id="tgct-name" name="contact[name]" placeholder="Your full name" required autocomplete="name">
-          </div>
-          <div class="tgct-form__group">
-            <label class="tgct-form__label" for="tgct-studio">Studio / Company <span class="tgct-form__required">*</span></label>
-            <input class="tgct-form__input" type="text" id="tgct-studio" name="contact[studio]" placeholder="Studio or company name" required>
-          </div>
-        </div>
-
-        <div class="tgct-form__row">
-          <div class="tgct-form__group">
-            <label class="tgct-form__label" for="tgct-email">Your E-mail <span class="tgct-form__required">*</span></label>
-            <input class="tgct-form__input" type="email" id="tgct-email" name="contact[email]" placeholder="your@email.com" required autocomplete="email">
-          </div>
-          <div class="tgct-form__group">
-            <label class="tgct-form__label" for="tgct-phone">Phone Number</label>
-            <input class="tgct-form__input" type="tel" id="tgct-phone" name="contact[phone]" placeholder="+1 (000) 000-0000" autocomplete="tel">
-          </div>
-        </div>
-
-        <div class="tgct-form__group">
-          <label class="tgct-form__label" for="tgct-message">Message <span class="tgct-form__required">*</span></label>
-          <textarea class="tgct-form__textarea" id="tgct-message" name="contact[body]" placeholder="Tell us about your project, timeline, and what you're looking for..." required></textarea>
-        </div>
-
-        <button class="tgct-form__submit" type="submit">Send Inquiry</button>
-
-      {%- endif -%}
-    {%- endform -%}
-  </section>
+  </div>
 
   {%- comment -%} FEATURES {%- endcomment -%}
   <section class="tgct-features">
