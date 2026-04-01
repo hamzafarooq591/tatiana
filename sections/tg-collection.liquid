@@ -418,16 +418,63 @@
   }
 
   /* LIST VIEW CARD */
+  .tgc-grid.is-list .tgc-card {
+    border-bottom: 1px solid var(--tgc-border);
+  }
+  .tgc-grid.is-list .tgc-card:first-child {
+    border-top: 1px solid var(--tgc-border);
+  }
   .tgc-grid.is-list .tgc-card__link {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 24px;
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    gap: 28px;
+    padding: 24px 0;
+  }
+  .tgc-grid.is-list .tgc-card__img-wrap {
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+    aspect-ratio: unset;
+    margin-bottom: 0;
+  }
+  .tgc-grid.is-list .tgc-card__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tgc-grid.is-list .tgc-card__title {
+    font-size: 15px;
+    font-weight: 600;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    margin: 0;
+  }
+  .tgc-grid.is-list .tgc-card__price { margin: 0; }
+  /* Hide hover overlay in list view */
+  .tgc-grid.is-list .tgc-card__actions { display: none; }
+
+  /* Description — hidden in grid, visible in list */
+  .tgc-card__desc { display: none; }
+  .tgc-grid.is-list .tgc-card__desc {
+    display: -webkit-box;
+    font-family: var(--tgc-sans);
+    font-size: 12.5px;
+    color: var(--tgc-text);
+    line-height: 1.75;
+    margin: 0;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  .tgc-grid.is-list .tgc-card__img-wrap {
-    margin-bottom: 0;
-    aspect-ratio: 1 / 1;
+  /* List action buttons — hidden in grid, visible in list */
+  .tgc-card__list-actions { display: none; }
+  .tgc-grid.is-list .tgc-card__list-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
   }
 
   /* EMPTY */
@@ -972,6 +1019,7 @@
                 </div>
                 <div class="tgc-card__info">
                   <h3 class="tgc-card__title">{{ product.title }}</h3>
+                  <p class="tgc-card__desc">{{ product.description | strip_html | truncate: 180 }}</p>
                   <p class="tgc-card__price">
                     {%- if product.price_varies -%}
                       {{ product.price_min | money }} – {{ product.price_max | money }}
@@ -982,6 +1030,23 @@
                       <span class="tgc-card__sold-out"> — Sold Out</span>
                     {%- endunless -%}
                   </p>
+                  <div class="tgc-card__list-actions" onclick="event.preventDefault()">
+                    {%- if first_variant.available -%}
+                      <a href="{{ product.url }}" class="tgc-card__icon-btn" aria-label="View {{ product.title | escape }}" onclick="event.stopPropagation()">
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                      </a>
+                    {%- else -%}
+                      <span class="tgc-card__icon-btn tgc-card__icon-btn--disabled">
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                      </span>
+                    {%- endif -%}
+                    <button class="tgc-card__icon-btn" type="button" aria-label="Wishlist" onclick="event.stopPropagation()">
+                      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                    </button>
+                    <button class="tgc-card__icon-btn" type="button" aria-label="Quick view" data-tgc-qv="{{ product.handle }}" onclick="event.stopPropagation()">
+                      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </button>
+                  </div>
                 </div>
               </a>
             </article>
