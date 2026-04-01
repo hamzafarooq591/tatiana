@@ -220,11 +220,25 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 28px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--tgc-border);
+    margin-bottom: 35px;
+    padding: 15px;
+    background: #f9f6f3;
     flex-wrap: wrap;
     gap: 12px;
+  }
+
+  .tgc-toolbar__left {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .tgc-toolbar__views {
+    display: flex;
+    gap: 4px;
+    padding-right: 16px;
+    margin-right: 16px;
+    border-right: 1px solid var(--tgc-border);
   }
 
   .tgc-toolbar__count {
@@ -237,25 +251,27 @@
   .tgc-toolbar__right {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+  }
+
+  .tgc-toolbar__label {
+    font-family: var(--tgc-sans);
+    font-size: 12px;
+    color: var(--tgc-text);
+    white-space: nowrap;
   }
 
   .tgc-toolbar__sort {
     font-family: var(--tgc-sans);
-    font-size: 12px;
+    font-size: 13px;
     color: var(--tgc-dark);
     border: 1px solid var(--tgc-border);
-    padding: 8px 32px 8px 12px;
-    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
+    padding: 6px 28px 6px 10px;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 8px center;
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
     outline: none;
-  }
-
-  .tgc-toolbar__views {
-    display: flex;
-    gap: 6px;
   }
 
   .tgc-toolbar__view-btn {
@@ -417,64 +433,85 @@
     font-size: 12px;
   }
 
-  /* LIST VIEW CARD */
-  .tgc-grid.is-list .tgc-card {
-    border-bottom: 1px solid var(--tgc-border);
-  }
-  .tgc-grid.is-list .tgc-card:first-child {
-    border-top: 1px solid var(--tgc-border);
-  }
+  /* ============================================================
+     LIST VIEW — matched to tatianaglen.com/product-category/mirrors/?layout=list
+     ============================================================ */
   .tgc-grid.is-list .tgc-card__link {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 28px;
-    padding: 24px 0;
+    gap: 0;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--tgc-border);
   }
+  .tgc-grid.is-list .tgc-card:first-child .tgc-card__link {
+    border-top: 1px solid var(--tgc-border);
+  }
+
+  /* Image: portrait 450:532 ratio, 265px wide */
   .tgc-grid.is-list .tgc-card__img-wrap {
-    width: 200px;
-    height: 200px;
-    flex-shrink: 0;
-    aspect-ratio: unset;
+    flex: 0 0 265px;
+    width: 265px;
+    aspect-ratio: 450 / 532;
+    height: auto;
+    margin: 0 30px 0 0;
     margin-bottom: 0;
   }
+
+  /* Caption */
   .tgc-grid.is-list .tgc-card__info {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0;
   }
+
+  /* Title */
   .tgc-grid.is-list .tgc-card__title {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
+    line-height: 1.5;
+    color: var(--tgc-dark);
+    margin: 0 0 10px;
     -webkit-line-clamp: unset;
     overflow: visible;
-    margin: 0;
+    display: block;
   }
-  .tgc-grid.is-list .tgc-card__price { margin: 0; }
-  /* Hide hover overlay in list view */
-  .tgc-grid.is-list .tgc-card__actions { display: none; }
+  .tgc-grid.is-list .tgc-card__title:hover { color: var(--tgc-gold); }
 
-  /* Description — hidden in grid, visible in list */
+  /* Description */
   .tgc-card__desc { display: none; }
   .tgc-grid.is-list .tgc-card__desc {
     display: -webkit-box;
     font-family: var(--tgc-sans);
-    font-size: 12.5px;
+    font-size: 13px;
     color: var(--tgc-text);
     line-height: 1.75;
-    margin: 0;
+    margin: 0 0 10px;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  /* List action buttons — hidden in grid, visible in list */
+  /* Price */
+  .tgc-grid.is-list .tgc-card__price {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--tgc-dark);
+    margin: 0 0 10px;
+  }
+
+  /* Hide hover overlay */
+  .tgc-grid.is-list .tgc-card__actions { display: none; }
+
+  /* List action buttons */
   .tgc-card__list-actions { display: none; }
   .tgc-grid.is-list .tgc-card__list-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
-    margin-top: 6px;
+    margin-top: 30px;
   }
 
   /* EMPTY */
@@ -950,17 +987,7 @@
 
       {%- comment -%} TOOLBAR {%- endcomment -%}
       <div class="tgc-toolbar">
-        <p class="tgc-toolbar__count">
-          Showing {{ collection.products.size }} of {{ products_count }} result{%- if products_count != 1 -%}s{%- endif -%}
-        </p>
-        <div class="tgc-toolbar__right">
-          <select class="tgc-toolbar__sort" id="tgc-sort" onchange="window.location=this.value">
-            <option value="?sort_by=manual" {% if sort_by == 'manual' %}selected{% endif %}>Default sorting</option>
-            <option value="?sort_by=best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Sort by popularity</option>
-            <option value="?sort_by=created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Sort by latest</option>
-            <option value="?sort_by=price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Sort by price: low to high</option>
-            <option value="?sort_by=price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Sort by price: high to low</option>
-          </select>
+        <div class="tgc-toolbar__left">
           <div class="tgc-toolbar__views">
             <button class="tgc-toolbar__view-btn is-active" id="tgc-view-grid" aria-label="Grid view">
               <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
@@ -969,6 +996,19 @@
               <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
             </button>
           </div>
+          <p class="tgc-toolbar__count">
+            Showing {{ collection.products.size }} of {{ products_count }} result{%- if products_count != 1 -%}s{%- endif -%}
+          </p>
+        </div>
+        <div class="tgc-toolbar__right">
+          <span class="tgc-toolbar__label">Sort By</span>
+          <select class="tgc-toolbar__sort" id="tgc-sort" onchange="window.location=this.value">
+            <option value="?sort_by=manual" {% if sort_by == 'manual' %}selected{% endif %}>Default sorting</option>
+            <option value="?sort_by=best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Sort by popularity</option>
+            <option value="?sort_by=created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Sort by latest</option>
+            <option value="?sort_by=price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Sort by price: low to high</option>
+            <option value="?sort_by=price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Sort by price: high to low</option>
+          </select>
         </div>
       </div>
 
