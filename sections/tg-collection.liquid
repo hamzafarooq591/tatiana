@@ -440,7 +440,11 @@
     padding: 24px 0;
     border-bottom: 1px solid var(--tgc-border);
   }
-  .tgc-grid.is-list .tgc-card:first-child { border-top: 1px solid var(--tgc-border); }
+  .tgc-grid.is-list .tgc-card:first-child {
+    border-top: 1px solid var(--tgc-border);
+    display: flex;
+    align-items: center;
+  }
 
   .tgc-grid.is-list .tgc-card__link {
     display: flex;
@@ -480,7 +484,7 @@
   .tgc-grid.is-list .tgc-card__title {
     font-family: var(--tgc-sans);
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 700 !important;
     line-height: 1.4;
     color: var(--tgc-dark);
     margin: 0 0 10px;
@@ -488,6 +492,7 @@
     overflow: visible;
     display: block;
     letter-spacing: 0;
+    text-transform: none;
   }
   .tgc-grid.is-list .tgc-card__title:hover { color: var(--tgc-gold); }
 
