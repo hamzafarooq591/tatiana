@@ -17,7 +17,7 @@
         "announcement_7WXihd": {
           "type": "_announcement",
           "settings": {
-            "text": "Free shipping on all orders over $500 · Free local delivery South Florida",
+            "text": "Free shipping on all orders over $500",
             "link": "",
             "font": "var(--font-heading--family)",
             "font_size": "0.85rem",
@@ -67,8 +67,8 @@
             "type_font_primary_link": "heading",
             "type_case_primary_link": "uppercase",
             "menu_style": "text",
-            "featured_products_aspect_ratio": "4 / 5",
-            "featured_collections_aspect_ratio": "16 / 9",
+            "featured_products_aspect_ratio": "4 \/ 5",
+            "featured_collections_aspect_ratio": "16 \/ 9",
             "image_border_radius": 0,
             "navigation_bar": false,
             "color_scheme_navigation_bar": "scheme-2",
