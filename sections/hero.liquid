@@ -111,9 +111,11 @@
   assign mobile_widths = '416, 600, 800, 1200, 1600'
 
   assign fetch_priority = 'auto'
+  assign image_loading = 'lazy'
 
   if section.index == 1
     assign fetch_priority = 'high'
+    assign image_loading = 'eager'
   endif
 %}
 
@@ -129,6 +131,7 @@
         alt: section.settings.image_1.alt,
         class: media_image_desktop_class,
         sizes: sizes,
+        loading: image_loading,
         fetchpriority: fetch_priority,
         data-testid: 'hero-desktop-image-1'
     }}
@@ -161,6 +164,7 @@
         alt: section.settings.image_2.alt,
         class: media_image_desktop_class,
         sizes: sizes,
+        loading: image_loading,
         fetchpriority: fetch_priority,
         data-testid: 'hero-desktop-image-2'
     }}
@@ -199,6 +203,7 @@
           alt: section.settings.image_1_mobile.alt,
           class: 'hero__image hero__image--mobile',
           sizes: sizes_mobile,
+        loading: image_loading,
           fetchpriority: fetch_priority,
           data-testid: 'hero-mobile-image-1'
       }}
@@ -231,6 +236,7 @@
           alt: section.settings.image_2_mobile.alt,
           class: 'hero__image hero__image--mobile',
           sizes: sizes_mobile,
+        loading: image_loading,
           fetchpriority: fetch_priority,
           data-testid: 'hero-mobile-image-2'
       }}
