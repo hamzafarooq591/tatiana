@@ -136,6 +136,9 @@
 
       /* TatianaGlen footer styles are owned by sections/tg-footer.liquid */
     </style>
+    {%- if request.page_type == 'index' -%}
+  <link rel="preload" as="image" href="https://tatianaglen.com/wp-content/uploads/2026/03/Placement-Variety-Living-Area--scaled.jpg" fetchpriority="high">
+  {%- endif -%}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ template.name }}" data-template="{{ template.name }}">
