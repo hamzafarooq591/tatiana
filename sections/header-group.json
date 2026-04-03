@@ -13,18 +13,17 @@
   "sections": {
     "header_announcements_AwzUXA": {
       "type": "header-announcements",
-      "disabled": true,
       "blocks": {
         "announcement_7WXihd": {
           "type": "_announcement",
           "settings": {
-            "text": "Designed and Sculptured in Miami, Florida · Handled & Insured Shipping · Each Piece is Signed and Certified",
-            "link": "shopify://collections/all",
+            "text": "Free shipping on all orders over $500 · Free local delivery South Florida",
+            "link": "",
             "font": "var(--font-heading--family)",
-            "font_size": "1rem",
+            "font_size": "0.85rem",
             "weight": "",
-            "letter_spacing": "loose",
-            "case": "uppercase"
+            "letter_spacing": "normal",
+            "case": "none"
           },
           "blocks": {}
         }
@@ -36,10 +35,10 @@
       "settings": {
         "speed": 5,
         "section_width": "page-width",
-        "color_scheme": "",
+        "color_scheme": "custom",
         "divider_width": 0,
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "padding-block-start": 8,
+        "padding-block-end": 8
       }
     },
     "header_section": {
