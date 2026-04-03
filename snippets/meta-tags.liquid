@@ -31,6 +31,24 @@
   endif
 %}
 
+{%- liquid
+  if request.page_type == 'index'
+    assign page_title = 'Tatiana Glen | Luxury Art Mirrors & Sculptural Wall Décor'
+    if page_description == blank
+      assign page_description = 'Discover Tatiana Glen — handcrafted luxury art mirrors and sculptural wall décor, designed and made in Miami. Each piece is a signed original.'
+    endif
+    assign og_title = page_title
+    assign og_description = page_description
+  elsif request.page_type == 'collection' and page_description == blank
+    assign page_description = 'Explore the full collection of Tatiana Glen luxury art mirrors — original, hand-sculpted wall décor pieces created in Miami, Florida.'
+    assign og_description = page_description
+  elsif request.page_type == 'page' and page.handle == 'meet-the-artist' and page_description == blank
+    assign page_description = 'Meet Tatiana Glen — Miami-based sculptor and artist behind the iconic luxury mirror collection. Learn about her process, inspiration, and vision.'
+    assign og_description = page_description
+  endif
+-%}
+
+
 <meta
   property="og:site_name"
   content="{{ shop.name }}"
