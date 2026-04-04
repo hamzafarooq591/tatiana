@@ -86,6 +86,16 @@
     opacity: 1;
   }
 
+  .tg-hero__bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+  }
+
   .tg-hero__overlay {
     position: absolute;
     inset: 0;
@@ -1102,10 +1112,21 @@
     <!-- Slide 1 -->
     <div
       class="tg-hero__slide is-active"
-      style="background-image: url('https://cdn.shopify.com/s/files/1/0706/3525/8054/files/hero-slide-1.jpg?v=1775178843');"
       role="group"
       aria-label="Slide 1 of 2"
     >
+      <img
+        src="https://cdn.shopify.com/s/files/1/0706/3525/8054/files/hero-slide-1.jpg?v=1775178843"
+        srcset="https://cdn.shopify.com/s/files/1/0706/3525/8054/files/hero-slide-1.jpg?v=1775178843&width=600 600w, https://cdn.shopify.com/s/files/1/0706/3525/8054/files/hero-slide-1.jpg?v=1775178843&width=900 900w, https://cdn.shopify.com/s/files/1/0706/3525/8054/files/hero-slide-1.jpg?v=1775178843&width=1200 1200w, https://cdn.shopify.com/s/files/1/0706/3525/8054/files/hero-slide-1.jpg?v=1775178843&width=1800 1800w"
+        sizes="100vw"
+        alt=""
+        class="tg-hero__bg-img"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+        width="1800"
+        height="800"
+      >
       <div class="tg-hero__overlay"></div>
       <div class="tg-hero__content">
         <h1 class="tg-hero__heading">Where Art Takes Form</h1>
@@ -1223,6 +1244,8 @@
                   {%- if featured_image -%}
                     <img
                       src="{{ featured_image | image_url: width: 600 }}"
+                      srcset="{{ featured_image | image_url: width: 400 }} 400w, {{ featured_image | image_url: width: 600 }} 600w, {{ featured_image | image_url: width: 800 }} 800w, {{ featured_image | image_url: width: 1200 }} 1200w"
+                      sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(50vw - 24px), calc(33vw - 24px)"
                       alt="{{ featured_image.alt | escape | default: product_title }}"
                       class="tg-product-card__img"
                       loading="lazy"
