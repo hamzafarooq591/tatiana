@@ -75,6 +75,11 @@
         "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
         "disabled": false,
         "settings": {}
+      },
+      "2200952712151285029": {
+        "type": "shopify://apps/microsoft-clarity/blocks/brandAgents_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
@@ -236,31 +241,41 @@
       },
       "scheme-5": {
         "settings": {
-          "background": "#1C1108",
-          "foreground_heading": "#F8F4EE",
-          "foreground": "#F8F4EE",
-          "primary": "#F8F4EE",
+          "background": "#1c1108",
+          "foreground_heading": "#f8f4ee",
+          "foreground": "#f8f4ee",
+          "primary": "#f8f4ee",
           "primary_hover": "#ffffff",
           "border": "#3a2a1a",
           "shadow": "#000000",
-          "primary_button_background": "#F8F4EE",
-          "primary_button_text": "#1C1108",
-          "primary_button_border": "#F8F4EE",
+          "primary_button_background": "#f8f4ee",
+          "primary_button_text": "#1c1108",
+          "primary_button_border": "#f8f4ee",
           "primary_button_hover_background": "#e8e4de",
-          "primary_button_hover_text": "#1C1108",
+          "primary_button_hover_text": "#1c1108",
           "primary_button_hover_border": "#e8e4de",
           "secondary_button_background": "rgba(0,0,0,0)",
-          "secondary_button_text": "#F8F4EE",
-          "secondary_button_border": "#F8F4EE",
-          "secondary_button_hover_background": "#1C1108",
-          "secondary_button_hover_text": "#F8F4EE",
-          "secondary_button_hover_border": "#F8F4EE",
+          "secondary_button_text": "#f8f4ee",
+          "secondary_button_border": "#f8f4ee",
+          "secondary_button_hover_background": "#1c1108",
+          "secondary_button_hover_text": "#f8f4ee",
+          "secondary_button_hover_border": "#f8f4ee",
           "input_background": "#2e1e0e",
-          "input_text_color": "#F8F4EE",
-          "input_border_color": "#F8F4EE",
+          "input_text_color": "#f8f4ee",
+          "input_border_color": "#f8f4ee",
           "input_hover_background": "#3a2a1a",
-          "variant_background_color": "#1C1108",
-          "variant_text_color": "#F8F4EE"
+          "variant_background_color": "#1c1108",
+          "variant_text_color": "#f8f4ee",
+          "variant_border_color": "#E6E6E6",
+          "variant_hover_background_color": "#F5F5F5",
+          "variant_hover_text_color": "#000000",
+          "variant_hover_border_color": "#E6E6E6",
+          "selected_variant_background_color": "#000000",
+          "selected_variant_text_color": "#FFFFFF",
+          "selected_variant_border_color": "#000000",
+          "selected_variant_hover_background_color": "#1A1A1A",
+          "selected_variant_hover_text_color": "#FFFFFF",
+          "selected_variant_hover_border_color": "#1A1A1A"
         }
       }
     }
@@ -546,15 +561,15 @@
   },
   "platform_customizations": {
     "custom_css": [
-      "h1,h2,h3,h4,.h0,.h1,.h2,.h3{letter-spacing:0.05em!important;font-weight:400!important;text-transform:uppercase}",
-      ".button,.shopify-payment-button__button--unbranded{border-radius:0!important;text-transform:uppercase;letter-spacing:0.15em;font-size:11px!important;font-weight:600!important;transition:all 0.4s ease}",
-      ".button:hover:not([disabled]){opacity:0.8;transform:translateY(-1px)}",
-      ".card,.card-wrapper{border:none!important;box-shadow:none!important;background:transparent!important;border-radius:0!important}",
-      ".card__media img,.media img{transition:transform 1.5s cubic-bezier(0.25,0.46,0.45,0.94)}",
-      ".card:hover .card__media img{transform:scale(1.03)}",
-      "input.field__input,textarea.text-area{border-radius:0!important;border:1px solid #e5e5e5}",
-      "input.field__input:focus,textarea.text-area:focus{box-shadow:none!important;border-color:#111!important}",
-      "::selection{background:#D4AF37;color:#fff}"
+      "h1,h2,h3,h4,.h0,.h1,.h2,.h3 {letter-spacing: 0.05em !important; font-weight: 400 !important; text-transform: uppercase;}",
+      ".button,.shopify-payment-button__button--unbranded {border-radius: 0 !important; text-transform: uppercase; letter-spacing: 0.15em; font-size: 11px !important; font-weight: 600 !important; transition: all 0.4s ease;}",
+      ".button:hover:not([disabled]) {opacity: 0.8; transform: translateY(-1px);}",
+      ".card,.card-wrapper {border: none !important; box-shadow: none !important; background: transparent !important; border-radius: 0 !important;}",
+      ".card__media img,.media img {transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);}",
+      ".card:hover .card__media img {transform: scale(1.03);}",
+      "input.field__input,textarea.text-area {border-radius: 0 !important; border: 1px solid #e5e5e5;}",
+      "input.field__input:focus,textarea.text-area:focus {box-shadow: none !important; border-color: #111 !important;}",
+      "::selection {background: #d4af37; color: #fff;}"
     ]
   }
 }
