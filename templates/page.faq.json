@@ -55,9 +55,15 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
+    },
+    "tg_faq_gN3TB8": {
+      "type": "tg-faq",
+      "name": "FAQ Page",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "tg_faq_gN3TB8"
   ]
 }
