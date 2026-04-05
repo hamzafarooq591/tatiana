@@ -863,11 +863,46 @@
      6. CRAFT & COMMITMENT
      ============================================================ */
   .tg-trust {
+    --tg-trust-bg-mid: #f3f0eb;
     padding: 90px 60px;
-    background: #ffffff;
+    position: relative;
     text-align: center;
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+    background-color: var(--tg-trust-bg-mid);
+    background-image:
+      radial-gradient(ellipse 85% 120% at 12% 40%, rgba(205, 143, 92, 0.18) 0%, transparent 58%),
+      radial-gradient(ellipse 70% 90% at 88% 65%, rgba(180, 210, 220, 0.28) 0%, transparent 52%),
+      radial-gradient(ellipse 55% 70% at 50% -5%, rgba(247, 228, 210, 0.9) 0%, transparent 45%),
+      linear-gradient(
+        168deg,
+        #fdf9f5 0%,
+        #f0ebe4 22%,
+        var(--tg-trust-bg-mid) 48%,
+        #eef4f3 72%,
+        #faf5ef 100%
+      );
+  }
+
+  .tg-trust::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.35) 38%,
+      transparent 62%,
+      rgba(205, 143, 92, 0.06) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .tg-trust > * {
+    position: relative;
+    z-index: 1;
   }
 
   .tg-trust__heading {
