@@ -123,6 +123,7 @@
         "ai_gen_block_341628e_LeUHgc",
         "text_twGGkJ"
       ],
+      "disabled": true,
       "name": "Collection heading",
       "settings": {
         "content_direction": "column",
@@ -265,6 +266,7 @@
           ]
         }
       },
+      "disabled": true,
       "settings": {
         "layout_type": "grid",
         "product_card_size": "medium",
@@ -281,10 +283,16 @@
         "padding-block-start": 0,
         "padding-block-end": 32
       }
+    },
+    "tg_collection_wVzwR9": {
+      "type": "tg-collection",
+      "name": "Shop Collection",
+      "settings": {}
     }
   },
   "order": [
     "section",
-    "main"
+    "main",
+    "tg_collection_wVzwR9"
   ]
 }
