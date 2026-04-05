@@ -18,6 +18,8 @@
 
       if (!this.mainImg || !this.thumbs.length) return;
 
+      this._initSwipe();
+
       this.thumbs.forEach((thumb, i) => {
         thumb.addEventListener('click', () => this.switchTo(i));
         thumb.addEventListener('keydown', (e) => {
@@ -29,6 +31,31 @@
         thumb.setAttribute('tabindex', '0');
         thumb.setAttribute('role', 'button');
       });
+    }
+
+    _initSwipe() {
+      const wrap = this.mainImg.parentElement;
+      if (!wrap) return;
+      let startX = 0;
+      let startY = 0;
+      wrap.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: true });
+      wrap.addEventListener('touchend', (e) => {
+        const dx = startX - e.changedTouches[0].clientX;
+        const dy = startY - e.changedTouches[0].clientY;
+        // Only treat as a horizontal swipe if horizontal movement dominates
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+          if (dx > 0) {
+            // Swipe left → next image
+            this.switchTo((this.currentIndex + 1) % this.thumbs.length);
+          } else {
+            // Swipe right → previous image
+            this.switchTo((this.currentIndex - 1 + this.thumbs.length) % this.thumbs.length);
+          }
+        }
+      }, { passive: true });
     }
 
     switchTo(index, src) {

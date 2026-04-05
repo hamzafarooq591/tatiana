@@ -74,6 +74,7 @@
   position: relative;
   overflow: hidden;
   background: #f0f0f0;
+  touch-action: pan-y;
 }
 .tgp-gallery__main-img {
   width: 100%;
@@ -132,6 +133,7 @@
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: 2px;
+  -webkit-overflow-scrolling: touch;
 }
 .tgp-gallery__thumbs::-webkit-scrollbar { display: none; }
 
@@ -945,7 +947,7 @@
     <div class="tgp-tab-panel{% if product.description == blank %} is-active{% endif %}" data-tgp-tab-panel="additional" role="tabpanel">
       {%- liquid
         assign has_attrs = false
-        if product.options_with_values.size > 0
+        if product.options_with_values.size > 0 and product.has_only_default_variant == false
           assign has_attrs = true
         endif
         if product.variants.first.weight > 0
@@ -960,12 +962,14 @@
               <td>{{ product.variants.first.weight | weight_with_unit: product.variants.first.weight_unit }}</td>
             </tr>
           {%- endif -%}
+          {%- unless product.has_only_default_variant -%}
           {%- for option in product.options_with_values -%}
             <tr>
               <td>{{ option.name }}</td>
               <td>{{ option.values | join: ', ' }}</td>
             </tr>
           {%- endfor -%}
+          {%- endunless -%}
           {%- if product.metafields.custom.dimensions != blank -%}
             <tr><td>Dimensions</td><td>{{ product.metafields.custom.dimensions }}</td></tr>
           {%- endif -%}
