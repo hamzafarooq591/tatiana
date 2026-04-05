@@ -863,7 +863,7 @@
      6. CRAFT & COMMITMENT
      ============================================================ */
   .tg-trust {
-    --tg-trust-bg-mid: #f3f0eb;
+    --tg-trust-bg-mid: #ede8e1;
     padding: 90px 60px;
     position: relative;
     text-align: center;
@@ -871,17 +871,19 @@
     box-sizing: border-box;
     overflow: hidden;
     background-color: var(--tg-trust-bg-mid);
+    box-shadow: inset 0 1px 0 0 rgba(205, 143, 92, 0.35);
     background-image:
-      radial-gradient(ellipse 85% 120% at 12% 40%, rgba(205, 143, 92, 0.18) 0%, transparent 58%),
-      radial-gradient(ellipse 70% 90% at 88% 65%, rgba(180, 210, 220, 0.28) 0%, transparent 52%),
-      radial-gradient(ellipse 55% 70% at 50% -5%, rgba(247, 228, 210, 0.9) 0%, transparent 45%),
+      radial-gradient(ellipse 90% 130% at 8% 45%, rgba(205, 143, 92, 0.26) 0%, transparent 55%),
+      radial-gradient(ellipse 75% 100% at 92% 60%, rgba(165, 198, 212, 0.32) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 80% at 50% -8%, rgba(255, 232, 214, 0.85) 0%, transparent 42%),
+      radial-gradient(ellipse 70% 55% at 50% 108%, rgba(205, 143, 92, 0.12) 0%, transparent 50%),
       linear-gradient(
         168deg,
-        #fdf9f5 0%,
-        #f0ebe4 22%,
-        var(--tg-trust-bg-mid) 48%,
-        #eef4f3 72%,
-        #faf5ef 100%
+        #fcf7f1 0%,
+        #ebe4da 24%,
+        var(--tg-trust-bg-mid) 50%,
+        #e5eef0 76%,
+        #f8f3ec 100%
       );
   }
 
@@ -892,9 +894,25 @@
     background: linear-gradient(
       105deg,
       transparent 0%,
-      rgba(255, 255, 255, 0.35) 38%,
-      transparent 62%,
-      rgba(205, 143, 92, 0.06) 100%
+      rgba(255, 255, 255, 0.42) 35%,
+      transparent 58%,
+      rgba(205, 143, 92, 0.09) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .tg-trust::after {
+    content: '';
+    position: absolute;
+    width: 140%;
+    height: 55%;
+    left: -20%;
+    bottom: -25%;
+    background: radial-gradient(
+      ellipse closest-side,
+      rgba(232, 196, 168, 0.45) 0%,
+      transparent 75%
     );
     pointer-events: none;
     z-index: 0;
@@ -926,6 +944,15 @@
     flex-direction: column;
     align-items: center;
     gap: 22px;
+    padding: 32px 24px 36px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.52);
+    border: 1px solid rgba(205, 143, 92, 0.14);
+    box-shadow:
+      0 12px 40px rgba(45, 35, 30, 0.06),
+      0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .tg-trust__icon {
@@ -1130,6 +1157,7 @@
 
     .tg-trust           { padding: 56px 24px; }
     .tg-trust__heading  { font-size: 30px; margin-bottom: 44px; }
+    .tg-trust__item     { padding: 26px 18px 30px; border-radius: 16px; }
     .tg-trust__item-title { font-size: 18px; }
 
     .tg-instagram       { padding: 56px 24px; }
