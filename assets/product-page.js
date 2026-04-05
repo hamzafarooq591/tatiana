@@ -177,7 +177,7 @@
       this.gallery = gallery;
       this.product = productData;
 
-      this.priceEl = section.querySelector('[data-tgp-price]');
+      this.priceEl = section.querySelector('[data-tgp-price-amount]');
       this.comparePriceEl = section.querySelector('[data-tgp-compare-price]');
       this.atcBtn = section.querySelector('[data-tgp-atc]');
       this.variantInput = section.querySelector('[data-tgp-variant-id]');
