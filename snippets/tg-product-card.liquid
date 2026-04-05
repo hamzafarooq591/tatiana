@@ -1,0 +1,100 @@
+{% comment %}
+  Params: product (required), context: 'collection' | 'home' — home uses responsive srcset.
+{% endcomment %}
+{%- liquid
+  assign card_context = context | default: 'collection'
+  assign featured_image = product.featured_image
+  assign first_variant = product.selected_or_first_available_variant
+  assign _p_col_handles = ''
+  for _pc in product.collections
+    unless _pc.handle == 'all' or _pc.handle == 'frontpage'
+      assign _p_col_handles = _p_col_handles | append: _pc.handle | append: ','
+    endunless
+  endfor
+-%}
+<article
+  class="tgc-card"
+  data-tgc-price="{{ product.price | divided_by: 100 }}"
+  data-tgc-available="{{ first_variant.available }}"
+  data-tgc-type="{{ product.type | downcase | strip }}"
+  data-tgc-cols="{{ _p_col_handles }}"
+  data-product-id="{{ product.id }}"
+>
+  <a href="{{ product.url }}" class="tgc-card__link" aria-label="{{ product.title | escape }}">
+    <div class="tgc-card__img-wrap">
+      {%- if featured_image -%}
+        {%- if card_context == 'home' -%}
+          <img
+            class="tgc-card__img"
+            src="{{ featured_image | image_url: width: 600 }}"
+            srcset="{{ featured_image | image_url: width: 400 }} 400w, {{ featured_image | image_url: width: 600 }} 600w, {{ featured_image | image_url: width: 800 }} 800w, {{ featured_image | image_url: width: 1200 }} 1200w"
+            sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(50vw - 24px), calc(33vw - 24px)"
+            alt="{{ featured_image.alt | default: product.title | escape }}"
+            loading="lazy"
+            width="{{ featured_image.width }}"
+            height="{{ featured_image.height }}"
+          >
+        {%- else -%}
+          <img
+            class="tgc-card__img"
+            src="{{ featured_image | image_url: width: 800 }}"
+            alt="{{ featured_image.alt | default: product.title | escape }}"
+            loading="lazy"
+            width="{{ featured_image.width }}"
+            height="{{ featured_image.height }}"
+          >
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'tgc-card__img tgc-card__img--placeholder' }}
+      {%- endif -%}
+      <div class="tgc-card__actions" onclick="event.preventDefault()">
+        {%- if first_variant.available -%}
+          <a href="{{ product.url }}" class="tgc-card__icon-btn" aria-label="View {{ product.title | escape }}" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </a>
+        {%- else -%}
+          <span class="tgc-card__icon-btn tgc-card__icon-btn--disabled">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </span>
+        {%- endif -%}
+        <button class="tgc-card__icon-btn" type="button" aria-label="Wishlist" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </button>
+        <button class="tgc-card__icon-btn" type="button" aria-label="Quick view" data-tgc-qv="{{ product.handle }}" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="tgc-card__info">
+      <h3 class="tgc-card__title">{{ product.title }}</h3>
+      <p class="tgc-card__desc">{{ product.description | strip_html | truncate: 180 }}</p>
+      <p class="tgc-card__price">
+        {%- if product.price_varies -%}
+          {{ product.price_min | money }} – {{ product.price_max | money }}
+        {%- else -%}
+          {{ product.price | money }}
+        {%- endif -%}
+        {%- unless first_variant.available -%}
+          <span class="tgc-card__sold-out"> — Sold Out</span>
+        {%- endunless -%}
+      </p>
+      <div class="tgc-card__list-actions" onclick="event.preventDefault()">
+        {%- if first_variant.available -%}
+          <a href="{{ product.url }}" class="tgc-card__icon-btn" aria-label="View {{ product.title | escape }}" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </a>
+        {%- else -%}
+          <span class="tgc-card__icon-btn tgc-card__icon-btn--disabled">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </span>
+        {%- endif -%}
+        <button class="tgc-card__icon-btn" type="button" aria-label="Wishlist" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </button>
+        <button class="tgc-card__icon-btn" type="button" aria-label="Quick view" data-tgc-qv="{{ product.handle }}" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+    </div>
+  </a>
+</article>

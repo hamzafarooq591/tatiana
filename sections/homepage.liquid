@@ -52,8 +52,7 @@
   .tg-link-underline,
   .tg-hero__cta,
   .tg-category__link,
-  .tg-product-card__btn,
-  .tg-product-card__icon-btn,
+  .tgc-card__icon-btn,
   .tg-artist__link,
   .tg-instagram__follow {
     text-transform: uppercase !important;
@@ -372,124 +371,83 @@
     /* transition set via JS */
   }
 
-  .tg-product-card {
-    position: relative;
-    cursor: pointer;
+  /* Shared cards: snippets/tg-product-card.liquid + tg-quick-view-modal.liquid */
+  .tg-homepage .tg-collection .tg-product-slider-wrap {
+    --tgc-gold: var(--tg-primary);
+    --tgc-dark: var(--tg-accent);
+    --tgc-text: var(--tg-text);
+    --tgc-border: var(--tg-border);
+    --tgc-serif: var(--tg-serif);
+    --tgc-sans: var(--tg-sans);
+  }
+
+  .tg-homepage .tg-collection .tgc-qv-overlay,
+  .tg-homepage .tg-collection .tgc-qv-modal {
+    --tgc-gold: var(--tg-primary);
+    --tgc-dark: var(--tg-accent);
+    --tgc-text: var(--tg-text);
+    --tgc-border: var(--tg-border);
+    --tgc-serif: var(--tg-serif);
+    --tgc-sans: var(--tg-sans);
+  }
+
+  .tg-product-grid .tgc-card {
     flex: 0 0 calc((100% - 64px) / 3);
     min-width: 0;
   }
 
-  /* Full-card clickable link */
-  .tg-product-card__link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  /* Action buttons overlaid on image */
-  .tg-product-card__actions {
-    position: absolute;
-    bottom: 16px;
-    left: 0;
-    right: 0;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.35s ease, transform 0.35s ease;
-  }
-
-  .tg-product-card:hover .tg-product-card__actions {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .tg-product-card__img-wrap {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 450 / 532;
-    background: #f4ede6;
+  .tg-product-grid .tgc-card__img-wrap {
     margin-bottom: 18px;
   }
 
-  .tg-product-card__img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  .tg-product-card:hover .tg-product-card__img {
-    transform: scale(1.04);
-  }
-
-  /* Round icon actions */
-  .tg-product-card__actions {
-    position: absolute;
+  .tg-product-grid .tgc-card__actions {
     bottom: 16px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
     gap: 10px;
-    opacity: 0;
-    transform: translateY(10px);
     transition: opacity 0.35s ease, transform 0.35s ease;
   }
 
-  .tg-product-card:hover .tg-product-card__actions {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .tg-product-card__icon-btn {
+  .tg-product-grid .tgc-card__icon-btn {
     width: 44px;
     height: 44px;
-    border-radius: 50%;
-    background: #111111;
-    color: #ffffff;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: background 0.3s ease, transform 0.3s ease;
-    flex-shrink: 0;
   }
 
-  .tg-product-card__icon-btn:hover {
+  .tg-product-grid .tgc-card__icon-btn:hover {
     background: var(--tg-primary);
-    transform: scale(1.1);
   }
 
-  .tg-product-card__icon-btn--disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+  .tg-product-grid .tgc-card__icon-btn svg {
+    width: 18px;
+    height: 18px;
   }
 
-  .tg-product-card__sold-out {
+  .tg-product-grid .tgc-card__info {
+    padding: 0 2px;
+  }
+
+  .tg-product-grid .tgc-card__title {
+    font-family: var(--tg-sans);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--tg-accent);
+    margin: 0 0 8px;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+  }
+
+  .tg-product-grid .tgc-card__price {
+    font-family: var(--tg-sans);
+    font-size: 16px;
+    font-weight: 600;
+    color: #111111;
+  }
+
+  .tg-product-grid .tgc-card__sold-out {
     color: var(--tg-light);
     font-size: 12px;
   }
 
   .tg-placeholder {
     background: #f4ede6;
-  }
-
-  .tg-product-card__icon-btn svg {
-    width: 18px;
-    height: 18px;
-    stroke: #ffffff;
-    fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
   }
 
   /* Slider dots */
@@ -517,32 +475,6 @@
     width: 28px;
     border-radius: 4px;
     background: var(--tg-primary);
-  }
-
-  .tg-product-card__info {
-    padding: 0 2px;
-  }
-
-  .tg-product-card__title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 20px;
-    font-weight: 400;
-    color: var(--tg-accent);
-    margin: 0 0 8px;
-    letter-spacing: 0.02em;
-    line-height: 1.35;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .tg-product-card__price {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #111111;
-    margin: 0;
   }
 
   .tg-collection-footer {
@@ -1113,7 +1045,7 @@
     .tg-category        { height: 360px; }
 
     .tg-collection      { padding: 70px 40px; }
-    .tg-product-card    { flex: 0 0 calc((100% - 20px) / 2); }
+    .tg-product-grid .tgc-card { flex: 0 0 calc((100% - 20px) / 2); }
 
     .tg-process         { padding: 90px 50px; }
     .tg-process__cta-heading { font-size: 40px; }
@@ -1145,8 +1077,8 @@
 
     .tg-collection      { padding: 56px 20px; }
     .tg-section-header__title { font-size: 36px; }
-    .tg-product-card    { flex: 0 0 calc(100% - 24px); }
-    .tg-product-card__title { font-size: 16px; }
+    .tg-product-grid .tgc-card { flex: 0 0 calc(100% - 24px); }
+    .tg-product-grid .tgc-card__title { font-size: 16px; }
 
     .tg-process         { padding: 80px 28px; }
     .tg-process__cta-heading { font-size: 30px; }
@@ -1281,6 +1213,7 @@
   -%}
 
   <section class="tg-collection">
+    {% render 'tg-product-card-assets' %}
 
     <div class="tg-section-header tg-animate">
       <h2 class="tg-section-header__title">{{ section.settings.heading | default: 'The Collection' }}</h2>
@@ -1292,77 +1225,7 @@
         <div class="tg-product-grid" id="tg-product-slider" data-per-page="3">
 
           {%- for product in collection.products limit: product_limit -%}
-            {%- liquid
-              assign featured_image = product.featured_image
-              assign product_url    = product.url
-              assign product_title  = product.title
-              assign first_variant  = product.selected_or_first_available_variant
-            -%}
-
-            <article class="tg-product-card" data-product-id="{{ product.id }}">
-
-              {{- '<!-- card link covers entire card -->' }}
-              <a href="{{ product_url }}" class="tg-product-card__link" aria-label="{{ product_title | escape }}" tabindex="0">
-                <div class="tg-product-card__img-wrap">
-                  {%- if featured_image -%}
-                    <img
-                      src="{{ featured_image | image_url: width: 600 }}"
-                      srcset="{{ featured_image | image_url: width: 400 }} 400w, {{ featured_image | image_url: width: 600 }} 600w, {{ featured_image | image_url: width: 800 }} 800w, {{ featured_image | image_url: width: 1200 }} 1200w"
-                      sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(50vw - 24px), calc(33vw - 24px)"
-                      alt="{{ featured_image.alt | escape | default: product_title }}"
-                      class="tg-product-card__img"
-                      loading="lazy"
-                      width="{{ featured_image.width }}"
-                      height="{{ featured_image.height }}"
-                    >
-                  {%- else -%}
-                    {{ 'product-1' | placeholder_svg_tag: 'tg-product-card__img tg-placeholder' }}
-                  {%- endif -%}
-
-                  <!-- Icon buttons inside image wrap — overlay on hover -->
-                  <div class="tg-product-card__actions" onclick="event.preventDefault()">
-                    {%- if first_variant.available -%}
-                      <a
-                        href="{{ product_url }}"
-                        class="tg-product-card__icon-btn"
-                        aria-label="Add to cart — {{ product_title | escape }}"
-                        data-variant-id="{{ first_variant.id }}"
-                      >
-                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                      </a>
-                    {%- else -%}
-                      <span class="tg-product-card__icon-btn tg-product-card__icon-btn--disabled" aria-label="Sold out">
-                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                      </span>
-                    {%- endif -%}
-
-                    <button class="tg-product-card__icon-btn" type="button" aria-label="Add to wishlist — {{ product_title | escape }}" onclick="event.stopPropagation()">
-                      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-                    </button>
-
-                    <a href="{{ product_url }}" class="tg-product-card__icon-btn" aria-label="View {{ product_title | escape }}">
-                      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    </a>
-                  </div>
-                </div>
-
-                <div class="tg-product-card__info">
-                  <h3 class="tg-product-card__title">{{ product_title }}</h3>
-                  <p class="tg-product-card__price">
-                    {%- if product.price_varies -%}
-                      {{ product.price_min | money }} – {{ product.price_max | money }}
-                    {%- else -%}
-                      {{ product.price | money }}
-                    {%- endif -%}
-                    {%- if first_variant.available == false -%}
-                      <span class="tg-product-card__sold-out"> — Sold Out</span>
-                    {%- endif -%}
-                  </p>
-                </div>
-              </a>
-
-            </article>
-
+            {% render 'tg-product-card', product: product, context: 'home' %}
           {%- endfor -%}
 
         </div>
@@ -1380,6 +1243,10 @@
     </div>
 
   </section>
+
+  {%- if collection.products_count > 0 -%}
+    {% render 'tg-quick-view-modal', id_root: 'tg-home-qv' %}
+  {%- endif -%}
 
   <!-- ============================================================
        3b. QUOTE BANNER
@@ -1643,7 +1510,7 @@
     var dotsWrap = document.getElementById('tg-product-dots');
     if (!slider || !dotsWrap || !wrap) return;
 
-    var cards    = Array.prototype.slice.call(slider.querySelectorAll('.tg-product-card'));
+    var cards    = Array.prototype.slice.call(slider.querySelectorAll('.tgc-card'));
     var total    = cards.length;
     var current  = 0;
     var gap      = 32;
@@ -1728,6 +1595,16 @@
     }, { passive: true });
   }
 
+})();
+</script>
+
+<script src="{{ 'tatiana-quick-view.js' | asset_url }}"></script>
+<script>
+(function () {
+  var root = document.querySelector('.tg-homepage');
+  if (!root || typeof TatianaQuickView === 'undefined') return;
+  if (!document.getElementById('tg-home-qv-overlay')) return;
+  TatianaQuickView.init({ idRoot: 'tg-home-qv', triggerRoot: root });
 })();
 </script>
 

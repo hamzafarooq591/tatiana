@@ -1,0 +1,347 @@
+{% comment %} Param: id_root — e.g. tgc-qv, tg-home-qv (no trailing hyphen). {% endcomment %}
+{%- assign qv = id_root | default: 'tgc-qv' -%}
+<div class="tgc-qv-overlay" id="{{ qv }}-overlay" role="dialog" aria-modal="true" aria-label="Quick view">
+  <div class="tgc-qv-modal">
+    <button class="tgc-qv-close" id="{{ qv }}-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <div class="tgc-qv-gallery">
+      <button class="tgc-qv-arrow tgc-qv-arrow--prev" id="{{ qv }}-prev" type="button" aria-label="Previous image">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="tgc-qv-img-wrap">
+        <img class="tgc-qv-img" id="{{ qv }}-img" src="" alt="" width="800" height="800" loading="eager">
+      </div>
+      <button class="tgc-qv-arrow tgc-qv-arrow--next" id="{{ qv }}-next" type="button" aria-label="Next image">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="tgc-qv-dots" id="{{ qv }}-dots"></div>
+    </div>
+
+    <div class="tgc-qv-info">
+      <h2 class="tgc-qv-title" id="{{ qv }}-title"></h2>
+      <p class="tgc-qv-price" id="{{ qv }}-price"></p>
+      <div class="tgc-qv-desc" id="{{ qv }}-desc"></div>
+      <div class="tgc-qv-options" id="{{ qv }}-options"></div>
+      <div class="tgc-qv-qty-row">
+        <div class="tgc-qv-qty">
+          <button class="tgc-qv-qty__btn" id="{{ qv }}-qty-minus" type="button" aria-label="Decrease quantity">−</button>
+          <span class="tgc-qv-qty__val" id="{{ qv }}-qty-val">1</span>
+          <button class="tgc-qv-qty__btn" id="{{ qv }}-qty-plus" type="button" aria-label="Increase quantity">+</button>
+        </div>
+        <button class="tgc-qv-atc" id="{{ qv }}-atc" type="button">Add To Cart</button>
+      </div>
+      <p class="tgc-qv-atc-msg" id="{{ qv }}-atc-msg"></p>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .tgc-qv-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .tgc-qv-overlay.is-open {
+    display: flex;
+  }
+
+  .tgc-qv-modal {
+    background: #fff;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 55% 45%;
+    position: relative;
+  }
+
+  .tgc-qv-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    background: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .tgc-qv-close svg {
+    width: 16px;
+    height: 16px;
+    stroke: #111;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  .tgc-qv-gallery {
+    position: relative;
+    background: #f4ede6;
+    min-height: 420px;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .tgc-qv-img-wrap {
+    width: 100%;
+    min-height: 420px;
+    overflow: hidden;
+  }
+
+  .tgc-qv-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .tgc-qv-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.88);
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+    transition: background 0.2s;
+  }
+
+  .tgc-qv-arrow:hover {
+    background: #fff;
+  }
+
+  .tgc-qv-arrow--prev {
+    left: 10px;
+  }
+
+  .tgc-qv-arrow--next {
+    right: 10px;
+  }
+
+  .tgc-qv-arrow svg {
+    width: 14px;
+    height: 14px;
+    stroke: #111;
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+  }
+
+  .tgc-qv-dots {
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .tgc-qv-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s;
+  }
+
+  .tgc-qv-dot.is-active {
+    background: #fff;
+  }
+
+  .tgc-qv-info {
+    padding: 44px 36px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .tgc-qv-title {
+    font-family: var(--tgc-serif, 'Cormorant Garamond', Georgia, serif);
+    font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+    font-weight: 400;
+    color: var(--tgc-dark, #111);
+    margin: 0;
+    line-height: 1.25;
+    padding-right: 24px;
+  }
+
+  .tgc-qv-price {
+    font-family: var(--tgc-sans, 'Montserrat', Arial, sans-serif);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--tgc-gold, #cd8f5c);
+    margin: 0;
+  }
+
+  .tgc-qv-desc {
+    font-family: var(--tgc-sans, 'Montserrat', Arial, sans-serif);
+    font-size: 12.5px;
+    color: var(--tgc-text, #666);
+    line-height: 1.8;
+    overflow-y: auto;
+    max-height: 130px;
+  }
+
+  .tgc-qv-desc p {
+    margin: 0 0 6px;
+  }
+
+  .tgc-qv-option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tgc-qv-option-label {
+    font-family: var(--tgc-sans, 'Montserrat', Arial, sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tgc-dark, #111);
+    margin: 0;
+  }
+
+  .tgc-qv-option-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tgc-qv-opt-btn {
+    padding: 7px 16px;
+    border: 1px solid var(--tgc-border, #eee);
+    background: #fff;
+    font-family: var(--tgc-sans, 'Montserrat', Arial, sans-serif);
+    font-size: 12px;
+    color: var(--tgc-dark, #111);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+  }
+
+  .tgc-qv-opt-btn.is-active {
+    border-color: var(--tgc-dark, #111);
+    background: var(--tgc-dark, #111);
+    color: #fff;
+  }
+
+  .tgc-qv-qty-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 4px;
+  }
+
+  .tgc-qv-qty {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid #ccc;
+  }
+
+  .tgc-qv-qty__btn {
+    width: 36px;
+    height: 44px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--tgc-dark, #111);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+
+  .tgc-qv-qty__btn:hover {
+    background: #f5f5f5;
+  }
+
+  .tgc-qv-qty__val {
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--tgc-sans, 'Montserrat', Arial, sans-serif);
+    font-size: 14px;
+    color: var(--tgc-dark, #111);
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+  }
+
+  .tgc-qv-atc {
+    flex: 1;
+    padding: 12px 20px;
+    background: #555;
+    color: #fff;
+    font-family: var(--tgc-sans, 'Montserrat', Arial, sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    height: 44px;
+  }
+
+  .tgc-qv-atc:hover {
+    background: var(--tgc-dark, #111);
+  }
+
+  .tgc-qv-atc:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .tgc-qv-atc-msg {
+    font-family: var(--tgc-sans, 'Montserrat', Arial, sans-serif);
+    font-size: 12px;
+    color: var(--tgc-gold, #cd8f5c);
+    margin: 0;
+    min-height: 16px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .tgc-qv-modal {
+      grid-template-columns: 1fr;
+    }
+
+    .tgc-qv-gallery {
+      min-height: 260px;
+    }
+
+    .tgc-qv-img-wrap {
+      min-height: 260px;
+    }
+
+    .tgc-qv-info {
+      padding: 24px 20px;
+    }
+  }
+{% endstylesheet %}

@@ -1,0 +1,237 @@
+{% comment %} Grid + card styles for tg-product-card snippet (load once per page/section). {% endcomment %}
+{% stylesheet %}
+  .tgc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 16px;
+  }
+
+  .tgc-grid.is-list {
+    grid-template-columns: 1fr;
+  }
+
+  .tgc-card {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .tgc-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .tgc-card__img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 450 / 532;
+    background: #f4ede6;
+    margin-bottom: 14px;
+  }
+
+  .tgc-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .tgc-card__img--placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .tgc-card:hover .tgc-card__img {
+    transform: scale(1.04);
+  }
+
+  .tgc-card__actions {
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 2;
+  }
+
+  .tgc-card:hover .tgc-card__actions {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tgc-card__icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #111;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .tgc-card__icon-btn:hover {
+    background: var(--tgc-gold);
+    transform: scale(1.1);
+  }
+
+  .tgc-card__icon-btn--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .tgc-card__icon-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tgc-card__title {
+    font-family: var(--tgc-sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--tgc-dark);
+    margin: 0 0 6px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-transform: none;
+    letter-spacing: 0 !important;
+  }
+
+  .tgc-card__price {
+    font-family: var(--tgc-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--tgc-dark);
+    margin: 0;
+  }
+
+  .tgc-card__sold-out {
+    color: #aaa;
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  .tgc-grid.is-list .tgc-card {
+    border-top: 1px solid var(--tgc-border);
+    display: flex;
+    align-items: center;
+  }
+
+  .tgc-grid.is-list .tgc-card__link {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .tgc-grid.is-list .tgc-card__img-wrap {
+    flex: 0 0 230px;
+    width: 230px;
+    height: 272px;
+    aspect-ratio: unset;
+    margin: 0 32px 0 0;
+    margin-bottom: 0;
+  }
+
+  .tgc-grid.is-list .tgc-card__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 4px;
+  }
+
+  .tgc-grid.is-list .tgc-card__title {
+    font-family: var(--tgc-sans);
+    font-size: 16px;
+    font-weight: 700 !important;
+    line-height: 1.4;
+    color: var(--tgc-dark);
+    margin: 0 0 10px;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    display: block;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .tgc-grid.is-list .tgc-card__title:hover {
+    color: var(--tgc-gold);
+  }
+
+  .tgc-card__desc {
+    display: none;
+  }
+
+  .tgc-grid.is-list .tgc-card__desc {
+    display: -webkit-box;
+    font-family: var(--tgc-sans);
+    font-size: 13px;
+    color: var(--tgc-text);
+    line-height: 1.8;
+    margin: 0 0 14px;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 580px;
+  }
+
+  .tgc-grid.is-list .tgc-card__price {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--tgc-dark);
+    margin: 0;
+  }
+
+  .tgc-grid.is-list .tgc-card__actions {
+    display: none !important;
+  }
+
+  .tgc-card__list-actions {
+    display: none;
+  }
+
+  .tgc-grid.is-list .tgc-card__list-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .tgc-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .tgc-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px 10px;
+    }
+  }
+{% endstylesheet %}
