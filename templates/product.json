@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "main": {
       "type": "product-information",
@@ -70,7 +71,6 @@
               "type": "group",
               "name": "Header",
               "settings": {
-                "open_in_new_tab": false,
                 "content_direction": "column",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
@@ -98,6 +98,9 @@
                 "overlay_color": "#00000026",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -188,6 +191,7 @@
               "settings": {
                 "stacking": true,
                 "show_pickup_availability": false,
+                "gift_card_form": true,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -253,6 +257,7 @@
           ]
         }
       },
+      "disabled": true,
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
@@ -385,6 +390,7 @@
       "block_order": [
         "text_cbcgyb"
       ],
+      "disabled": true,
       "name": "t:names.product_recommendations",
       "settings": {
         "product": "{{ closest.product }}",
@@ -404,10 +410,25 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "main_product_custom_d6ngrA": {
+      "type": "main-product-custom",
+      "name": "TG Product Page",
+      "settings": {
+        "trust_1_title": "Signed & Sealed Authenticity",
+        "trust_1_text": "Every piece comes with a certificate of authenticity",
+        "trust_2_title": "Two Year Finish Commitment",
+        "trust_2_text": "We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.",
+        "trust_3_title": "Handled & Insured Delivery",
+        "trust_3_text": "We guarantee finish and clarity for two years. Complimentary refinishing or replacement if natural wear occurs.",
+        "show_related_products": true,
+        "related_heading": "Related products"
+      }
     }
   },
   "order": [
     "main",
-    "product_recommendations_qggXJq"
+    "product_recommendations_qggXJq",
+    "main_product_custom_d6ngrA"
   ]
 }
