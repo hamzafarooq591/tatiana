@@ -18,6 +18,10 @@
 /* ============================================================
    BRAND VARIABLES
    ============================================================ */
+#shopify-section-{{ section.id }},
+#shopify-section-{{ section.id }} * {
+  box-sizing: border-box;
+}
 #shopify-section-{{ section.id }} {
   --tgp-gold:    #cd8f5c;
   --tgp-dark:    #1a1a1a;
@@ -744,13 +748,17 @@
    ============================================================ */
 @media screen and (max-width: 767px) {
   .tgp-product {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     padding: 20px 20px 36px;
     gap: 24px;
     position: static;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
-  .tgp-gallery { position: static; }
-  .tgp-info { padding: 0; }
+  .tgp-gallery { position: static; width: 100%; }
+  .tgp-info { padding: 0; width: 100%; }
   .tgp-info__title { font-size: 24px; }
   .tgp-tabs { padding: 0 20px 40px; }
   .tgp-tabs__nav { overflow-x: auto; }
